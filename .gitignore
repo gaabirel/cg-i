@@ -1,0 +1,8 @@
+# classes do java
+*.class
+
+# pasta de testes
+testes/
+
+# pasta de binarios
+bin/
