@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 */
 
 public class RayCastingEsfera {
+    public static void main(String[] args) {
+        
         // Definições dos parâmetros
         double wJanela = 2.0; // largura da janela em metros
         double hJanela = 2.0; // altura da janela em metros
