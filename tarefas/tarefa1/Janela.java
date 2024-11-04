@@ -22,10 +22,13 @@ public class Janela extends JFrame {
 
     //parametros da luz
     private double[] luzPos;             //posiçao da fonte de luz
-    private double kd;                   //coeficiente da luz difusa
+    private double kd;                   //coeficiente da reflexividade do material para a luz difusa
     private double luzIntensidade;       //intensidade da luz
-    private double energiaLuzAmbiente;          // Fator de luz ambiente
+    private double energiaLuzAmbiente;   // Fator de luz ambiente
+    private double n;                    //expoente de brilho, ou coeficiente de especularidade
+    private double ks;                   //coeficiente da reflexividade do material para a luz especular
 
+    
     public Janela(double w, double h, double d, int nCol, int nLin, Esfera[] esferas) {
         this.w = w;
         this.h = h;
@@ -45,7 +48,8 @@ public class Janela extends JFrame {
         this.luzIntensidade = 1.0; 
         this.kd = 0.7; 
         this.energiaLuzAmbiente = 0.3; 
-
+        this.ks = 0.2;
+        this.n = 10;
         // Configura o JFrame
         setTitle("Esfera lumiada");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -103,6 +107,12 @@ public class Janela extends JFrame {
                     case KeyEvent.VK_I:
                     luzPos[2] += deslocamentoLuz;
                     moverEsfera(esferas[2], 0, 0, deslocamentoLuz);
+                    break;
+                    case KeyEvent.VK_M:
+                    n += 0.5; //aumentar o coeficiente especularidade
+                    break;
+                    case KeyEvent.VK_N:
+                    n -= 0.5; //diminuir o coeficiente de especularidade
                     break;
                 }
                 pintarCanvas();
@@ -167,9 +177,20 @@ public class Janela extends JFrame {
             for (int i = 0; i < 3; i++) L[i] /= comprimentoL;
     
             // Produto escalar N * L e intensidade difusa
-            double produtoEscalar = Math.max(0, L[0] * N[0] + L[1] * N[1] + L[2] * N[2]);
-            double energiaLuzDifusa = this.luzIntensidade * this.kd * produtoEscalar;
-    
+            double produtoEscalarNL = Math.max(0, L[0] * N[0] + L[1] * N[1] + L[2] * N[2]);
+            double energiaLuzDifusa = this.luzIntensidade * this.kd * produtoEscalarNL;
+                
+            // Cálculo da iluminação especular
+            double[] V = {-dx, -dy, -dz}; // Vetor de visão (direção oposta ao raio)
+            double[] R = {2 * produtoEscalarNL * N[0] - L[0],
+                        2 * produtoEscalarNL * N[1] - L[1],
+                        2 * produtoEscalarNL * N[2] - L[2]};
+            double comprimentoV = Math.sqrt(V[0] * V[0] + V[1] * V[1] + V[2] * V[2]);
+            for (int i = 0; i < 3; i++) V[i] /= comprimentoV;
+
+            double produtoEscalarRV = Math.max(0, R[0] * V[0] + R[1] * V[1] + R[2] * V[2]);
+            double energiaLuzEspecular = this.luzIntensidade * this.ks * Math.pow(produtoEscalarRV, this.n);
+
             // Adicionar a energia da luz difusa
             int esferaCor = esferaMaisProxima.getCor();
             int r = Math.min(255, (int) ((esferaCor >> 16 & 0xFF) * energiaLuzDifusa));
@@ -180,9 +201,17 @@ public class Janela extends JFrame {
             r = Math.min(255, (int) (r + (this.energiaLuzAmbiente * (esferaCor >> 16 & 0xFF))));
             g = Math.min(255, (int) (g + (this.energiaLuzAmbiente * (esferaCor >> 8 & 0xFF))));
             bCor = Math.min(255, (int) (bCor + (this.energiaLuzAmbiente * (esferaCor & 0xFF))));
+
+            // Adicionar a energia especular à cor final
+            r = Math.min(255, (int) (r + (energiaLuzEspecular * (esferaCor >> 16 & 0xFF))));
+            g = Math.min(255, (int) (g + (energiaLuzEspecular * (esferaCor >> 8 & 0xFF))));
+            bCor = Math.min(255, (int) (bCor + (energiaLuzEspecular * (esferaCor & 0xFF))));
+
             corPintar = (r << 16) | (g << 8) | bCor;
+
+
         }
-    
+        
         return new ResultadoIntersecao(esferaMaisProxima != null, corPintar);
     }
     public void pintarCanvas() {
@@ -198,21 +227,28 @@ public class Janela extends JFrame {
             }
         }
     }
-
+    public double getN(){
+        return this.n;
+    }
+    
     private class RenderPanel extends JPanel {
         private final Font textFont;
         private final String[] textos;
         private final int xPosition = 10; // Posição X do texto
         private int yPosition; // Posição Y inicial do texto
-
+        private int qtdTextos;
+    
         public RenderPanel() {
             textFont = new Font("Arial", Font.BOLD, 20); // Inicializa a fonte
             textos = new String[]{
                 "Controles:",
                 "Bola branca: movimento com setinhas, e profundidade com W e S",
-                "Luz: T, G, F, H  profundidade: U, I"
+                "Luz: T, G, F, H  profundidade: U, I",
+                "M aumentar especularidade, N diminuir especularidade"
             };
+
             yPosition = 30; // Inicializa a posição Y
+            qtdTextos = textos.length + 1;
         }
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -220,9 +256,11 @@ public class Janela extends JFrame {
 
             g.setFont(textFont); // Fonte do texto
             // Desenhar o texto no topo
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < textos.length; i++) {
                 g.drawString(textos[i], xPosition, (i+1)*yPosition);
             }
+            g.drawString("Coeficiente de especularidade: " + getN(), xPosition, (qtdTextos)*yPosition);
+            
         }
 
     }
