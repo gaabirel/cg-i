@@ -42,9 +42,12 @@ public class Janela extends JFrame {
         this.bgColor = new Color(100, 100, 100); // cor de fundo (cinza)
         //posiçao da luz igual a da terceira esfera
         this.luzPos = new double[3];
-        luzPos[0] = this.esferas[2].getX();
-        luzPos[1] = this.esferas[2].getY();
-        luzPos[2] = this.esferas[2].getZ();
+        luzPos[0] = 0;
+        luzPos[1] = 2;
+        luzPos[2] = 3;
+        //luzPos[0] = this.esferas[2].getX();
+        //luzPos[1] = this.esferas[2].getY();
+        //luzPos[2] = this.esferas[2].getZ();
         this.luzIntensidade = 1.0; 
         this.kd = 0.7; 
         this.energiaLuzAmbiente = 0.3; 
@@ -86,27 +89,27 @@ public class Janela extends JFrame {
                         break;
                     case KeyEvent.VK_T:
                     luzPos[1] += deslocamentoLuz;
-                    moverEsfera(esferas[2], 0, deslocamentoLuz, 0);
+                    //moverEsfera(esferas[2], 0, deslocamentoLuz, 0);
                     break;
                     case KeyEvent.VK_G:
                     luzPos[1] -= deslocamentoLuz;
-                    moverEsfera(esferas[2], 0, -deslocamentoLuz, 0);
+                    //moverEsfera(esferas[2], 0, -deslocamentoLuz, 0);
                     break;
                     case KeyEvent.VK_H:
                     luzPos[0] += deslocamentoLuz;
-                    moverEsfera(esferas[2], deslocamentoLuz, 0, 0);
+                    //moverEsfera(esferas[2], deslocamentoLuz, 0, 0);
                     break;
                     case KeyEvent.VK_F:
                     luzPos[0] -= deslocamentoLuz;
-                    moverEsfera(esferas[2], -deslocamentoLuz, 0, 0);
+                    //moverEsfera(esferas[2], -deslocamentoLuz, 0, 0);
                     break;
                     case KeyEvent.VK_U:
                     luzPos[2] -= deslocamentoLuz;
-                    moverEsfera(esferas[2], 0, 0, -deslocamentoLuz);
+                    //moverEsfera(esferas[2], 0, 0, -deslocamentoLuz);
                     break;
                     case KeyEvent.VK_I:
                     luzPos[2] += deslocamentoLuz;
-                    moverEsfera(esferas[2], 0, 0, deslocamentoLuz);
+                    //moverEsfera(esferas[2], 0, 0, deslocamentoLuz);
                     break;
                     case KeyEvent.VK_M:
                     n += 0.5; //aumentar o coeficiente especularidade
@@ -160,58 +163,91 @@ public class Janela extends JFrame {
             }
         }
     
+        // Trecho ajustado do método interseccionaEsfera
         if (esferaMaisProxima != null) {
             // Posição do ponto de interseção
             double px = menorT * dx, py = menorT * dy, pz = menorT * dz;
-    
-            // Calcular vetor normal (N)
-            double[] N = {(px - esferaMaisProxima.getX()) / esferaMaisProxima.getR(),
-                          (py - esferaMaisProxima.getY()) / esferaMaisProxima.getR(),
-                          (pz - esferaMaisProxima.getZ()) / esferaMaisProxima.getR()};
-            double comprimentoN = Math.sqrt(N[0] * N[0] + N[1] * N[1] + N[2] * N[2]);
-            for (int i = 0; i < 3; i++) N[i] /= comprimentoN;
-    
+
             // Calcular vetor em direção à luz (L)
             double[] L = {luzPos[0] - px, luzPos[1] - py, luzPos[2] - pz};
             double comprimentoL = Math.sqrt(L[0] * L[0] + L[1] * L[1] + L[2] * L[2]);
             for (int i = 0; i < 3; i++) L[i] /= comprimentoL;
-    
-            // Produto escalar N * L e intensidade difusa
-            double produtoEscalarNL = Math.max(0, L[0] * N[0] + L[1] * N[1] + L[2] * N[2]);
-            double energiaLuzDifusa = this.luzIntensidade * this.kd * produtoEscalarNL;
-                
-            // Cálculo da iluminação especular
-            double[] V = {-dx, -dy, -dz}; // Vetor de visão (direção oposta ao raio)
-            double[] R = {2 * produtoEscalarNL * N[0] - L[0],
-                        2 * produtoEscalarNL * N[1] - L[1],
-                        2 * produtoEscalarNL * N[2] - L[2]};
-            double comprimentoV = Math.sqrt(V[0] * V[0] + V[1] * V[1] + V[2] * V[2]);
-            for (int i = 0; i < 3; i++) V[i] /= comprimentoV;
 
-            double produtoEscalarRV = Math.max(0, R[0] * V[0] + R[1] * V[1] + R[2] * V[2]);
-            double energiaLuzEspecular = this.luzIntensidade * this.ks * Math.pow(produtoEscalarRV, this.n);
+            // Verificar se o ponto está em sombra
+            boolean sombra = false;
+            for (Esfera sombraEsfera : esferas) {
+                if (sombraEsfera == esferaMaisProxima) continue; // Ignorar a própria esfera
 
-            // Adicionar a energia da luz difusa
+                // Calcular interseção para a sombra no vetor L
+                double aSombra = L[0] * L[0] + L[1] * L[1] + L[2] * L[2];
+                double bSombra = 2 * (L[0] * (px - sombraEsfera.getX()) +
+                                      L[1] * (py - sombraEsfera.getY()) +
+                                      L[2] * (pz - sombraEsfera.getZ()));
+                double cSombra = (px - sombraEsfera.getX()) * (px - sombraEsfera.getX()) +
+                                 (py - sombraEsfera.getY()) * (py - sombraEsfera.getY()) +
+                                 (pz - sombraEsfera.getZ()) * (pz - sombraEsfera.getZ()) -
+                                 sombraEsfera.getR() * sombraEsfera.getR();
+
+                double discriminanteSombra = bSombra * bSombra - 4 * aSombra * cSombra;
+
+                if (discriminanteSombra >= 0) {
+                    double raizDiscriminanteSombra = Math.sqrt(discriminanteSombra);
+                    double tSombra1 = (-bSombra + raizDiscriminanteSombra) / (2 * aSombra);
+                    double tSombra2 = (-bSombra - raizDiscriminanteSombra) / (2 * aSombra);
+                    double tSombra = Math.min(tSombra1, tSombra2);
+
+                    // Se houver uma esfera entre o ponto e a luz, a sombra é verdadeira
+                    if (tSombra > 0 && tSombra < comprimentoL) {
+                        sombra = true;
+                        break;
+                    }
+                }
+            }
+
             int esferaCor = esferaMaisProxima.getCor();
-            int r = Math.min(255, (int) ((esferaCor >> 16 & 0xFF) * energiaLuzDifusa));
-            int g = Math.min(255, (int) ((esferaCor >> 8 & 0xFF) * energiaLuzDifusa));
-            int bCor = Math.min(255, (int) ((esferaCor & 0xFF) * energiaLuzDifusa));
-    
+
             // Adicionar a energia da luz ambiente
-            r = Math.min(255, (int) (r + (this.energiaLuzAmbiente * (esferaCor >> 16 & 0xFF))));
-            g = Math.min(255, (int) (g + (this.energiaLuzAmbiente * (esferaCor >> 8 & 0xFF))));
-            bCor = Math.min(255, (int) (bCor + (this.energiaLuzAmbiente * (esferaCor & 0xFF))));
+            int r = Math.min(255, (int) (this.energiaLuzAmbiente * (esferaCor >> 16 & 0xFF)));
+            int g = Math.min(255, (int) (this.energiaLuzAmbiente * (esferaCor >> 8 & 0xFF)));
+            int bCor = Math.min(255, (int) (this.energiaLuzAmbiente * (esferaCor & 0xFF)));
 
-            // Adicionar a energia especular à cor final
-            r = Math.min(255, (int) (r + (energiaLuzEspecular * (esferaCor >> 16 & 0xFF))));
-            g = Math.min(255, (int) (g + (energiaLuzEspecular * (esferaCor >> 8 & 0xFF))));
-            bCor = Math.min(255, (int) (bCor + (energiaLuzEspecular * (esferaCor & 0xFF))));
+            if (!sombra) {
+                // Calcular vetor normal (N)
+                double[] N = {(px - esferaMaisProxima.getX()) / esferaMaisProxima.getR(),
+                              (py - esferaMaisProxima.getY()) / esferaMaisProxima.getR(),
+                              (pz - esferaMaisProxima.getZ()) / esferaMaisProxima.getR()};
+                double comprimentoN = Math.sqrt(N[0] * N[0] + N[1] * N[1] + N[2] * N[2]);
+                for (int i = 0; i < 3; i++) N[i] /= comprimentoN;
 
-            corPintar = (r << 16) | (g << 8) | bCor;
+                // Produto escalar N * L e intensidade difusa
+                double produtoEscalarNL = Math.max(0, L[0] * N[0] + L[1] * N[1] + L[2] * N[2]);
+                double energiaLuzDifusa = this.luzIntensidade * this.kd * produtoEscalarNL;
 
+                // Cálculo da iluminação especular
+                double[] V = {-dx, -dy, -dz}; // Vetor de visão (direção oposta ao raio)
+                double[] R = {2 * produtoEscalarNL * N[0] - L[0],
+                              2 * produtoEscalarNL * N[1] - L[1],
+                              2 * produtoEscalarNL * N[2] - L[2]};
+                double comprimentoV = Math.sqrt(V[0] * V[0] + V[1] * V[1] + V[2] * V[2]);
+                for (int i = 0; i < 3; i++) V[i] /= comprimentoV;
 
-        }
-        
+                double produtoEscalarRV = Math.max(0, R[0] * V[0] + R[1] * V[1] + R[2] * V[2]);
+                double energiaLuzEspecular = this.luzIntensidade * this.ks * Math.pow(produtoEscalarRV, this.n);
+
+                // Adicionar a energia da luz difusa
+                r = Math.min(255, (int) (r + (esferaCor >> 16 & 0xFF) * energiaLuzDifusa));
+                g = Math.min(255, (int) (g + (esferaCor >> 8 & 0xFF) * energiaLuzDifusa));
+                bCor = Math.min(255, (int) (bCor + (esferaCor & 0xFF) * energiaLuzDifusa));
+
+                // Adicionar a energia especular à cor final
+                r = Math.min(255, (int) (r + 255 * energiaLuzEspecular));
+                g = Math.min(255, (int) (g + 255 * energiaLuzEspecular));
+                bCor = Math.min(255, (int) (bCor + 255 * energiaLuzEspecular));
+            }
+
+            corPintar = new Color(r, g, bCor).getRGB();
+}
+
         return new ResultadoIntersecao(esferaMaisProxima != null, corPintar);
     }
     public void pintarCanvas() {
