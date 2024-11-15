@@ -1,3 +1,5 @@
+import src.Vector3;
+
 public class Intersection {
     public Vector3 position;
     public double distance;

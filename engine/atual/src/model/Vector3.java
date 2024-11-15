@@ -1,3 +1,5 @@
+package src.model;
+
 public class Vector3 {
     public double x;
     public double y;
@@ -37,7 +39,10 @@ public class Vector3 {
     public Vector3 add(Vector3 other) {
         return new Vector3(this.x + other.x, this.y + other.y, this.z + other.z);
     }
-
+    public Vector3 arroba(Vector3 other){
+        return new Vector3(this.x * other.x, this.y * other.y, this.z * other.z);
+    }
+    
     @Override
     public String toString() {
         return "(" + x + ", " + y + ", " + z + ")";

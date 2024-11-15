@@ -1,15 +1,35 @@
 import java.awt.Color;
 
+import src.Intersectable;
+import src.Intersection;
+import src.Ray;
+import src.Vector3;
+
 public class Esfera implements Intersectable{
     
     private double radius; // raio da esfera
     private Vector3 center; //centro da esfera
     private Color color; // cor da esfera
 
+    private Vector3 k_especular;
+    private Vector3 k_difuso;
+
+    public Esfera(double radius, Vector3 center, Color color, Vector3 k_especular, Vector3 k_difuso) {
+        this.radius = radius;
+        this.color = color;
+        this.center = center;
+        this.k_especular = k_especular;
+        this.k_difuso = k_difuso;
+    }
     public Esfera(double radius, Vector3 center, Color color) {
         this.radius = radius;
         this.color = color;
         this.center = center;
+        double r = color.getRed()/255.0;
+        double g = color.getGreen()/255.0;
+        double b = color.getBlue()/255.0;
+        this.k_especular = new Vector3(0.2, 0.2, 0.2);
+        this.k_difuso = new Vector3(r, g, b);
     }
 
     @Override
@@ -37,7 +57,7 @@ public class Esfera implements Intersectable{
             return null;
         }
     }
-
+    @Override
     public void mover(double dx, double dy, double dz) {
         this.center.x += dx;
         this.center.y += dy;
@@ -74,12 +94,35 @@ public class Esfera implements Intersectable{
         return this.center.z;
     }
 
+    @Override
     public int getColor() {
         return color.getRGB();
     }
 
     public void setcolor(Color color) {
         this.color = color;
+    }
+
+    public Vector3 getKdifuso(){
+        return this.k_difuso;
+    }
+    
+    public Vector3 getKespecular(){
+        return this.k_especular;
+    }
+
+    public void setKdifuso(Vector3 novoK){
+        this.k_difuso = novoK;
+    }
+
+    public void setKespecular(Vector3 novoK){
+        this.k_especular = novoK;
+    }
+
+    @Override
+    public Vector3 calcularNormal(Vector3 ponto) {
+        // Normal da esfera: vetor do centro até o ponto de interseção, normalizado
+        return ponto.subtract(center).normalize();
     }
 
     

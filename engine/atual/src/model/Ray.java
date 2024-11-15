@@ -1,3 +1,4 @@
+package src.model;
 public class Ray {
     public Vector3 origin;    //O ponto de origem do raio
     public Vector3 direction; //A direção do raio, que deve ser normalizada
