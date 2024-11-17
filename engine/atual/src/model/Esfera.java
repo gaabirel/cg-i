@@ -1,31 +1,29 @@
 package src.model;
 import java.awt.Color;
 
-public class Esfera implements Intersectable{
+public class Esfera extends Objeto3D implements Intersectable {
     
     private double radius; // raio da esfera
     private Vector3 center; //centro da esfera
-    private Color color; // cor da esfera
 
-    private Vector3 k_especular;
-    private Vector3 k_difuso;
-
-    public Esfera(double radius, Vector3 center, Color color, Vector3 k_especular, Vector3 k_difuso) {
+    public Esfera(double radius, Vector3 center, Vector3 k_especular, Vector3 k_difuso, Vector3 k_ambiente) {
         this.radius = radius;
-        this.color = color;
         this.center = center;
         this.k_especular = k_especular;
         this.k_difuso = k_difuso;
+        this.k_ambiente = k_ambiente;
     }
-    public Esfera(double radius, Vector3 center, Color color) {
-        this.radius = radius;
-        this.color = color;
-        this.center = center;
-        double r = color.getRed()/255.0;
-        double g = color.getGreen()/255.0;
-        double b = color.getBlue()/255.0;
-        this.k_especular = new Vector3(0.2, 0.2, 0.2);
-        this.k_difuso = new Vector3(r, g, b);
+
+    //construtor para caso só queira passar uma cor sem definir os coeficientes de reflexao
+    public Esfera(double radius, Vector3 center, Color colorDifuso) {
+        //chamando o 1°construtor 
+        this( 
+            radius, 
+            center, 
+            new Vector3(0.2, 0.2, 0.2),  //Valor padrão para k_especular
+            new Vector3(colorDifuso.getRed() / 255.0, colorDifuso.getGreen() / 255.0, colorDifuso.getBlue() / 255.0),  //k_difuso a partir da cor
+            new Vector3(0.3, 0.3, 0.3)   //Valor padrão para k_ambiente
+        );
     }
 
     @Override
@@ -90,30 +88,6 @@ public class Esfera implements Intersectable{
         return this.center.z;
     }
 
-    @Override
-    public int getColor() {
-        return color.getRGB();
-    }
-
-    public void setcolor(Color color) {
-        this.color = color;
-    }
-
-    public Vector3 getKdifuso(){
-        return this.k_difuso;
-    }
-    
-    public Vector3 getKespecular(){
-        return this.k_especular;
-    }
-
-    public void setKdifuso(Vector3 novoK){
-        this.k_difuso = novoK;
-    }
-
-    public void setKespecular(Vector3 novoK){
-        this.k_especular = novoK;
-    }
 
     @Override
     public Vector3 calcularNormal(Vector3 ponto) {

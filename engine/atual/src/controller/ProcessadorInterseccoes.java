@@ -3,12 +3,7 @@ package src.controller;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import src.model.Intersectable;
-import src.model.Intersection;
-import src.model.Light;
-import src.model.Ray;
-import src.model.ResultadoIntersecao;
-import src.model.Vector3;
+import src.model.*;
 
 public class ProcessadorInterseccoes {
 
@@ -16,11 +11,13 @@ public class ProcessadorInterseccoes {
     private Vector3 energiaLuzAmbiente;   // Fator de luz ambiente
     private double n;                    //expoente de brilho, ou coeficiente de especularidade
     private Color bgColor; 
+    private Vector3 intensidadeAmbiente;
 
     public ProcessadorInterseccoes(){
         this.bgColor = new Color(100, 100, 100); // cor de fundo (cinza)
-        this.energiaLuzAmbiente = new Vector3(0.3, 0.3, 0.3); 
+        this.intensidadeAmbiente = new Vector3(0.3, 0.3, 0.3);
         this.n = 5;
+
     }
     
     public ResultadoIntersecao interseccionaObjetos(ArrayList<Intersectable> objetos, Ray raio, ArrayList<Light> luzes) {
@@ -46,14 +43,16 @@ public class ProcessadorInterseccoes {
             Vector3 pontoIntersecao = new Vector3(px, py, pz);
 
             //pegar a cor do objeto que teve intersecao mais proxima
-            int objetoCor = objetoMaisProximo.getColor();
+            //int objetoCor = objetoMaisProximo.getColor();
 
-            int r = 0, g = 0, bCor = 0;
+            int r, g, bCor;
+            //calcular energia ambiente
+            energiaLuzAmbiente = intensidadeAmbiente.arroba(objetoMaisProximo.getKdifuso());
             // Adicionar a energia da luz ambiente
-            r += Math.min(255, (int) (this.energiaLuzAmbiente.x * (objetoCor >> 16 & 0xFF)));
-            g += Math.min(255, (int) (this.energiaLuzAmbiente.y * (objetoCor >> 8 & 0xFF)));
-            bCor += Math.min(255, (int) (this.energiaLuzAmbiente.z * (objetoCor & 0xFF)));
-            
+            r = Math.min(255, (int) (255 * this.energiaLuzAmbiente.x));
+            g = Math.min(255, (int) (255 * this.energiaLuzAmbiente.y ));
+            bCor = Math.min(255, (int) (255 * this.energiaLuzAmbiente.z));
+       
 
             for(Light luz : luzes){
                 //criando o vetor da luz
@@ -94,21 +93,28 @@ public class ProcessadorInterseccoes {
                     // Cálculo do vetor refletido (R)
                     Vector3 R = N.multiply(2 * produtoEscalarNL).subtract(vetorLuz);
 
+    
                     // Produto escalar entre R e V (com proteção para não ser negativo)
                     double produtoEscalarRV = Math.max(0, R.dot(V));
 
+               
+                    //double a = 1.0;
+                    //double b = 0.1;
+                    //double c = 0.01;
+                    double d = vetorLuz.subtract(pontoIntersecao).length();
+                    double fatorAtenuacao = 1/(1+(0.1*d)+(0.01*Math.pow(d, 2)));
+
                     // Cálculo da energia especular
                     Vector3 energiaLuzEspecular = luz.getIntensidade().arroba(objetoMaisProximo.getKespecular()).multiply(Math.pow(produtoEscalarRV, this.n));
+                    
+                    //calculo da energia final: (energia especular + energia difusa) * fator de atenuacao
+                    Vector3 energiaFinal = (energiaLuzEspecular.add(energiaLuzDifusa)).multiply(fatorAtenuacao);
 
-                    // Adicionar a energia da luz difusa
-                    r = Math.min(255, (int) (r + (objetoCor >> 16 & 0xFF) * energiaLuzDifusa.x));
-                    g = Math.min(255, (int) (g + (objetoCor >> 8 & 0xFF) * energiaLuzDifusa.y));
-                    bCor = Math.min(255, (int) (bCor + (objetoCor & 0xFF) * energiaLuzDifusa.z));
-
-                    // Adicionar a energia especular à cor final
-                    r = Math.min(255, (int) (r + 255 * energiaLuzEspecular.x));
-                    g = Math.min(255, (int) (g + 255 * energiaLuzEspecular.y));
-                    bCor = Math.min(255, (int) (bCor + 255 * energiaLuzEspecular.z));
+                    // Adicionar a energia da luz final
+                    r = Math.min(255, (int) (r + 255 * energiaFinal.x));
+                    g = Math.min(255, (int) (g + 255 * energiaFinal.y));
+                    bCor = Math.min(255, (int) (bCor + 255 * energiaFinal.z));
+           
                 }
             }
             corPintar = new Color(r, g, bCor).getRGB();

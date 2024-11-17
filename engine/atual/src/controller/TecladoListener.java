@@ -20,7 +20,6 @@ public class TecladoListener extends KeyAdapter {
         this.objetos = objetos;
         this.luzPos = luzPos;
         this.janela = janela;
-
     }
 
     @Override

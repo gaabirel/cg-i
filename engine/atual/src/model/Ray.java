@@ -7,7 +7,16 @@ public class Ray {
         this.origin = origin;
         this.direction = direction; //Normaliza a direção ao criar o raio
     }
-
+    public Vector3 getPoint(double t) {
+        // Retorna o ponto a uma distância 't' ao longo do raio
+        return origin.add(direction.multiply(t)); // Adiciona ao ponto de origem a direção multiplicada pela distância 't'
+    }
+    public void setOrigin(Vector3 newOrigin) {
+        this.origin = newOrigin;
+    }
+    public void setDirection(Vector3 newDirection) {
+        this.direction = newDirection;
+    }
     @Override
     public String toString() {
         return "Ray [origin=" + origin + ", direction=" + direction + "]";
