@@ -12,7 +12,6 @@ public class Light {
 
     }
 
-
     // Método para obter a posição da luz
     public Vector3 getPosicao() {
         return posicao;

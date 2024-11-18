@@ -67,25 +67,25 @@ public class Cilindro extends Objeto3D implements Intersectable {
         double d = (eixo.dot(centroBase) / dem);                      //distancia a base inferior 
         double d2 = (eixo.dot(centroBase2) / dem);                    //distancia a base superior
         Intersection interseccaoBase = null;
-Intersection interseccaoTampa = null;
+        Intersection interseccaoTampa = null;
 
-// Verifica interseção com a base inferior
-if (d > 0) { // Garante que está na direção do raio
-    Vector3 Qp1 = D.multiply(d).subtract(centroBase);
-    double teste1 = Qp1.dot(Qp1);
-    if (teste1 < Math.pow(raio, 2)) {
-        interseccaoBase = new Intersection(D.multiply(d).subtract(centroBase), d);
-    }
-}
+        // Verifica interseção com a base inferior
+        if (d > 0) { // Garante que está na direção do raio
+            Vector3 Qp1 = D.multiply(d).subtract(centroBase);
+            double teste1 = Qp1.dot(Qp1);
+            if (teste1 < Math.pow(raio, 2)) {
+                interseccaoBase = new Intersection(D.multiply(d).subtract(centroBase), d);
+            }
+        }
 
-// Verifica interseção com a tampa superior
-if (d2 > 0) { // Garante que está na direção do raio
-    Vector3 Qp2 = D.multiply(d2).subtract(centroBase2);
-    double teste2 = Qp2.dot(Qp2);
-    if (teste2 < Math.pow(raio, 2)) {
-        interseccaoTampa = new Intersection(D.multiply(d2).subtract(centroBase2), d2);
-    }
-}
+        // Verifica interseção com a tampa superior
+        if (d2 > 0) { // Garante que está na direção do raio
+            Vector3 Qp2 = D.multiply(d2).subtract(centroBase2);
+            double teste2 = Qp2.dot(Qp2);
+            if (teste2 < Math.pow(raio, 2)) {
+                interseccaoTampa = new Intersection(D.multiply(d2).subtract(centroBase2), d2);
+            }
+        }
 
 // Retorna a interseção mais próxima (menor `d` positivo)
 if (interseccaoBase != null && interseccaoTampa != null) {

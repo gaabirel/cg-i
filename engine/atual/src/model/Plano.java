@@ -66,7 +66,7 @@ public class Plano extends Objeto3D implements Intersectable  {
 
     @Override
     public Vector3 calcularNormal(Vector3 ponto) {
-        return this.N.normalize();
+        return this.N;
     }
 
     @Override

@@ -7,7 +7,9 @@ import src.controller.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import java.util.ArrayList;
+
 
 public class Janela extends JFrame {
     
@@ -29,8 +31,6 @@ public class Janela extends JFrame {
 
     ProcessadorInterseccoes processador;
     
-    private Cena cena;
-
     public Janela(double w, double h, double d, int nCol, int nLin, Cena cena) {
         //Config da window na cena
         this.w = w;
@@ -46,10 +46,7 @@ public class Janela extends JFrame {
         this.luzes = cena.getLuzes();
 
         //classe que vai processar as interseccoes dos objetos
-        this.processador = new ProcessadorInterseccoes();   
-
-        //cena
-        this.cena = cena;
+        this.processador = new ProcessadorInterseccoes(objetos, luzes);   
 
         //Configura o JFrame
         setTitle("Esfera lumiada");
@@ -113,21 +110,33 @@ public class Janela extends JFrame {
 
     }
     public void pintarCanvas() {
+    // Pegando o Raster pra manipular os pixels diretamente
+    WritableRaster raster = canvas.getRaster();
+    int[] pixelColor = new int[3]; // Vetor pra pegar as cores R G B
+    Vector3 origemRaio = new Vector3(0, 0, 0); // origem do raio saindo do olho do observador
 
-        for (int l = 0; l < nLin; l++) {
-            double y = h / 2.0 - Dy / 2.0 - l * Dy;      //pos no meio da altura do retangulo
-            for (int c = 0; c < nCol; c++) {
-                double x = -w / 2.0 + Dx / 2.0 + c * Dx; //pos no meio da largura do retangulo
-                double dz = -d;                          //distancia da tela de mosquito pro olho do pintor   
-                
-                Vector3 origemRaio = new Vector3(0,0,0); //origem do raio partindo olho do pintor
-                Vector3 direcaoRaio = new Vector3(x, y, dz);   //direcao do raio ao centro do retangulo
-                Ray raio = new Ray(origemRaio, direcaoRaio);    
-                ResultadoIntersecao resultado = processador.interseccionaObjetos(this.objetos, raio, luzes );
-                canvas.setRGB(c, l, resultado.getColor());
-            }
+    for (int l = 0; l < nLin; l++) {
+        double y = h / 2.0 - Dy / 2.0 - l * Dy; // Posiçao do meio da altura do retangulo
+        for (int c = 0; c < nCol; c++) {
+            double x = -w / 2.0 + Dx / 2.0 + c * Dx; // posiçao do meio da largura do retangulo
+            double dz = -d; // distancia da tela projetada pro olho do observador
+
+            Vector3 direcaoRaio = new Vector3(x, y, dz); // direcao do raio na direcao do centro do retangulo
+            Ray raio = new Ray(origemRaio, direcaoRaio);
+
+            // Convertendo a cor do resultado pra R G B
+            int color = processador.interseccionaObjetos(raio);
+            pixelColor[0] = (color >> 16) & 0xFF; // Red component
+            pixelColor[1] = (color >> 8) & 0xFF;  // Green component
+            pixelColor[2] = color & 0xFF;         // Blue component
+
+            // Set the pixel color in the raster
+            raster.setPixel(c, l, pixelColor);
         }
     }
+
+}
+
 
     private class RenderPanel extends JPanel {
         protected void paintComponent(Graphics g) {

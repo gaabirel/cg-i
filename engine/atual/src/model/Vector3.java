@@ -13,7 +13,7 @@ public class Vector3 {
 
     //retorna o tamanho do vetor
     public double length() {
-        return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+        return Math.sqrt(this.dot(this));
     }
 
     //Subtrai outro vetor deste vetor
@@ -58,6 +58,9 @@ public class Vector3 {
         double cy = this.z * other.x - this.x * other.z;
         double cz = this.x * other.y - this.y * other.x;
         return new Vector3(cx, cy, cz);
+    }
+    public Vector3 negate(){
+        return new Vector3(-this.x, -this.y, -this.z);
     }
     public boolean saoParalelos(Vector3 U) {
         // Calcula o produto vetorial D x U

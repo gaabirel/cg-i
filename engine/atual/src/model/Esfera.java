@@ -40,16 +40,22 @@ public class Esfera extends Objeto3D implements Intersectable {
             a *= 2;
             double t1 = (-b + raizDiscriminante) / a;
             double t2 = (-b - raizDiscriminante) / a;
+            double menorPositivo = Double.MAX_VALUE;
+            if (t1 > 0) {
+                menorPositivo = t1;
+            }
+            // Verifica se t2 < t1
+            if (t2 > 0 && t2 < menorPositivo) {
+                menorPositivo = t2;
+            }
+            if(menorPositivo == Double.MAX_VALUE) return null;
 
-            //t = (t1 > 0 && t2 > 0) ? Math.min(t1, t2) : (t1 > 0 ? t1 : t2);
-            double t = Math.min(t1, t2); // o que considero mais simples
-            
-            Vector3 point = ray.origin.add(ray.direction.multiply(t));
-            return new Intersection(point, t);
+            Vector3 point = ray.origin.add(ray.direction.multiply(menorPositivo));
+            return new Intersection(point, menorPositivo);
         }
-        else{
-            return null;
-        }
+
+        return null;
+        
     }
     @Override
     public void mover(double dx, double dy, double dz) {

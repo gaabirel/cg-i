@@ -47,7 +47,7 @@ public class Cena {
     public static ArrayList<Light> gerarLuzes(){
         //criando as luzes
         ArrayList<Light> luzesGeradas = new ArrayList<>(); 
-        Vector3 intensidade = new Vector3(0.6, 0.6, 0.6);
+        Vector3 intensidade = new Vector3(0.8, 0.8, 0.8);
         Vector3 intensidadeRosa = new Vector3(1.0, 0.5, 0.7);
         intensidadeRosa = intensidadeRosa.multiply(0.4); //diminuir a intensidade
 
@@ -79,7 +79,7 @@ public class Cena {
         );
         Plano paredeFrontal = new Plano(
             new Vector3(0, 0, -20),     // Ponto Ppl
-            new Vector3(0, 0, 1.0),           // Vetor normal n
+            new Vector3(0, 0, -1),           // Vetor normal n
             -2, 2, -1.5, 1.5,             // Limites: xmin, xmax, ymin, ymax
             new Vector3[]{
                 new Vector3(0.686, 0.933, 0.933), // k_difuso: mesma cor
