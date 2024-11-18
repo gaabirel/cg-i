@@ -86,6 +86,7 @@ public class Janela extends JFrame {
         // Cria um painel secundário com BoxLayout horizontal
         JPanel subPanel = new JPanel();
         subPanel.setLayout(new BoxLayout(subPanel, BoxLayout.X_AXIS));
+        
         // Adiciona componentes ao subPanel
         subPanel.add(caixa);
         subPanel.add(new JButton("Botão 1"));
@@ -107,14 +108,6 @@ public class Janela extends JFrame {
         renderPanel.add(botao);
         renderPanel.add(subPanel);
         
-        /*adicionando os componentes
-        renderPanel.add(label);
-        renderPanel.add(controles);
-        renderPanel.add(botao);
-        renderPanel.add(new JLabel("Linha 4", SwingConstants.CENTER));
-        renderPanel.add(new JLabel("Linha 5", SwingConstants.CENTER));
-        renderPanel.add(new JLabel("Linha 6", SwingConstants.CENTER));
-        */
         pintarCanvas(); // Desenha a cena inicial
         add(renderPanel); // Adiciona o painel ao JFrame
 

@@ -49,14 +49,28 @@ public class Vector3 {
     //Normaliza o vetor (torna seu comprimento igual a 1)
     public Vector3 normalize() {
         double length = this.length();
-        if (length > 0) {
-            return new Vector3(this.x / length, this.y / length, this.z / length);
-        } else {
-            return new Vector3(0, 0, 0); //Retorna um vetor nulo se o comprimento for zero
-        }
+        return new Vector3(this.x / length, this.y / length, this.z / length);
         
     }
-
+    //cross product
+    public Vector3 cross(Vector3 other) {
+        double cx = this.y * other.z - this.z * other.y;
+        double cy = this.z * other.x - this.x * other.z;
+        double cz = this.x * other.y - this.y * other.x;
+        return new Vector3(cx, cy, cz);
+    }
+    public boolean saoParalelos(Vector3 U) {
+        // Calcula o produto vetorial D x U
+        Vector3 produtoVetorial = this.cross(U);
+    
+        // Define uma tolerância para considerar erros numéricos
+        double tolerancia = 1e-6;
+    
+        // Verifica se o produto vetorial é próximo de (0, 0, 0)
+        return Math.abs(produtoVetorial.x) < tolerancia &&
+               Math.abs(produtoVetorial.y) < tolerancia &&
+               Math.abs(produtoVetorial.z) < tolerancia;
+    }
     //Adiciona outro vetor a este vetor
     public Vector3 add(Vector3 other) {
         return new Vector3(this.x + other.x, this.y + other.y, this.z + other.z);

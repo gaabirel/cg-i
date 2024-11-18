@@ -5,7 +5,7 @@ public class Plano extends Objeto3D implements Intersectable  {
 
     private Vector3 Ppl;
     private Vector3 N;
-    private double xmin, xmax, ymin, ymax;  // Limites do plano no espaço 2D (X, Y)
+    private double xmin, xmax, ymin, ymax;  // Limites do plano no espaço 2D (X, Y) meio bugado usar isso
 
     public Plano(Vector3 Ppl, Vector3 N, Color color, double xmin, double xmax, double ymin, double ymax) {
         this.Ppl = Ppl;
@@ -23,30 +23,36 @@ public class Plano extends Objeto3D implements Intersectable  {
         this.k_especular = new Vector3(0.2, 0.2, 0.2);
         this.k_ambiente  = new Vector3(0.3, 0.3, 0.3);
     }
-    public Plano(Vector3 Ppl, Vector3 N, double xmin, double xmax, double ymin, double ymax, Vector3 k_especular, Vector3 k_difuso, Vector3 k_ambiente){
+
+    public Plano(Vector3 Ppl, Vector3 N, double xmin, double xmax, double ymin, double ymax, Vector3[] k_iluminacao){
         this(Ppl, N, new Color(0, 0, 0), xmin, xmax, ymin, ymax);
-        this.k_ambiente = k_ambiente;
-        this.k_difuso = k_difuso;
-        this.k_especular = k_especular;
+        this.setKdifuso(k_iluminacao[0]);
+        this.setKespecular(k_iluminacao[1]);
+        this.setKambiente(k_iluminacao[2]);
     }   
 
     @Override
     public Intersection intersect(Ray ray) {
         // Cálculo da interseção com o plano
-        double t = this.calcularInterseccao(ray);
-
+        double t = this.calcularInterseccao(ray); //sem interseccao ou plano atras do pintor
+        if ((t == Double.POSITIVE_INFINITY) || t <= 0){
+            return null;
+        }
         //Ponto de interseção
         Vector3 pontoInterseccao = ray.origin.add(ray.direction.multiply(t));
+        return new Intersection(pontoInterseccao, t);
 
         //Verifica se o ponto de interseção está dentro dos limites do plano
+        /*  Meio bugado
         if (pontoInterseccao.x >= xmin && pontoInterseccao.x <= xmax && 
             pontoInterseccao.y >= ymin && pontoInterseccao.y <= ymax) {
             // Se estiver dentro dos limites, retorna a interseção
             return new Intersection(pontoInterseccao, t);
         }
-
+        
         //Se o ponto não estiver dentro dos limites, não há interseção
         return null;
+        */
     }
     public double calcularInterseccao(Ray ray) {
         double denom = N.dot(ray.direction);

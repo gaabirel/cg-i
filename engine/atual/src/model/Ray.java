@@ -5,7 +5,7 @@ public class Ray {
 
     public Ray(Vector3 origin, Vector3 direction) {
         this.origin = origin;
-        this.direction = direction; //Normaliza a direção ao criar o raio
+        this.direction = direction.normalize(); //Normaliza a direção ao criar o raio
     }
     public Vector3 getPoint(double t) {
         // Retorna o ponto a uma distância 't' ao longo do raio

@@ -6,12 +6,12 @@ public class Esfera extends Objeto3D implements Intersectable {
     private double radius; // raio da esfera
     private Vector3 center; //centro da esfera
 
-    public Esfera(double radius, Vector3 center, Vector3 k_especular, Vector3 k_difuso, Vector3 k_ambiente) {
+    public Esfera(double radius, Vector3 center, Vector3[] k_iluminacao) {
         this.radius = radius;
         this.center = center;
-        this.k_especular = k_especular;
-        this.k_difuso = k_difuso;
-        this.k_ambiente = k_ambiente;
+        this.setKdifuso(k_iluminacao[0]);
+        this.setKespecular(k_iluminacao[1]);
+        this.setKambiente(k_iluminacao[2]);
     }
 
     //construtor para caso só queira passar uma cor sem definir os coeficientes de reflexao
@@ -19,10 +19,10 @@ public class Esfera extends Objeto3D implements Intersectable {
         //chamando o 1°construtor 
         this( 
             radius, 
-            center, 
-            new Vector3(0.2, 0.2, 0.2),  //Valor padrão para k_especular
-            new Vector3(colorDifuso.getRed() / 255.0, colorDifuso.getGreen() / 255.0, colorDifuso.getBlue() / 255.0),  //k_difuso a partir da cor
-            new Vector3(0.3, 0.3, 0.3)   //Valor padrão para k_ambiente
+            center,new Vector3[]{
+                new Vector3(colorDifuso.getRed() / 255.0, colorDifuso.getGreen() / 255.0, colorDifuso.getBlue() / 255.0),  //k_difuso a partir da cor
+                new Vector3(0.2, 0.2, 0.2),  //Valor padrão para k_especular
+                new Vector3(0.3, 0.3, 0.3)}  //Valor padrão para k_ambiente
         );
     }
 
