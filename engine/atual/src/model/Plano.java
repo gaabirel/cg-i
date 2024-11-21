@@ -5,15 +5,12 @@ public class Plano extends Objeto3D implements Intersectable  {
 
     private Vector3 Ppl;
     private Vector3 N;
-    private double xmin, xmax, ymin, ymax;  // Limites do plano no espaço 2D (X, Y) meio bugado usar isso
-
-    public Plano(Vector3 Ppl, Vector3 N, Color color, double xmin, double xmax, double ymin, double ymax) {
+    private double distance;  // Pra calcular o limite do plano
+    private double ymax, ymin, xmax, xmin;
+    public Plano(Vector3 Ppl, Vector3 N, Color color, double distance) {
         this.Ppl = Ppl;
         this.N = N.normalize(); //normalizamos para garantir que a normal seja unitária
-        this.xmin = xmin;
-        this.xmax = xmax;
-        this.ymin = ymin;
-        this.ymax = ymax;
+        this.distance = distance;
 
         double r = color.getRed()/255.0;
         double g = color.getGreen()/255.0;
@@ -22,10 +19,15 @@ public class Plano extends Objeto3D implements Intersectable  {
 
         this.k_especular = new Vector3(0.2, 0.2, 0.2);
         this.k_ambiente  = new Vector3(0.3, 0.3, 0.3);
+        this.xmin = Ppl.x - distance;
+        this.xmax = Ppl.x + distance;
+        this.ymin = Ppl.y - distance;
+        this.ymax = Ppl.y + distance;
+
     }
 
-    public Plano(Vector3 Ppl, Vector3 N, double xmin, double xmax, double ymin, double ymax, Vector3[] k_iluminacao){
-        this(Ppl, N, new Color(0, 0, 0), xmin, xmax, ymin, ymax);
+    public Plano(Vector3 Ppl, Vector3 N, double distance, Vector3[] k_iluminacao){
+        this(Ppl, N, new Color(0, 0, 0), distance);
         this.setKdifuso(k_iluminacao[0]);
         this.setKespecular(k_iluminacao[1]);
         this.setKambiente(k_iluminacao[2]);

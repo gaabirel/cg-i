@@ -35,28 +35,30 @@ public class ProcessadorLuzSombra {
             double comprimentoL = vetorLuz.length();
 
             Ray raioDaSombra = new Ray(pontoIntersecao, vetorLuz);
+            Boolean sombra = false;
             for (Intersectable sombraObjeto : objetos) {
                 if (sombraObjeto == objeto) continue; //Ignorar o proprio objeto
                 Intersection interseccaoSombra = sombraObjeto.intersect(raioDaSombra);
                 if((interseccaoSombra != null) && (interseccaoSombra.distance > 0) && interseccaoSombra.distance < comprimentoL) {
                     //tem sombra, então retorne sem calcular a luz difusa e especular
-                    return corPintar; 
+                    sombra = true; 
                 }            
             }
+            if (!sombra){
+                //se nao tiver sombra, adicionar luz difusa e especular
+                double produtoEscalarNL = Math.max(0, vetorLuz.dot(N));
+                Vector3 energiaLuzDifusa = luz.getIntensidade().arroba(objeto.getKdifuso()).multiply(produtoEscalarNL);
 
-            //se nao tiver sombra, adicionar luz difusa e especular
-            double produtoEscalarNL = Math.max(0, vetorLuz.dot(N));
-            Vector3 energiaLuzDifusa = luz.getIntensidade().arroba(objeto.getKdifuso()).multiply(produtoEscalarNL);
+                Vector3 R = N.multiply(2 * produtoEscalarNL).subtract(vetorLuz); //Cálculo do vetor refletido (R)
+                double produtoEscalarRV = Math.max(0, R.dot(V));
 
-            Vector3 R = N.multiply(2 * produtoEscalarNL).subtract(vetorLuz); //Cálculo do vetor refletido (R)
-            double produtoEscalarRV = Math.max(0, R.dot(V));
+                double fatorAtenuacao = 1 / (1 + 0.1 * comprimentoL + 0.001 * comprimentoL * comprimentoL);
 
-            double fatorAtenuacao = 1 / (1 + 0.1 * comprimentoL + 0.001 * comprimentoL * comprimentoL);
+                Vector3 energiaLuzEspecular = luz.getIntensidade().arroba(objeto.getKespecular()).multiply(Math.pow(produtoEscalarRV, this.n));
+                Vector3 energiaFinal = (energiaLuzEspecular.add(energiaLuzDifusa)).multiply(fatorAtenuacao);
 
-            Vector3 energiaLuzEspecular = luz.getIntensidade().arroba(objeto.getKespecular()).multiply(Math.pow(produtoEscalarRV, this.n));
-            Vector3 energiaFinal = (energiaLuzEspecular.add(energiaLuzDifusa)).multiply(fatorAtenuacao);
-
-            adicionarEnergia(energiaFinal, corPintar);
+                adicionarEnergia(energiaFinal, corPintar);
+            }
         }
         return corPintar;
     }

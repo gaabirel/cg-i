@@ -32,11 +32,11 @@ public class Cena {
         //adicionar os objetos para a lista de objetos da cena
         Vector3 eixo = new Vector3(0, 0, -1);
         Cilindro cilindro = new Cilindro(new Vector3(0, 0, -10), 0.2, 0.5, k_iluminacao, eixo);
-        objetosCena.add(cilindro);
+        //objetosCena.add(cilindro);
         //objetosCena.add(cone);
         //objetosCena.add(cilindro); //em construção
 
-        //objetosCena.addAll(esferas);
+        objetosCena.addAll(esferas);
         objetosCena.addAll(planos);
     }
     
@@ -66,7 +66,7 @@ public class Cena {
         Plano chao = new Plano(
                     new Vector3(0, -1, -20),          // Ponto Ppl
                     new Vector3(0, 1, 0),           // Vetor normal n
-                    -2, 2, -4, 0,               // Limites: xmin, xmax, ymin, ymax
+                    1,               // Limites: xmin, xmax, ymin, ymax
                     new Vector3[]{
                     new Vector3(1.0, 1.0, 1.0),       // k_especular: Textura de madeira (representada como vetor branco para exemplo)
                     new Vector3(1.0, 0, 1.0),       // k_difuso: Textura de madeira (mesma representação)
@@ -75,7 +75,7 @@ public class Cena {
         Plano paredeDireita = new Plano(
             new Vector3(2, 0, -20),        // Ponto Ppl
             new Vector3(-1.0, 0, 0),          // Vetor normal n
-            -1.5, 1.5, -4, 0,               // Limites: xmin, xmax, ymin, ymax
+            1,               // Limites: xmin, xmax, ymin, ymax
             new Vector3[]{
                 new Vector3(0.686, 0.933, 0.933), // k_difuso: mesma cor
                 new Vector3(0.686, 0.933, 0.933), // k_especular: cor azul-claro
@@ -84,7 +84,7 @@ public class Cena {
         Plano paredeFrontal = new Plano(
             new Vector3(0, 0, -20),     // Ponto Ppl
             new Vector3(0, 0, -1),           // Vetor normal n
-            -2, 2, -1.5, 1.5,             // Limites: xmin, xmax, ymin, ymax
+            1,             // Limites: xmin, xmax, ymin, ymax
             new Vector3[]{
                 new Vector3(0.686, 0.933, 0.933), // k_difuso: mesma cor
                 new Vector3(0.686, 0.933, 0.933), // k_especular: cor azul-claro
@@ -93,7 +93,7 @@ public class Cena {
         Plano paredeEsquerda = new Plano(
             new Vector3(-2, 0, -20),       // Ponto Ppl
             new Vector3(1, 0, 0),           // Vetor normal n
-            -1.5, 1.5, -4, 0,               // Limites: xmin, xmax, ymin, ymax
+            1,               // Limites: xmin, xmax, ymin, ymax
             new Vector3[]{
                 new Vector3(0.686, 0.933, 0.933), // k_difuso: mesma cor
                 new Vector3(0.686, 0.933, 0.933), // k_especular: cor azul-claro
@@ -102,7 +102,7 @@ public class Cena {
         Plano teto = new Plano(
             new Vector3(0, 2, -20),           // Ponto Ppl
             new Vector3(0, -1.0, 0),          // Vetor normal n
-            -2.00, 2.00, -4.00, 0,               // Limites: xmin, xmax, ymin, ymax
+            1,               // Limites: xmin, xmax, ymin, ymax
             new Vector3[]{
                 new Vector3(0.933, 0.933, 0.933), // k_difuso: mesma cor
                 new Vector3(0.933, 0.933, 0.933), // k_especular: cor branca
@@ -110,22 +110,19 @@ public class Cena {
         );
                 
         /* um plano ai 
-        double xmin = -2.0;
-        double xmax = 2.0;
-        double ymin = -2.0;
-        double ymax = 2.0;
+       
         Vector3 pontoPlano = new Vector3(0.0, -1, -16); // Ponto no plano
         Vector3 normalPlano = new Vector3(0.0, 2, 1); // Normal para cima
         Color rosa = new Color(255, (int)(255 * 0.5), (int)(255 * 0.7));
-        Plano plano = new Plano(pontoPlano, normalPlano, rosa, xmin, xmax, ymin, ymax);
+        Plano plano = new Plano(pontoPlano, normalPlano, rosa, 1);
         */
 
         //planos.add(plano);
-        //planos.add(paredeEsquerda);
+        planos.add(paredeEsquerda);
         planos.add(chao);
-        //planos.add(paredeFrontal);
-        //planos.add(paredeDireita);
-        //planos.add(teto);
+        planos.add(paredeFrontal);
+        planos.add(paredeDireita);
+        planos.add(teto);
         
         return planos;
     }
