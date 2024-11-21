@@ -22,7 +22,7 @@ public class Esfera extends Objeto3D implements Intersectable {
             center,new Vector3[]{
                 new Vector3(colorDifuso.getRed() / 255.0, colorDifuso.getGreen() / 255.0, colorDifuso.getBlue() / 255.0),  //k_difuso a partir da cor
                 new Vector3(0.2, 0.2, 0.2),  //Valor padrão para k_especular
-                new Vector3(0.3, 0.3, 0.3)}  //Valor padrão para k_ambiente
+                new Vector3(0.9, 0.9, 0.9)}  //Valor padrão para k_ambiente
         );
     }
 
@@ -100,6 +100,8 @@ public class Esfera extends Objeto3D implements Intersectable {
         // Normal da esfera: vetor do centro até o ponto de interseção, normalizado
         return ponto.subtract(center).normalize();
     }
+
+
 
     
 

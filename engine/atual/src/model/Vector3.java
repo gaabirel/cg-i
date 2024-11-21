@@ -81,7 +81,10 @@ public class Vector3 {
     public Vector3 arroba(Vector3 other){
         return new Vector3(this.x * other.x, this.y * other.y, this.z * other.z);
     }
-    
+    public Boolean equals(Vector3 other){
+        if(other.x == this.x && other.y == this.y && other.z == this.z) return true;
+        else return false;
+    }
     @Override
     public String toString() {
         return "(" + x + ", " + y + ", " + z + ")";

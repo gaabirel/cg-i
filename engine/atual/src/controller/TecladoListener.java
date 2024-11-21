@@ -4,6 +4,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import src.model.Cilindro;
+import src.model.Cone;
 import src.model.Intersectable;
 import src.model.Vector3;
 import src.view.Janela;
@@ -63,6 +65,12 @@ public class TecladoListener extends KeyAdapter {
                 break;
             case KeyEvent.VK_I:
                 luzPos.z += deslocamentoLuz;
+                break;
+            case KeyEvent.VK_N:
+                ((Cilindro) objetos.get(0)).alterarEixo(new Vector3(0, -0.1, 0));
+                break;
+            case KeyEvent.VK_M:
+                ((Cilindro) objetos.get(0)).alterarEixo(new Vector3(0, 0.1, 0));
                 break;
         }
         janela.pintarCanvas();

@@ -27,13 +27,17 @@ public class Cena {
         //adicionando + esferas aleatorias
         esferas.addAll(gerarEsferasAleatorias(1));
 
-
         Vector3[] k_iluminacao = {new Vector3(1, 0, 0), new Vector3(1, 1, 1), new Vector3(1, 1, 1)};
+        Cone cone = new Cone(new Vector3(0, 0, -10), new Vector3(0, 0, 1), 1.5, 1, k_iluminacao);
         //adicionar os objetos para a lista de objetos da cena
-        Cilindro cilindro = new Cilindro(new Vector3(0, 0, -10), 0.2, 0.5, k_iluminacao);
-        objetosCena.add(cilindro); //em construção
-        objetosCena.addAll(esferas);
-        //objetosCena.addAll(planos);
+        Vector3 eixo = new Vector3(0, 0, -1);
+        Cilindro cilindro = new Cilindro(new Vector3(0, 0, -10), 0.2, 0.5, k_iluminacao, eixo);
+        objetosCena.add(cilindro);
+        //objetosCena.add(cone);
+        //objetosCena.add(cilindro); //em construção
+
+        //objetosCena.addAll(esferas);
+        objetosCena.addAll(planos);
     }
     
     public ArrayList<Intersectable> getObjetos() {
@@ -51,7 +55,7 @@ public class Cena {
         Vector3 intensidadeRosa = new Vector3(1.0, 0.5, 0.7);
         intensidadeRosa = intensidadeRosa.multiply(0.4); //diminuir a intensidade
 
-        luzesGeradas.add(new Light(new Vector3(-1, 2, -1) , intensidade));
+        luzesGeradas.add(new Light(new Vector3(1, 2, -8) , intensidade));
         //luzes.add(new Light(new Vector3(0, 3, -15) , intensidadeRosa));
         //luzes.add(new Light(new Vector3(0, 2, -4), intensidadeRosa));
 
@@ -65,8 +69,8 @@ public class Cena {
                     -2, 2, -4, 0,               // Limites: xmin, xmax, ymin, ymax
                     new Vector3[]{
                     new Vector3(1.0, 1.0, 1.0),       // k_especular: Textura de madeira (representada como vetor branco para exemplo)
-                    new Vector3(1.0, 1.0, 1.0),       // k_difuso: Textura de madeira (mesma representação)
-                    new Vector3(1.0, 1.0, 1.0)}       // k_ambiente: Textura de madeira (mesma representação)
+                    new Vector3(1.0, 0, 1.0),       // k_difuso: Textura de madeira (mesma representação)
+                    new Vector3(1.0, 0, 1.0)}       // k_ambiente: Textura de madeira (mesma representação)
                 );
         Plano paredeDireita = new Plano(
             new Vector3(2, 0, -20),        // Ponto Ppl
@@ -117,11 +121,11 @@ public class Cena {
         */
 
         //planos.add(plano);
-        planos.add(paredeEsquerda);
+        //planos.add(paredeEsquerda);
         planos.add(chao);
-        planos.add(paredeFrontal);
-        planos.add(paredeDireita);
-        planos.add(teto);
+        //planos.add(paredeFrontal);
+        //planos.add(paredeDireita);
+        //planos.add(teto);
         
         return planos;
     }
