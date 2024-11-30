@@ -3,7 +3,6 @@ package src.controller;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
-
 import src.model.*;
 
 
@@ -36,8 +35,18 @@ public class Cena {
         //objetosCena.add(cone);
         //objetosCena.add(cilindro); //em construção
 
+        Vector3 v1 = new Vector3(0, 0, -10);
+        Vector3 v2 = new Vector3(1, 0, -10);
+        Vector3 v3 = new Vector3(0, 1, -10);
+        Vector3 kDifuso = new Vector3(1, 0, 0); // Vermelho para iluminação difusa
+        Vector3 kEspecular = new Vector3(1, 1, 1); // Branco para iluminação especular
+        Vector3 kAmbiente = new Vector3(0.1, 0.1, 0.1); // Fraco cinza para iluminação ambiente
+
+        // Criar triângulo com iluminação
+        Triangulo triangulo = new Triangulo(v1, v2, v3, new Vector3[]{kDifuso, kEspecular, kAmbiente});
+        objetosCena.add(triangulo);
         objetosCena.addAll(esferas);
-        objetosCena.addAll(planos);
+        //objetosCena.addAll(planos);
     }
     
     public ArrayList<Intersectable> getObjetos() {

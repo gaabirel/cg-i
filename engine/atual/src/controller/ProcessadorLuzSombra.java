@@ -1,7 +1,6 @@
 package src.controller;
 
 import java.util.ArrayList;
-
 import src.model.Intersectable;
 import src.model.Intersection;
 import src.model.Light;
@@ -23,6 +22,8 @@ public class ProcessadorLuzSombra {
     }
 
     public int[] processar(Intersectable objeto, Vector3 pontoIntersecao, Ray raio){
+        double epsilon = 1e-5; // Valor pequeno para evitar auto-interseção
+ 
         int[] corPintar = {0, 0, 0};
         //adicionar a luz ambiente na cor
         energiaLuzAmbiente = intensidadeAmbiente.arroba(objeto.getKdifuso());
@@ -30,11 +31,12 @@ public class ProcessadorLuzSombra {
 
         Vector3 V = raio.direction.negate(); //Vetor de visão (V) na direção oposta ao raio
         Vector3 N = objeto.calcularNormal(pontoIntersecao);  //Calcular vetor normal (N)
+        Vector3 pontoDeslocado = pontoIntersecao.add(N.multiply(epsilon)); // Deslocar ao longo da normal
         for(Light luz : luzes){
             Vector3 vetorLuz = luz.calcularDirecaoLuz(pontoIntersecao);
             double comprimentoL = vetorLuz.length();
 
-            Ray raioDaSombra = new Ray(pontoIntersecao, vetorLuz);
+            Ray raioDaSombra = new Ray(pontoDeslocado, vetorLuz);
             Boolean sombra = false;
             for (Intersectable sombraObjeto : objetos) {
                 if (sombraObjeto == objeto) continue; //Ignorar o proprio objeto

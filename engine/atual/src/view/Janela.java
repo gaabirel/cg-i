@@ -1,14 +1,12 @@
 package src.view;
 
-import javax.swing.*;
-
-import src.model.*;
-import src.controller.*;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.ArrayList;
+import javax.swing.*;
+import src.controller.*;
+import src.model.*;
 
 
 public class Janela extends JFrame {
@@ -71,6 +69,7 @@ public class Janela extends JFrame {
         String texto1 = "Bola branca: movimento com setinhas, e profundidade com W e S ";
         String texto2 = "Luz: T, G, F, H  profundidade: U, I";
 
+        /*
         int tamanhoFonte = 18;
         //cria botao e labels 
         TextoNaTela controle1 = new TextoNaTela(texto1, tamanhoFonte);
@@ -104,10 +103,10 @@ public class Janela extends JFrame {
         }
         renderPanel.add(botao);
         renderPanel.add(subPanel);
-        
+        */
         pintarCanvas(); // Desenha a cena inicial
         add(renderPanel); // Adiciona o painel ao JFrame
-
+    
     }
     public void pintarCanvas() {
     // Pegando o Raster pra manipular os pixels diretamente
