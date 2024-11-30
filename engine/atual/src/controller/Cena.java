@@ -26,7 +26,7 @@ public class Cena {
         //adicionando + esferas aleatorias
         esferas.addAll(gerarEsferasAleatorias(1));
 
-        Vector3[] k_iluminacao = {new Vector3(1, 0, 0), new Vector3(1, 1, 1), new Vector3(1, 1, 1)};
+        Vector3[] k_iluminacao = {new Vector3(1, 0, 0), new Vector3(0.9, 0.9, 0.9), new Vector3(0.9, 0.9, 0.9)};
         Cone cone = new Cone(new Vector3(0, 0, -10), new Vector3(0, 0, 1), 1.5, 1, k_iluminacao);
         //adicionar os objetos para a lista de objetos da cena
         Vector3 eixo = new Vector3(0, 0, -1);
@@ -40,7 +40,7 @@ public class Cena {
         Vector3 v3 = new Vector3(0, 1, -10);
         Vector3 kDifuso = new Vector3(1, 0, 0); // Vermelho para iluminação difusa
         Vector3 kEspecular = new Vector3(1, 1, 1); // Branco para iluminação especular
-        Vector3 kAmbiente = new Vector3(0.1, 0.1, 0.1); // Fraco cinza para iluminação ambiente
+        Vector3 kAmbiente = new Vector3(0.9, 0.9, 0.9); // Fraco cinza para iluminação ambiente
 
         // Criar triângulo com iluminação
         Triangulo triangulo = new Triangulo(v1, v2, v3, new Vector3[]{kDifuso, kEspecular, kAmbiente});

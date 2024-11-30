@@ -13,6 +13,7 @@ public class ProcessadorLuzSombra {
     private Vector3 energiaLuzAmbiente;   //Fator de luz ambiente
     private double n;                    //expoente de brilho, ou coeficiente de especularidade
     private Vector3 intensidadeAmbiente;
+    final double EPSILON = 1e-5; // Valor pequeno para evitar auto-interseção
 
     public ProcessadorLuzSombra(ArrayList<Light> luzes, ArrayList<Intersectable> objetos){
         this.luzes = luzes;
@@ -21,48 +22,74 @@ public class ProcessadorLuzSombra {
         this.n = 10;
     }
 
-    public int[] processar(Intersectable objeto, Vector3 pontoIntersecao, Ray raio){
-        double epsilon = 1e-5; // Valor pequeno para evitar auto-interseção
- 
+    public int[] processar(Intersectable objeto, Vector3 pontoIntersecao, Ray raio) {
+    
         int[] corPintar = {0, 0, 0};
-        //adicionar a luz ambiente na cor
-        energiaLuzAmbiente = intensidadeAmbiente.arroba(objeto.getKdifuso());
+    
+        // Adicionar luz ambiente
+        energiaLuzAmbiente = intensidadeAmbiente.arroba(objeto.getKambiente());
         adicionarEnergia(energiaLuzAmbiente, corPintar);
-
-        Vector3 V = raio.direction.negate(); //Vetor de visão (V) na direção oposta ao raio
-        Vector3 N = objeto.calcularNormal(pontoIntersecao);  //Calcular vetor normal (N)
-        Vector3 pontoDeslocado = pontoIntersecao.add(N.multiply(epsilon)); // Deslocar ao longo da normal
-        for(Light luz : luzes){
-            Vector3 vetorLuz = luz.calcularDirecaoLuz(pontoIntersecao);
-            double comprimentoL = vetorLuz.length();
-
-            Ray raioDaSombra = new Ray(pontoDeslocado, vetorLuz);
-            Boolean sombra = false;
-            for (Intersectable sombraObjeto : objetos) {
-                if (sombraObjeto == objeto) continue; //Ignorar o proprio objeto
-                Intersection interseccaoSombra = sombraObjeto.intersect(raioDaSombra);
-                if((interseccaoSombra != null) && (interseccaoSombra.distance > 0) && interseccaoSombra.distance < comprimentoL) {
-                    //tem sombra, então retorne sem calcular a luz difusa e especular
-                    sombra = true; 
-                }            
+    
+        Vector3 vetorVisao = raio.direction.negate(); // Vetor de visão (V)
+        Vector3 vetorNormal = objeto.calcularNormal(pontoIntersecao); // Vetor normal (N)
+        Vector3 pontoDeslocado = pontoIntersecao.add(vetorNormal.multiply(EPSILON)); // Evitar auto-interseção
+    
+        for (Light luz : luzes) {
+            processarLuz(luz, objeto, pontoIntersecao, pontoDeslocado, vetorNormal, vetorVisao, corPintar);
+        }
+    
+        return corPintar;
+    }
+    
+    private void processarLuz(Light luz, Intersectable objeto, Vector3 pontoIntersecao, Vector3 pontoDeslocado,
+                              Vector3 vetorNormal, Vector3 vetorVisao, int[] corPintar) {
+        Vector3 direcaoLuz = luz.calcularDirecaoLuz(pontoIntersecao);
+        double comprimentoLuz = direcaoLuz.length();
+    
+        if (estaNaSombra(objeto, pontoDeslocado, direcaoLuz, comprimentoLuz)) {
+            return;
+        }
+    
+        adicionarContribuicoesDeLuz(luz, objeto, vetorNormal, vetorVisao, direcaoLuz, comprimentoLuz, corPintar);
+    }
+    
+    private boolean estaNaSombra(Intersectable objeto, Vector3 pontoDeslocado, Vector3 direcaoLuz, double comprimentoLuz) {
+        Ray raioDaSombra = new Ray(pontoDeslocado, direcaoLuz);
+    
+        for (Intersectable objetoSombra : objetos) {
+            if (objetoSombra == objeto) {
+                continue; // Ignorar o próprio objeto
             }
-            if (!sombra){
-                //se nao tiver sombra, adicionar luz difusa e especular
-                double produtoEscalarNL = Math.max(0, vetorLuz.dot(N));
-                Vector3 energiaLuzDifusa = luz.getIntensidade().arroba(objeto.getKdifuso()).multiply(produtoEscalarNL);
-
-                Vector3 R = N.multiply(2 * produtoEscalarNL).subtract(vetorLuz); //Cálculo do vetor refletido (R)
-                double produtoEscalarRV = Math.max(0, R.dot(V));
-
-                double fatorAtenuacao = 1 / (1 + 0.1 * comprimentoL + 0.001 * comprimentoL * comprimentoL);
-
-                Vector3 energiaLuzEspecular = luz.getIntensidade().arroba(objeto.getKespecular()).multiply(Math.pow(produtoEscalarRV, this.n));
-                Vector3 energiaFinal = (energiaLuzEspecular.add(energiaLuzDifusa)).multiply(fatorAtenuacao);
-
-                adicionarEnergia(energiaFinal, corPintar);
+    
+            Intersection interseccaoSombra = objetoSombra.intersect(raioDaSombra);
+    
+            if (interseccaoSombra != null 
+                && interseccaoSombra.distance > EPSILON
+                && interseccaoSombra.distance < comprimentoLuz) {
+                return true; // Objeto está na sombra
             }
         }
-        return corPintar;
+        return false;
+    }
+    
+    private void adicionarContribuicoesDeLuz(Light luz, Intersectable objeto, Vector3 vetorNormal, Vector3 vetorVisao,
+                                             Vector3 direcaoLuz, double comprimentoLuz, int[] corPintar) {
+        double produtoEscalarNL = Math.max(0, direcaoLuz.dot(vetorNormal));
+        Vector3 vetorRefletido = vetorNormal.multiply(2 * produtoEscalarNL).subtract(direcaoLuz);
+        double produtoEscalarRV = Math.max(0, vetorRefletido.dot(vetorVisao));
+        
+        Vector3 energiaDifusa = luz.getIntensidade()
+                                   .arroba(objeto.getKdifuso())
+                                   .multiply(produtoEscalarNL);
+    
+        Vector3 energiaEspecular = luz.getIntensidade()
+                                      .arroba(objeto.getKespecular())
+                                      .multiply(Math.pow(produtoEscalarRV, this.n));
+    
+        double fatorAtenuacao = 1 / (1 + 0.1 * comprimentoLuz + 0.001 * comprimentoLuz * comprimentoLuz);
+        Vector3 energiaFinal = (energiaDifusa.add(energiaEspecular)).multiply(fatorAtenuacao);
+    
+        adicionarEnergia(energiaFinal, corPintar);
     }
 
     public void adicionarEnergia(Vector3 energia, int[] cor) {

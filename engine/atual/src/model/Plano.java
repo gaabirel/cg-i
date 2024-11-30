@@ -18,7 +18,7 @@ public class Plano extends Objeto3D implements Intersectable  {
         this.k_difuso = new Vector3(r, g, b);
 
         this.k_especular = new Vector3(0.2, 0.2, 0.2);
-        this.k_ambiente  = new Vector3(0.3, 0.3, 0.3);
+        this.k_ambiente  = new Vector3(0.9, 0.9, 0.9);
         this.xmin = Ppl.x - distance;
         this.xmax = Ppl.x + distance;
         this.ymin = Ppl.y - distance;

@@ -124,7 +124,7 @@ public class Janela extends JFrame {
             Ray raio = new Ray(origemRaio, direcaoRaio);
 
             // Convertendo a cor do resultado pra R G B
-            int color = processador.interseccionaObjetos(raio);
+            int color = processador.interseccionarObjetos(raio);
             pixelColor[0] = (color >> 16) & 0xFF; // Red component
             pixelColor[1] = (color >> 8) & 0xFF;  // Green component
             pixelColor[2] = color & 0xFF;         // Blue component
