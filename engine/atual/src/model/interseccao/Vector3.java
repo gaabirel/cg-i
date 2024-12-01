@@ -1,4 +1,4 @@
-package src.model;
+package src.model.interseccao;
 
 public class Vector3 {
     public double x;
@@ -59,6 +59,7 @@ public class Vector3 {
         double cz = this.x * other.y - this.y * other.x;
         return new Vector3(cx, cy, cz);
     }
+    
     public Vector3 negate(){
         return new Vector3(-this.x, -this.y, -this.z);
     }

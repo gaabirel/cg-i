@@ -6,7 +6,10 @@ import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 import javax.swing.*;
 import src.controller.*;
-import src.model.*;
+import src.model.interseccao.Intersectable;
+import src.model.interseccao.Light;
+import src.model.interseccao.Ray;
+import src.model.interseccao.Vector3;
 
 
 public class Janela extends JFrame {
@@ -27,8 +30,10 @@ public class Janela extends JFrame {
 
     private RenderPanel renderPanel; // Painel customizado para renderização
 
-    ProcessadorInterseccoes processador;
+    public ProcessadorInterseccoes processador;
     
+    public Vector3 origemRaio;
+
     public Janela(double w, double h, double d, int nCol, int nLin, Cena cena) {
         //Config da window na cena
         this.w = w;
@@ -39,6 +44,8 @@ public class Janela extends JFrame {
         this.canvas = new BufferedImage(nCol, nLin, BufferedImage.TYPE_INT_RGB);
         this.Dx = w / nCol;
         this.Dy = h / nLin;
+        origemRaio = new Vector3(0, 0, 0); // origem do raio saindo do olho do observador
+
         //Objetos e cor de fundo
         this.objetos = cena.getObjetos();
         this.luzes = cena.getLuzes();
@@ -66,10 +73,13 @@ public class Janela extends JFrame {
         renderPanel.addKeyListener(tecladoListener);
         renderPanel.setLayout(new BoxLayout(renderPanel, BoxLayout.PAGE_AXIS));
 
+        MouseListener mouseListener = new MouseListener(this, objetos);
+        renderPanel.addMouseListener(mouseListener);
+
+        /*
         String texto1 = "Bola branca: movimento com setinhas, e profundidade com W e S ";
         String texto2 = "Luz: T, G, F, H  profundidade: U, I";
 
-        /*
         int tamanhoFonte = 18;
         //cria botao e labels 
         TextoNaTela controle1 = new TextoNaTela(texto1, tamanhoFonte);
@@ -112,7 +122,7 @@ public class Janela extends JFrame {
     // Pegando o Raster pra manipular os pixels diretamente
     WritableRaster raster = canvas.getRaster();
     int[] pixelColor = new int[3]; // Vetor pra pegar as cores R G B
-    Vector3 origemRaio = new Vector3(0, 0, 0); // origem do raio saindo do olho do observador
+   
 
     for (int l = 0; l < nLin; l++) {
         double y = h / 2.0 - Dy / 2.0 - l * Dy; // Posiçao do meio da altura do retangulo
@@ -121,7 +131,7 @@ public class Janela extends JFrame {
             double dz = -d; // distancia da tela projetada pro olho do observador
 
             Vector3 direcaoRaio = new Vector3(x, y, dz); // direcao do raio na direcao do centro do retangulo
-            Ray raio = new Ray(origemRaio, direcaoRaio);
+            Ray raio = new Ray(this.origemRaio, direcaoRaio);
 
             // Convertendo a cor do resultado pra R G B
             int color = processador.interseccionarObjetos(raio);
@@ -136,6 +146,15 @@ public class Janela extends JFrame {
 
 }
 
+    public double getDistancia(){
+        return this.d;
+    }
+    public double getLargura(){
+        return this.w;
+    }
+    public double getAltura(){
+        return this.h;
+    }
 
     private class RenderPanel extends JPanel {
         protected void paintComponent(Graphics g) {
@@ -145,5 +164,6 @@ public class Janela extends JFrame {
         }
 
     }
+
 
 }

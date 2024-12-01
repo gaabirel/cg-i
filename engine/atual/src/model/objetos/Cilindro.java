@@ -1,4 +1,10 @@
-package src.model;
+package src.model.objetos;
+
+import src.model.interseccao.Intersectable;
+import src.model.interseccao.Intersection;
+import src.model.interseccao.Ray;
+import src.model.interseccao.Vector3;
+import src.model.materiais.Material;
 
 public class Cilindro extends Objeto3D implements Intersectable {
     private double raio;           // Raio do cilindro
@@ -7,13 +13,11 @@ public class Cilindro extends Objeto3D implements Intersectable {
     private Vector3 eixo;        // Vetor unitário que define o eixo do cilindro
 
     public Cilindro(Vector3 centroBase, double raio, double altura,
-                    Vector3[] k_iluminacao, Vector3 eixo) {
+                    Vector3 eixo, Material material) {
         this.centroBase = centroBase;
         this.raio = raio;
         this.altura = altura;
-        this.setKdifuso(k_iluminacao[0]);
-        this.setKespecular(k_iluminacao[1]);
-        this.setKambiente(k_iluminacao[2]);
+        setMaterial(material);
         this.eixo = eixo.normalize();
     }
 
@@ -137,5 +141,6 @@ public class Cilindro extends Objeto3D implements Intersectable {
     public Vector3 getNormal() {
         return this.eixo;
     }
+
 
 }

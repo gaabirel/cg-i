@@ -1,4 +1,10 @@
-package src.model;
+package src.model.objetos;
+
+import src.model.interseccao.Intersectable;
+import src.model.interseccao.Intersection;
+import src.model.interseccao.Ray;
+import src.model.interseccao.Vector3;
+import src.model.materiais.Material;
 
 public class Cone extends Objeto3D implements Intersectable {
     private Vector3 vertice;    // Vértice do cone
@@ -6,14 +12,12 @@ public class Cone extends Objeto3D implements Intersectable {
     private double altura;      // Altura do cone
     private double raioBase;    // Raio da base do cone
 
-    public Cone(Vector3 vertice, Vector3 eixo, double altura, double raioBase, Vector3[] k_iluminacao) {
+    public Cone(Vector3 vertice, Vector3 eixo, double altura, double raioBase,  Material material) {
         this.vertice = vertice;
         this.eixo = eixo.normalize();
         this.altura = altura;
         this.raioBase = raioBase;
-        this.setKdifuso(k_iluminacao[0]);
-        this.setKespecular(k_iluminacao[1]);
-        this.setKambiente(k_iluminacao[2]);
+        setMaterial(material);
     }
 
     public Intersection intersect(Ray ray) {

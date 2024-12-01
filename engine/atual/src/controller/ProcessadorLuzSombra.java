@@ -1,17 +1,17 @@
 package src.controller;
 
 import java.util.ArrayList;
-import src.model.Intersectable;
-import src.model.Intersection;
-import src.model.Light;
-import src.model.Ray;
-import src.model.Vector3;
+
+import src.model.interseccao.Intersectable;
+import src.model.interseccao.Intersection;
+import src.model.interseccao.Light;
+import src.model.interseccao.Ray;
+import src.model.interseccao.Vector3;
 
 public class ProcessadorLuzSombra {
     ArrayList<Light> luzes;
     ArrayList<Intersectable> objetos;
     private Vector3 energiaLuzAmbiente;   //Fator de luz ambiente
-    private double n;                    //expoente de brilho, ou coeficiente de especularidade
     private Vector3 intensidadeAmbiente;
     final double EPSILON = 1e-5; // Valor pequeno para evitar auto-interseção
 
@@ -19,7 +19,6 @@ public class ProcessadorLuzSombra {
         this.luzes = luzes;
         this.objetos = objetos;
         this.intensidadeAmbiente = new Vector3(0.2, 0.2, 0.2);
-        this.n = 10;
     }
 
     public int[] processar(Intersectable objeto, Vector3 pontoIntersecao, Ray raio) {
@@ -84,7 +83,7 @@ public class ProcessadorLuzSombra {
     
         Vector3 energiaEspecular = luz.getIntensidade()
                                       .arroba(objeto.getKespecular())
-                                      .multiply(Math.pow(produtoEscalarRV, this.n));
+                                      .multiply(Math.pow(produtoEscalarRV, objeto.getBrilho()));
     
         double fatorAtenuacao = 1 / (1 + 0.1 * comprimentoLuz + 0.001 * comprimentoLuz * comprimentoLuz);
         Vector3 energiaFinal = (energiaDifusa.add(energiaEspecular)).multiply(fatorAtenuacao);

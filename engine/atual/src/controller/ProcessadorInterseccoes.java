@@ -2,20 +2,17 @@ package src.controller;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import src.model.*;
+import src.model.interseccao.*;
 
 public class ProcessadorInterseccoes {
 
     private final Color bgColor; // Cor de fundo
     private final ArrayList<Intersectable> objetos;
-    private final ArrayList<Light> luzes;
     private final ProcessadorLuzSombra processadorLuzSombra;
-
     //Construtor
     public ProcessadorInterseccoes(ArrayList<Intersectable> objetos, ArrayList<Light> luzes) {
         this.bgColor = new Color(100, 100, 100); // Cor de fundo (cinza)
         this.objetos = objetos;
-        this.luzes = luzes;
         this.processadorLuzSombra = new ProcessadorLuzSombra(luzes, objetos);
     }
 
@@ -33,7 +30,7 @@ public class ProcessadorInterseccoes {
     }
 
     //Encontra o objeto mais próximo que intersecta com o raio
-    private Intersectable encontrarObjetoMaisProximo(Ray raio) {
+    public Intersectable encontrarObjetoMaisProximo(Ray raio) {
         double menorDistancia = Double.MAX_VALUE;
         Intersectable objetoMaisProximo = null;
 
@@ -49,10 +46,11 @@ public class ProcessadorInterseccoes {
         return objetoMaisProximo;
     }
 
+    
     //Calcula a cor resultante na interseção
     private int calcularCorInterseccao(Intersectable objeto, Ray raio) {
         double menorDistancia = objeto.intersect(raio).distance;
-        Vector3 pontoIntersecao = raio.direction.multiply(menorDistancia);
+        Vector3 pontoIntersecao = raio.origin.add(raio.direction.multiply(menorDistancia));
 
         int[] corPintar = processadorLuzSombra.processar(objeto, pontoIntersecao, raio);
 

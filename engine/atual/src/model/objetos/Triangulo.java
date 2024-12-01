@@ -1,17 +1,21 @@
-package src.model;
+package src.model.objetos;
+
+import src.model.interseccao.Intersectable;
+import src.model.interseccao.Intersection;
+import src.model.interseccao.Ray;
+import src.model.interseccao.Vector3;
+import src.model.materiais.Material;
 
 public class Triangulo extends Objeto3D implements Intersectable {
     private Vector3 v1, v2, v3; // Vértices do triângulo
     private Vector3 normal;
 
-    public Triangulo(Vector3 v1, Vector3 v2, Vector3 v3, Vector3[] kIluminacao) {
+    public Triangulo(Vector3 v1, Vector3 v2, Vector3 v3, Material material) {
         this.v1 = v1;
         this.v2 = v2;
         this.v3 = v3;
-        this.setKdifuso(kIluminacao[0]);
-        this.setKespecular(kIluminacao[1]);
-        this.setKambiente(kIluminacao[2]);
         atualizarNormal();
+        setMaterial(material);
     }
 
     private void atualizarNormal() {

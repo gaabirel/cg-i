@@ -1,4 +1,4 @@
-package src.model;
+package src.model.interseccao;
 public class Light {
 
     // Atributos para a posição da luz e sua intensidade

@@ -4,10 +4,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import src.model.Cilindro;
-import src.model.Cone;
-import src.model.Intersectable;
-import src.model.Vector3;
+import src.model.interseccao.Intersectable;
+import src.model.interseccao.Vector3;
+import src.model.objetos.*;
+
 import src.view.Janela;
 
 

@@ -6,8 +6,8 @@ import java.util.Random;
 
 import javax.swing.*;
 
-import src.model.Light;
-import src.model.Vector3;
+import src.model.interseccao.Light;
+import src.model.interseccao.Vector3;
 
 public class Button extends JButton{
 

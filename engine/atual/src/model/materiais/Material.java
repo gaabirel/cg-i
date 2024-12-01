@@ -1,6 +1,8 @@
-package src.model;
+package src.model.materiais;
 
 import java.awt.Color;
+
+import src.model.interseccao.Vector3;
 
 public class Material {
     private Vector3 kDifuso;       // Coeficiente de reflexão difusa
@@ -8,15 +10,32 @@ public class Material {
     private Vector3 kAmbiente;    // Coeficiente de iluminação ambiente
     private double brilho;        // Expoente para o brilho especular
     private Color corBase;        // Cor base do material
+    private String nome;
 
-    public Material(Vector3 kDifuso, Vector3 kEspecular, Vector3 kAmbiente, double brilho, Color corBase) {
+    public Material(Vector3 kDifuso, Vector3 kEspecular, Vector3 kAmbiente) {
         this.kDifuso = kDifuso;
         this.kEspecular = kEspecular;
         this.kAmbiente = kAmbiente;
-        this.brilho = brilho;
-        this.corBase = corBase;
+        this.brilho = 5;
+        this.nome = null;
+    }
+    public Material(String nome, Vector3 kDifuso, Vector3 kEspecular, Vector3 kAmbiente) {
+        this(kDifuso, kEspecular, kAmbiente);
+        this.nome = nome;
     }
 
+    public Material(Vector3 kDifuso, Vector3 kEspecular, Vector3 kAmbiente, double brilho) {
+        this(kDifuso, kEspecular, kAmbiente);
+        setBrilho(brilho);
+    }
+    public Material(String nome, Vector3 kDifuso, Vector3 kEspecular, Vector3 kAmbiente, double brilho) {
+        this(nome, kDifuso, kEspecular, kAmbiente);
+        setBrilho(brilho);
+    }
+    
+    public String getNome(){
+        return this.nome;
+    }
     // Getters e Setters
     public Vector3 getkDifuso() {
         return kDifuso;
@@ -48,14 +67,6 @@ public class Material {
 
     public void setBrilho(double brilho) {
         this.brilho = brilho;
-    }
-
-    public Color getCorBase() {
-        return corBase;
-    }
-
-    public void setCorBase(Color corBase) {
-        this.corBase = corBase;
     }
 
     @Override

@@ -1,43 +1,23 @@
-package src.model;
+package src.model.objetos;
 
-import java.awt.Color;
+import src.model.interseccao.Intersectable;
+import src.model.interseccao.Intersection;
+import src.model.interseccao.Ray;
+import src.model.interseccao.Vector3;
+import src.model.materiais.Material;
 
 public class Esfera extends Objeto3D implements Intersectable {
 
     private double radius;    // Raio da esfera
     private Vector3 center;   // Centro da esfera
 
-    //Valores padrão para os coeficientes de iluminação
-    private static final Vector3 DEFAULT_K_ESPECULAR = new Vector3(0.2, 0.2, 0.2);
-    private static final Vector3 DEFAULT_K_AMBIENTE = new Vector3(0.9, 0.9, 0.9);
-
     /**
      *Construtor principal para a classe Esfera.
      */
-    public Esfera(double radius, Vector3 center, Vector3[] kIluminacao) {
+    public Esfera(double radius, Vector3 center, Material material) {
         this.radius = radius;
         this.center = center;
-        this.setKdifuso(kIluminacao[0]);
-        this.setKespecular(kIluminacao[1]);
-        this.setKambiente(kIluminacao[2]);
-    }
-
-    /**
-     *Construtor alternativo que utiliza uma cor para kDifuso e valores padrão para os outros coeficientes.
-     */
-    public Esfera(double radius, Vector3 center, Color colorDifuso) {
-        this(radius,center,new Vector3[]{colorToVector(colorDifuso), DEFAULT_K_ESPECULAR, DEFAULT_K_AMBIENTE});
-    }
-
-    /**
-     *Converte uma cor RGB para um vetor normalizado.
-     */
-    private static Vector3 colorToVector(Color color) {
-        return new Vector3(
-            color.getRed() / 255.0,
-            color.getGreen() / 255.0,
-            color.getBlue() / 255.0
-        );
+        setMaterial(material);
     }
 
     /**

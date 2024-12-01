@@ -1,21 +1,22 @@
 package src.controller;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
-import src.model.*;
-
+import src.model.interseccao.*;
+import src.model.objetos.*;
+import src.model.materiais.*;
 
 public class Cena {
     private ArrayList<Intersectable> objetosCena;
     private ArrayList<Light> luzes;
-
+    private MateriaisPadrao materiais;
     private Random random;
   
     public Cena() {
+        this.materiais = new MateriaisPadrao();
         this.random = new Random();
         this.objetosCena = new ArrayList<>();
-
+        
         //gera as luzes da cena
         luzes = gerarLuzes();
 
@@ -26,27 +27,25 @@ public class Cena {
         //adicionando + esferas aleatorias
         esferas.addAll(gerarEsferasAleatorias(1));
 
-        Vector3[] k_iluminacao = {new Vector3(1, 0, 0), new Vector3(0.9, 0.9, 0.9), new Vector3(0.9, 0.9, 0.9)};
-        Cone cone = new Cone(new Vector3(0, 0, -10), new Vector3(0, 0, 1), 1.5, 1, k_iluminacao);
+        //Cone cone = new Cone(new Vector3(0, 0, -10), new Vector3(0, 0, 1), 1.5, 1, material);
         //adicionar os objetos para a lista de objetos da cena
+
+        // Criação do cilindro
         Vector3 eixo = new Vector3(0, 0, -1);
-        Cilindro cilindro = new Cilindro(new Vector3(0, 0, -10), 0.2, 0.5, k_iluminacao, eixo);
-        //objetosCena.add(cilindro);
+        Cilindro cilindro = new Cilindro(new Vector3(0, 0, -10), 0.2, 0.5, eixo, materiais.COBRE);
+        objetosCena.add(cilindro);
         //objetosCena.add(cone);
         //objetosCena.add(cilindro); //em construção
 
         Vector3 v1 = new Vector3(0, 0, -10);
         Vector3 v2 = new Vector3(1, 0, -10);
         Vector3 v3 = new Vector3(0, 1, -10);
-        Vector3 kDifuso = new Vector3(1, 0, 0); // Vermelho para iluminação difusa
-        Vector3 kEspecular = new Vector3(1, 1, 1); // Branco para iluminação especular
-        Vector3 kAmbiente = new Vector3(0.9, 0.9, 0.9); // Fraco cinza para iluminação ambiente
 
         // Criar triângulo com iluminação
-        Triangulo triangulo = new Triangulo(v1, v2, v3, new Vector3[]{kDifuso, kEspecular, kAmbiente});
+        Triangulo triangulo = new Triangulo(v1, v2, v3, materiais.PLASTICO_BRILHANTE);
         objetosCena.add(triangulo);
         objetosCena.addAll(esferas);
-        //objetosCena.addAll(planos);
+        objetosCena.addAll(planos);
     }
     
     public ArrayList<Intersectable> getObjetos() {
@@ -61,72 +60,45 @@ public class Cena {
         //criando as luzes
         ArrayList<Light> luzesGeradas = new ArrayList<>(); 
         Vector3 intensidade = new Vector3(0.8, 0.8, 0.8);
-        Vector3 intensidadeRosa = new Vector3(1.0, 0.5, 0.7);
-        intensidadeRosa = intensidadeRosa.multiply(0.4); //diminuir a intensidade
 
-        luzesGeradas.add(new Light(new Vector3(1, 2, -8) , intensidade));
+        luzesGeradas.add(new Light(new Vector3(0, 2, -8) , intensidade));
         //luzes.add(new Light(new Vector3(0, 3, -15) , intensidadeRosa));
         //luzes.add(new Light(new Vector3(0, 2, -4), intensidadeRosa));
 
         return luzesGeradas;
     }
-    public static ArrayList<Plano> gerarPlanos(){
+    public ArrayList<Plano> gerarPlanos(){
         ArrayList<Plano> planos = new ArrayList<>();
         Plano chao = new Plano(
-                    new Vector3(0, -1, -20),          // Ponto Ppl
-                    new Vector3(0, 1, 0),           // Vetor normal n
-                    1,               // Limites: xmin, xmax, ymin, ymax
-                    new Vector3[]{
-                    new Vector3(1.0, 1.0, 1.0),       // k_especular: Textura de madeira (representada como vetor branco para exemplo)
-                    new Vector3(1.0, 0, 1.0),       // k_difuso: Textura de madeira (mesma representação)
-                    new Vector3(1.0, 0, 1.0)}       // k_ambiente: Textura de madeira (mesma representação)
-                );
+            new Vector3(0, -1, -20),          // Ponto Ppl
+            new Vector3(0, 1, 0),             // Vetor normal n
+            materiais.MADEIRA_ENVELHECIDA
+        );
+
         Plano paredeDireita = new Plano(
-            new Vector3(2, 0, -20),        // Ponto Ppl
+            new Vector3(2, 0, -20),           // Ponto Ppl
             new Vector3(-1.0, 0, 0),          // Vetor normal n
-            1,               // Limites: xmin, xmax, ymin, ymax
-            new Vector3[]{
-                new Vector3(0.686, 0.933, 0.933), // k_difuso: mesma cor
-                new Vector3(0.686, 0.933, 0.933), // k_especular: cor azul-claro
-                new Vector3(0.686, 0.933, 0.933)}  // k_ambiente: mesma cor
+            materiais.MADEIRA_ENVELHECIDA
         );
+
         Plano paredeFrontal = new Plano(
-            new Vector3(0, 0, -20),     // Ponto Ppl
-            new Vector3(0, 0, -1),           // Vetor normal n
-            1,             // Limites: xmin, xmax, ymin, ymax
-            new Vector3[]{
-                new Vector3(0.686, 0.933, 0.933), // k_difuso: mesma cor
-                new Vector3(0.686, 0.933, 0.933), // k_especular: cor azul-claro
-                new Vector3(0.686, 0.933, 0.933)}  // k_ambiente: mesma cor
+            new Vector3(0, 0, -20),           // Ponto Ppl
+            new Vector3(0, 0, 1),            // Vetor normal n
+            materiais.MADEIRA_ENVELHECIDA
         );
+
         Plano paredeEsquerda = new Plano(
-            new Vector3(-2, 0, -20),       // Ponto Ppl
-            new Vector3(1, 0, 0),           // Vetor normal n
-            1,               // Limites: xmin, xmax, ymin, ymax
-            new Vector3[]{
-                new Vector3(0.686, 0.933, 0.933), // k_difuso: mesma cor
-                new Vector3(0.686, 0.933, 0.933), // k_especular: cor azul-claro
-                new Vector3(0.686, 0.933, 0.933)}  // k_ambiente: mesma cor
+            new Vector3(-2, 0, -20),          // Ponto Ppl
+            new Vector3(1, 0, 0),             // Vetor normal n
+            materiais.MADEIRA_ENVELHECIDA
         );
+
         Plano teto = new Plano(
             new Vector3(0, 2, -20),           // Ponto Ppl
             new Vector3(0, -1.0, 0),          // Vetor normal n
-            1,               // Limites: xmin, xmax, ymin, ymax
-            new Vector3[]{
-                new Vector3(0.933, 0.933, 0.933), // k_difuso: mesma cor
-                new Vector3(0.933, 0.933, 0.933), // k_especular: cor branca
-                new Vector3(0.933, 0.933, 0.933)}  // k_ambiente: mesma cor
+            materiais.MADEIRA_ENVELHECIDA
         );
-                
-        /* um plano ai 
-       
-        Vector3 pontoPlano = new Vector3(0.0, -1, -16); // Ponto no plano
-        Vector3 normalPlano = new Vector3(0.0, 2, 1); // Normal para cima
-        Color rosa = new Color(255, (int)(255 * 0.5), (int)(255 * 0.7));
-        Plano plano = new Plano(pontoPlano, normalPlano, rosa, 1);
-        */
 
-        //planos.add(plano);
         planos.add(paredeEsquerda);
         planos.add(chao);
         planos.add(paredeFrontal);
@@ -135,17 +107,17 @@ public class Cena {
         
         return planos;
     }
-    public static ArrayList<Esfera> gerarEsferas(){
+    public ArrayList<Esfera> gerarEsferas(){
         ArrayList<Esfera> esferas = new ArrayList<>();
-        Vector3 vetor1 = new Vector3(0, 0, -10);
-        Vector3 vetor2 = new Vector3(0, 0, -15);
-        Vector3 vetor3 = new Vector3(2, 0, -15);
-        esferas.add(new Esfera(0.5, vetor1, new Color(255, 255, 255)));
-        esferas.add(new Esfera(1.0, vetor2, new Color(255, 0, 0)));
-        esferas.add(new Esfera(1.0, vetor3, new Color(122, 55, 50)));
 
+        // Criando esferas
+        esferas.add(new Esfera(0.5, new Vector3(0, 0, -10), materiais.OBSIDIANA));
+        esferas.add(new Esfera(1.0, new Vector3(0, 0, -15), materiais.MADEIRA));
+        esferas.add(new Esfera(1.0, new Vector3(2, 0, -15), materiais.VIDRO));
+        esferas.add(new Esfera(0.2, new Vector3(0, 1.2, -8), materiais.getMaterialAleatorio()));
         return esferas;
     }
+
     public ArrayList<Esfera> gerarEsferasAleatorias(int quantidade) {
         ArrayList<Esfera> esferas = new ArrayList<>();
 
@@ -159,12 +131,8 @@ public class Cena {
             double y = this.random.nextDouble() * 2 * limitePosicao - limitePosicao;
             double z = -10 - (5 * this.random.nextDouble());
 
-            int r = this.random.nextInt(256);  // Valor aleatório entre 0 e 255
-            int g = this.random.nextInt(256);  // Valor aleatório entre 0 e 255
-            int b = this.random.nextInt(256);  // Valor aleatório entre 0 e 255
-    
             // Criando a esfera com a posição e o material gerado
-            Esfera esfera = new Esfera(raioEsfera, new Vector3(x, y, z), new Color(r,g,b)); 
+            Esfera esfera = new Esfera(raioEsfera, new Vector3(x, y, z), materiais.getMaterialAleatorio()); 
 
             // Adicionando a esfera à lista
             esferas.add(esfera);
