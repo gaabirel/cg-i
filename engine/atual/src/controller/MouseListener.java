@@ -39,8 +39,8 @@ public class MouseListener extends MouseAdapter {
 
     // Função que cria o raio a partir das coordenadas do mouse
     private Ray criarRaio(int mouseX, int mouseY) {
-        double Dx = janela.getLargura() / 800;
-        double Dy = janela.getAltura() / 800;
+        double Dx = janela.getLargura() / janela.getNcol();
+        double Dy = janela.getAltura() / janela.getNlin();
         double y = janela.getAltura() / 2.0 - Dy / 2.0 - mouseY * Dy; // Posiçao do meio da altura do retangulo
         double x = -janela.getLargura() / 2.0 + Dx / 2.0 + mouseX * Dx;
         Vector3 direcaoRaio = new Vector3(x, y, -janela.getDistancia()).normalize();

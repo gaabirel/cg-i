@@ -155,7 +155,12 @@ public class Janela extends JFrame {
     public double getAltura(){
         return this.h;
     }
-
+    public int getNlin(){
+        return this.nLin;
+    }
+    public int getNcol(){
+        return this.nCol;
+    }
     private class RenderPanel extends JPanel {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);

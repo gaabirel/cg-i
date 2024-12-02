@@ -1,7 +1,7 @@
 package src.view;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 import src.model.interseccao.Intersectable;
 import src.model.materiais.MateriaisPadrao;
 import src.model.materiais.Material;
@@ -122,7 +122,7 @@ public class OpcaoJanela extends JDialog {
         Color novaCor = JColorChooser.showDialog(this, "Selecione uma cor", Color.WHITE);
         System.out.println(novaCor);
         if (novaCor != null) {
-            objeto.setCor(novaCor); // Assumindo que Intersectable tem um método setCor
+            objeto.setCor(novaCor); 
             parent.pintarCanvas();
             parent.repaint();
             JOptionPane.showMessageDialog(this, "Cor alterada com sucesso!");

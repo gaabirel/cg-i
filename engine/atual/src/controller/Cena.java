@@ -3,8 +3,8 @@ package src.controller;
 import java.util.ArrayList;
 import java.util.Random;
 import src.model.interseccao.*;
-import src.model.objetos.*;
 import src.model.materiais.*;
+import src.model.objetos.*;
 
 public class Cena {
     private ArrayList<Intersectable> objetosCena;
@@ -83,7 +83,7 @@ public class Cena {
 
         Plano paredeFrontal = new Plano(
             new Vector3(0, 0, -20),           // Ponto Ppl
-            new Vector3(0, 0, 1),            // Vetor normal n
+            new Vector3(0, 0, -1),            // Vetor normal n
             materiais.MADEIRA_ENVELHECIDA
         );
 
