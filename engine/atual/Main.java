@@ -1,13 +1,25 @@
+import src.config.Config;
 import src.controller.Cena;
-import src.view.*;
+import src.controller.MainController;
+import src.controller.Renderizador;
+import src.view.Janela;
 
 public class Main {
-    
     @SuppressWarnings("unused")
     public static void main(String[] args) {
         System.out.println("Programa inicializando...");
-        Cena cena = new Cena(); //inicializa os objetos da cena
-        Janela janela = new Janela(2.0, 2.0, 5.0, 1600, 1600, cena);
-    }
 
+        Cena cena = new Cena(); 
+        Renderizador renderizador = new Renderizador(
+            cena, 
+            Config.LARGURA_WINDOW, 
+            Config.ALTURA_WINDOW, 
+            Config.DISTANCIA_CAMERA, 
+            Config.LARGURA_JANELA, 
+            Config.ALTURA_JANELA
+        );
+
+        Janela janela = new Janela(Config.LARGURA_JANELA, Config.ALTURA_JANELA);
+        MainController mainController = new MainController(janela, renderizador);
+    }
 }

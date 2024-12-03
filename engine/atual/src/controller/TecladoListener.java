@@ -8,73 +8,37 @@ import src.model.interseccao.Intersectable;
 import src.model.interseccao.Vector3;
 import src.model.objetos.*;
 
-import src.view.Janela;
 
 
 
 public class TecladoListener extends KeyAdapter {
     private ArrayList<Intersectable> objetos;  // Objetos que serão movimentados
-    private Vector3 luzPos;           // Posição da luz
-    private Janela janela;
+    private MainController mainController;
+    private Renderizador renderizador;
 
     // Construtor para inicializar os objetos e a posição da luz
-    public TecladoListener(ArrayList<Intersectable> objetos, Vector3 luzPos, Janela janela) {
-        this.objetos = objetos;
-        this.luzPos = luzPos;
-        this.janela = janela;
+    public TecladoListener(MainController mainController) {
+        this.renderizador = mainController.getRenderizador();
+        this.objetos = renderizador.getObjetos();
+        this.mainController = mainController;
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        double deslocamentoLuz = 0.1;
         double deslocamento = 0.1; // Distância para mover a cada tecla
 
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                objetos.get(0).mover(0, deslocamento, 0);
-                break;
-            case KeyEvent.VK_DOWN:
-                objetos.get(0).mover(0, -deslocamento, 0);
-                break;
-            case KeyEvent.VK_LEFT:
-                objetos.get(0).mover(-deslocamento, 0, 0);
-                break;
-            case KeyEvent.VK_RIGHT:
-                objetos.get(0).mover(deslocamento, 0, 0);
-                break;
-            case KeyEvent.VK_W:
-                objetos.get(0).mover(0, 0, deslocamento);
-                break;
-            case KeyEvent.VK_S:
-                objetos.get(0).mover(0, 0, -deslocamento);
-                break;
-            case KeyEvent.VK_T:
-                luzPos.y += deslocamentoLuz;
-                break;
-            case KeyEvent.VK_G:
-                luzPos.y -= deslocamentoLuz;
-                break;
-            case KeyEvent.VK_H:
-                luzPos.x += deslocamentoLuz;
-                break;
-            case KeyEvent.VK_F:
-                luzPos.x -= deslocamentoLuz;
-                break;
-            case KeyEvent.VK_U:
-                luzPos.z -= deslocamentoLuz;
-                break;
-            case KeyEvent.VK_I:
-                luzPos.z += deslocamentoLuz;
-                break;
-            case KeyEvent.VK_N:
-                ((Cilindro) objetos.get(0)).alterarEixo(new Vector3(0, -0.1, 0));
-                break;
-            case KeyEvent.VK_M:
-                ((Cilindro) objetos.get(0)).alterarEixo(new Vector3(0, 0.1, 0));
-                break;
-        }
-        janela.pintarCanvas();
-        janela.repaint();
+            case KeyEvent.VK_UP -> objetos.get(0).mover(0, deslocamento, 0); 
+            case KeyEvent.VK_DOWN -> objetos.get(0).mover(0, -deslocamento, 0);
+            case KeyEvent.VK_LEFT -> objetos.get(0).mover(-deslocamento, 0, 0);
+            case KeyEvent.VK_RIGHT -> objetos.get(0).mover(deslocamento, 0, 0);
+            case KeyEvent.VK_W -> objetos.get(0).mover(0, 0, deslocamento);
+            case KeyEvent.VK_S -> objetos.get(0).mover(0, 0, -deslocamento);
+          
+            case KeyEvent.VK_N -> ((Cilindro) objetos.get(0)).alterarEixo(new Vector3(0, -0.1, 0));
+            case KeyEvent.VK_M -> ((Cilindro) objetos.get(0)).alterarEixo(new Vector3(0, 0.1, 0));
+        };
+        mainController.atualizarCena();
     }
 
 }

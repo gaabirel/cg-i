@@ -2,6 +2,8 @@ package src.view;
 
 import java.awt.*;
 import javax.swing.*;
+
+import src.controller.MainController;
 import src.model.interseccao.Intersectable;
 import src.model.materiais.MateriaisPadrao;
 import src.model.materiais.Material;
@@ -9,23 +11,27 @@ import src.model.materiais.Material;
 public class OpcaoJanela extends JDialog {
 
     private final MateriaisPadrao materiaisPadrao;
+    private MainController mainController;
+    Janela parent;
 
-    public OpcaoJanela(Janela parent, Intersectable objeto) {
+    public OpcaoJanela(Janela parent, Intersectable objeto, MainController mainController) {
         super(parent, "Opções do Objeto", true);
+        this.parent = parent;
         this.materiaisPadrao = new MateriaisPadrao();
-
-        configurarJanela(parent, objeto);
+        this.mainController = mainController;
+        configurarJanela( objeto);
         setLocationRelativeTo(parent); // Centraliza a janela em relação à janela pai
+        setVisible(true);
     }
 
     /**
      * Configura a janela principal.
      */
-    private void configurarJanela(Janela parent, Intersectable objeto) {
+    private void configurarJanela( Intersectable objeto) {
         setLayout(new BorderLayout());
           
         add(criarLabelInformativo(objeto), BorderLayout.NORTH);
-        add(criarPainelCentral(parent, objeto), BorderLayout.CENTER);
+        add(criarPainelCentral( objeto), BorderLayout.CENTER);
         add(criarBotaoCancelar(), BorderLayout.SOUTH);
         pack(); //Ajusta o tamanho da janela de acordo com o conteúdo
     }
@@ -42,16 +48,16 @@ public class OpcaoJanela extends JDialog {
     /**
      * Cria o painel central com as opções de materiais e alteração de cor.
      */
-    private JPanel criarPainelCentral(Janela parent, Intersectable objeto) {
+    private JPanel criarPainelCentral( Intersectable objeto) {
         JPanel painelCentral = new JPanel(new BorderLayout());
 
         //Botão para alterar material
         JButton alterarMaterial = new JButton("Alterar Material");
-        alterarMaterial.addActionListener(e -> alterarMaterialObjeto(parent, objeto));
+        alterarMaterial.addActionListener(e -> alterarMaterialObjeto( objeto));
 
         //Botão para alterar cor
         JButton alterarCor = new JButton("Alterar Cor");
-        alterarCor.addActionListener(e -> alterarCorObjeto(parent, objeto));
+        alterarCor.addActionListener(e -> alterarCorObjeto( objeto));
 
         //Adiciona os botões de alteração de material e cor no topo
         JPanel painelSuperior = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -66,7 +72,7 @@ public class OpcaoJanela extends JDialog {
     /**
      * Abre uma janela com as opções de materiais.
      */
-    private void alterarMaterialObjeto(Janela parent, Intersectable objeto) {
+    private void alterarMaterialObjeto( Intersectable objeto) {
         //Criando a janela de materiais
         JDialog materialDialog = new JDialog(this, "Escolher Material", true);
         materialDialog.setSize(400, 300);
@@ -78,7 +84,7 @@ public class OpcaoJanela extends JDialog {
     
         //Adiciona os botões de materiais à grade
         for (int i = 0; i < nomesMateriais.length; i++) {
-            gridPanel.add(criarBotaoMaterial(parent, objeto, materiais[i], nomesMateriais[i]));
+            gridPanel.add(criarBotaoMaterial( objeto, materiais[i], nomesMateriais[i]));
         }
     
         JScrollPane scrollPane = new JScrollPane(gridPanel);
@@ -99,32 +105,30 @@ public class OpcaoJanela extends JDialog {
     /**
      *Cria um botão para um material específico.
      */
-    private JButton criarBotaoMaterial(Janela parent, Intersectable objeto, Material material, String nomeMaterial) {
+    private JButton criarBotaoMaterial( Intersectable objeto, Material material, String nomeMaterial) {
         JButton botaoMaterial = new JButton(nomeMaterial);
-        botaoMaterial.addActionListener(e -> alterarMaterial(parent, objeto, material, nomeMaterial));
+        botaoMaterial.addActionListener(e -> alterarMaterial( objeto, material, nomeMaterial));
         return botaoMaterial;
     }
 
     /**
      *Altera o material do objeto e atualiza a janela principal.
      */
-    private void alterarMaterial(Janela parent, Intersectable objeto, Material material, String nomeMaterial) {
+    private void alterarMaterial( Intersectable objeto, Material material, String nomeMaterial) {
         objeto.setMaterial(material); //Aplica o material no objeto
-        parent.pintarCanvas(); //Atualiza a visualização no canvas
-        parent.repaint(); //Repaint para refletir as mudanças
+        mainController.atualizarCena();
         JOptionPane.showMessageDialog(this, "Material alterado para: " + nomeMaterial);
     }
 
     /**
      *Abre o seletor de cores para alterar a cor do objeto.
      */
-    private void alterarCorObjeto(Janela parent, Intersectable objeto) {
+    private void alterarCorObjeto( Intersectable objeto) {
         Color novaCor = JColorChooser.showDialog(this, "Selecione uma cor", Color.WHITE);
         System.out.println(novaCor);
         if (novaCor != null) {
             objeto.setCor(novaCor); 
-            parent.pintarCanvas();
-            parent.repaint();
+            mainController.atualizarCena();
             JOptionPane.showMessageDialog(this, "Cor alterada com sucesso!");
         }
     }
