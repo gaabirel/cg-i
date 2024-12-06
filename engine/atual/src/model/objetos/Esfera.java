@@ -40,19 +40,6 @@ public class Esfera extends Objeto3D implements Intersectable {
         return new Intersection(point, t);
     }
 
-    /**
-     *Calcula a menor raiz positiva da equação quadrática.
-     */
-    private double calcularMenorRaiz(double a, double b, double discriminant) {
-        double sqrtDiscriminant = Math.sqrt(discriminant);
-        a *= 2; // Otimização, evitando divisão repetida
-        double t1 = (-b + sqrtDiscriminant) / a;
-        double t2 = (-b - sqrtDiscriminant) / a;
-
-        if (t1 > 0 && (t2 <= 0 || t1 < t2)) return t1;
-        if (t2 > 0) return t2;
-        return Double.MAX_VALUE;
-    }
 
     /**
      *Calcula a normal da esfera em um ponto específico.
@@ -66,7 +53,7 @@ public class Esfera extends Objeto3D implements Intersectable {
      *Move a esfera ao longo de um vetor (dx, dy, dz).
      */
     @Override
-    public void mover(double dx, double dy, double dz) {
+    public void transladar(double dx, double dy, double dz) {
         this.center = this.center.add(new Vector3(dx, dy, dz));
     }
 
@@ -86,4 +73,8 @@ public class Esfera extends Objeto3D implements Intersectable {
     public void setCenter(Vector3 center) {
         this.center = center;
     }
+
+   
+
+ 
 }

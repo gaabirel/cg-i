@@ -130,7 +130,6 @@ public class Cilindro extends Objeto3D implements Intersectable {
     }
 
     @Override
-    public void mover(double dx, double dy, double dz) {
         // Movendo o cilindro alterando o centro da base
         this.centroBase = this.centroBase.add(new Vector3(dx, dy, dz));
     }

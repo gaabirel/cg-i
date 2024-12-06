@@ -59,8 +59,8 @@ public class Plano extends Objeto3D implements Intersectable  {
     }
 
     @Override
-    public void mover(double dx, double dy, double dz) {
-        this.Ppl = new Vector3(Ppl.x, Ppl.y, Ppl.z + dz);
+    public void transladar(double dx, double dy, double dz) {
+        Ppl.add(new Vector3(Ppl.getX() + dx, Ppl.getY() + dy, Ppl.getZ() + dz));
     }
 
 

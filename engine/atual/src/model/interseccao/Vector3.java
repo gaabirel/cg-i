@@ -1,14 +1,23 @@
 package src.model.interseccao;
 
 public class Vector3 {
-    public double x;
-    public double y;
-    public double z;
+    
+    private double[] values;
 
     public Vector3(double x, double y, double z){
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.values = new double[]{x, y, z};
+    }
+
+    public double getX(){
+        return this.values[0];
+    }
+
+    public double getY(){
+        return this.values[1];
+    }
+
+    public double getZ(){
+        return this.values[2];
     }
 
     //retorna o tamanho do vetor
@@ -16,52 +25,55 @@ public class Vector3 {
         return Math.sqrt(this.dot(this));
     }
 
-    //Subtrai outro vetor deste vetor
+    public Vector3 add(Vector3 other) {
+        return new Vector3(getX() + other.getX(), getY() + other.getY(), getZ() + other.getZ());
+    }
+
     public Vector3 subtract(Vector3 other) {
-        return new Vector3(this.x - other.x, this.y - other.y, this.z - other.z);
+        return new Vector3(getX() - other.getX(), getY() - other.getY(), getZ() - other.getZ());
     }
 
     //Produto escalar (dot product)
     public double dot(Vector3 other) {
-        return this.x * other.x + this.y * other.y + this.z * other.z;
+        return getX() * other.getX() + getY() * other.getY() + getZ() * other.getZ();
     }
 
     //Multiplica este vetor por um escalar
     public Vector3 multiply(double scalar) {
-        return new Vector3(this.x * scalar, this.y * scalar, this.z * scalar);
+        return new Vector3(getX() * scalar, getY() * scalar, getZ() * scalar);
     }
 
-    //Método para calcular a projeção de 'this' sobre 'outro'
-    public Vector3 projectOnto(Vector3 outro) {
-        //Calcula o produto escalar de 'this' e 'outro'
-        double dotProduct = this.dot(outro);
+    //Método para calcular a projeção de 'this' sobre 'other'
+    public Vector3 projectOnto(Vector3 other) {
+        //Calcula o produto escalar de 'this' e 'other'
+        double dotProduct = this.dot(other);
 
-        //Calcula o produto escalar de 'outro' consigo mesmo
-        double lengthSquared = outro.dot(outro);
+        //Calcula o produto escalar de 'other' consigo mesmo
+        double lengthSquared = other.dot(other);
 
         //Calcula a projeção
         double scalar = dotProduct / lengthSquared;
 
         //Retorna o vetor resultante da projeção
-        return new Vector3(outro.x * scalar, outro.y * scalar, outro.z * scalar);
+        return new Vector3(other.getX() * scalar, other.getY() * scalar, other.getZ() * scalar);
     }
 
     //Normaliza o vetor (torna seu comprimento igual a 1)
     public Vector3 normalize() {
         double length = this.length();
-        return new Vector3(this.x / length, this.y / length, this.z / length);
+        return new Vector3(getX() / length, getY() / length, getZ() / length);
         
     }
     //cross product
     public Vector3 cross(Vector3 other) {
-        double cx = this.y * other.z - this.z * other.y;
-        double cy = this.z * other.x - this.x * other.z;
-        double cz = this.x * other.y - this.y * other.x;
+        double cx = getY() * other.getZ() - getZ() * other.getY();
+        double cy = getZ() * other.getX() - getX() * other.getZ();
+        double cz = getX() * other.getY() - getY() * other.getX();
         return new Vector3(cx, cy, cz);
     }
     
     public Vector3 negate(){
-        return new Vector3(-this.x, -this.y, -this.z);
+        return new Vector3(-getX(), -getY(), -getZ());
     }
     public boolean saoParalelos(Vector3 U) {
         // Calcula o produto vetorial D x U
@@ -71,24 +83,21 @@ public class Vector3 {
         double tolerancia = 1e-6;
     
         // Verifica se o produto vetorial é próximo de (0, 0, 0)
-        return Math.abs(produtoVetorial.x) < tolerancia &&
-               Math.abs(produtoVetorial.y) < tolerancia &&
-               Math.abs(produtoVetorial.z) < tolerancia;
+        return Math.abs(produtoVetorial.getX()) < tolerancia &&
+               Math.abs(produtoVetorial.getY()) < tolerancia &&
+               Math.abs(produtoVetorial.getZ()) < tolerancia;
     }
-    //Adiciona outro vetor a este vetor
-    public Vector3 add(Vector3 other) {
-        return new Vector3(this.x + other.x, this.y + other.y, this.z + other.z);
-    }
+
     public Vector3 arroba(Vector3 other){
-        return new Vector3(this.x * other.x, this.y * other.y, this.z * other.z);
+        return new Vector3(getX() * other.getX(), getY() * other.getY(), getZ() * other.getZ());
     }
     public Boolean equals(Vector3 other){
-        if(other.x == this.x && other.y == this.y && other.z == this.z) return true;
+        if(other.getX() == getX() && other.getY() == getY() && other.getZ() == getZ()) return true;
         else return false;
     }
     @Override
     public String toString() {
-        return "(" + x + ", " + y + ", " + z + ")";
+        return "(" + getX() + ", " + getY() + ", " + getZ() + ")";
     }
 
 }

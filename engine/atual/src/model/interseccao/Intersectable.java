@@ -11,8 +11,9 @@ public interface Intersectable {
     Vector3 getKambiente();
     double getBrilho();
     Material getMaterial();
+    void transladar(double dx, double dy, double dz);
+    void rotacionar(double angulo, Vector3 axis);
     void setCor(Color cor);
     void setMaterial(Material material);
     Vector3 calcularNormal(Vector3 ponto);
-    void mover(double dx, double dy, double dz);
 }

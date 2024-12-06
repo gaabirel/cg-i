@@ -108,7 +108,7 @@ public class Cone extends Objeto3D implements Intersectable {
     }
 
     @Override
-    public void mover(double dx, double dy, double dz) {
+    public void transladar(double dx, double dy, double dz) {
         // Movendo o cilindro alterando o centro da base
         this.vertice = this.vertice.add(new Vector3(dx, dy, dz));
     }

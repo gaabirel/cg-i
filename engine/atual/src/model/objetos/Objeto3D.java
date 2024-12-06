@@ -63,6 +63,30 @@ public abstract class Objeto3D{
         this.material.setkEspecular(novoK);
     }
 
+    public static double calcularMenorRaiz(double a, double b, double discriminant) {
+        double sqrtDiscriminant = Math.sqrt(discriminant);
+        a *= 2; // Otimização, evitando divisão repetida
+        double t1 = (-b + sqrtDiscriminant) / a;
+        double t2 = (-b - sqrtDiscriminant) / a;
+
+        return menorValorPositivo(t1, t2);
+    }
+
+    public static double menorValorPositivo(double a, double b) {
+        // Verifica se ambos os valores são negativos ou zero e retorna Double.POSITIVE_INFINITY
+        if (a <= 0 && b <= 0) {
+            return Double.POSITIVE_INFINITY; // Nenhum valor positivo, retorna infinito positivo
+        }
+    
+        // Caso contrário, retorna o menor valor positivo
+        if (a > 0 && b > 0) {
+            return Math.min(a, b); // Ambos são positivos, retorna o menor
+        }
+    
+        // Caso um seja positivo e o outro negativo ou zero, retorna o valor positivo
+        return (a > 0) ? a : b;
+    }
+
      /**
      *Converte uma cor RGB para um vetor normalizado.
      */
@@ -74,4 +98,20 @@ public abstract class Objeto3D{
         );
     }
 
+    public void rotacionar(double d, Vector3 axis){
+       
+    }
+    /* Apenas o que deveria ser feito caso utilizasse gpu pela eficiência 
+    public void translate(double dx, double dy, double dz) {
+        double[][] translationMatrix = {
+                {1, 0, 0, dx},
+                {0, 1, 0, dy},
+                {0, 0, 1, dz},
+                {0, 0, 0, 1}
+        };
+        for(ponto : pontosObjeto){
+            ponto = pontos.multiply(translationMatrix);
+        }
+    }
+        */
 }

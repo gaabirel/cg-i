@@ -92,8 +92,8 @@ public class ProcessadorLuzSombra {
     }
 
     public void adicionarEnergia(Vector3 energia, int[] cor) {
-        cor[0] = Math.min(255, (int) (cor[0] + 255 * energia.x));  //Red
-        cor[1] = Math.min(255, (int) (cor[1] + 255 * energia.y));  //Green
-        cor[2] = Math.min(255, (int) (cor[2] + 255 * energia.z));  //Blue
+        cor[0] = Math.min(255, (int) (cor[0] + 255 * energia.getX()));  //Red
+        cor[1] = Math.min(255, (int) (cor[1] + 255 * energia.getY()));  //Green
+        cor[2] = Math.min(255, (int) (cor[2] + 255 * energia.getZ()));  //Blue
     }
 }
