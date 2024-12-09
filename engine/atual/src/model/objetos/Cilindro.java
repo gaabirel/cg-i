@@ -129,16 +129,18 @@ public class Cilindro extends Objeto3D implements Intersectable {
         return normalLateral;
     }
 
-    @Override
-        // Movendo o cilindro alterando o centro da base
-        this.centroBase = this.centroBase.add(new Vector3(dx, dy, dz));
-    }
     public void alterarEixo(Vector3 ajuste) {
         this.eixo =  this.eixo.add(ajuste).normalize();
     }
 
     public Vector3 getNormal() {
         return this.eixo;
+    }
+
+    @Override
+    public void transladar(double dx, double dy, double dz) {
+        // Movendo o cilindro alterando o centro da base
+        this.centroBase = this.centroBase.add(new Vector3(dx, dy, dz));
     }
 
 
