@@ -6,9 +6,16 @@ import src.model.interseccao.Vector3;
 import java.util.Random;
 
 public class MateriaisPadrao {
-
-    Random random = new Random();
     
+    private Random random = new Random();
+    private static MateriaisPadrao materiais = new MateriaisPadrao();
+
+    private  MateriaisPadrao(){} //singleton
+
+    public static MateriaisPadrao getInstance(){
+        return materiais;
+    }
+
     public Material getMaterialAleatorio() {
         Material[] materiais = getTodosMateriais();
         int indexAleatorio = random.nextInt(materiais.length); // Gera um índice aleatório

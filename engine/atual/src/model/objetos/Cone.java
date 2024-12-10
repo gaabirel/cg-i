@@ -79,12 +79,6 @@ public class Cone extends Objeto3D implements Intersectable {
         Vector3 vetorVerticeParaPonto = pontoIntersecao.subtract(vertice);
         double alturaProjetada = eixo.dot(vetorVerticeParaPonto);
 
-        // Verifica se está na base
-        if (alturaProjetada == altura) {
-            return eixo; // Normal da base
-        }
-
-        // Caso contrário, está na superfície lateral
         Vector3 pontoProjetadoNoEixo = vertice.add(eixo.multiply(alturaProjetada));
         Vector3 normal = pontoIntersecao.subtract(pontoProjetadoNoEixo);
         return normal.normalize();

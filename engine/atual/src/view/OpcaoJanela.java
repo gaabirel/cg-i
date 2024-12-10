@@ -17,7 +17,7 @@ public class OpcaoJanela extends JDialog {
     public OpcaoJanela(Janela parent, Intersectable objeto, MainController mainController) {
         super(parent, "Opções do Objeto", true);
         this.parent = parent;
-        this.materiaisPadrao = new MateriaisPadrao();
+        this.materiaisPadrao = MateriaisPadrao.getInstance();
         this.mainController = mainController;
         configurarJanela( objeto);
         setLocationRelativeTo(parent); // Centraliza a janela em relação à janela pai

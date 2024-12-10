@@ -74,6 +74,15 @@ public class Esfera extends Objeto3D implements Intersectable {
         this.center = center;
     }
 
+    @Override
+    public String toString() {
+        return "esfera {" +
+                "centro=" + this.center +
+                ", raio=" + this.radius +
+                ", material=" + this.material +
+                '}';
+    }
+
    
 
  

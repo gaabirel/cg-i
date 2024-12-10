@@ -143,5 +143,13 @@ public class Cilindro extends Objeto3D implements Intersectable {
         this.centroBase = this.centroBase.add(new Vector3(dx, dy, dz));
     }
 
+    @Override
+    public String toString() {
+        return "Cilindro {" +
+                "centroBase=" + this.centroBase +
+                ", raio=" + this.raio +
+                ", altura=" + this.altura +
+                '}';
+    }
 
 }
