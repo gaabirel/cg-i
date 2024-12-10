@@ -1,9 +1,10 @@
-package src.controller;
+package src.controller.renderizacao;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 
+import src.controller.cena.Cena;
 import src.model.interseccao.*;
 
 

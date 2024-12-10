@@ -1,7 +1,7 @@
 import src.config.Config;
-import src.controller.Cena;
 import src.controller.MainController;
-import src.controller.Renderizador;
+import src.controller.cena.Cena;
+import src.controller.renderizacao.Renderizador;
 import src.view.Janela;
 
 public class Main {

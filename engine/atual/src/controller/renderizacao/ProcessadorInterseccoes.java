@@ -1,4 +1,4 @@
-package src.controller;
+package src.controller.renderizacao;
 
 import java.awt.Color;
 import java.util.ArrayList;

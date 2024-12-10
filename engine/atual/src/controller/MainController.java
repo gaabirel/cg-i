@@ -2,6 +2,9 @@ package src.controller;
 
 import java.awt.image.BufferedImage;
 
+import src.controller.listeners.MouseListener;
+import src.controller.listeners.TecladoListener;
+import src.controller.renderizacao.Renderizador;
 import src.view.Janela;
 
 public class MainController {
