@@ -11,18 +11,12 @@ public class Esfera extends Objeto3D implements Intersectable {
     private double radius;    // Raio da esfera
     private Vector3 center;   // Centro da esfera
 
-    /**
-     *Construtor principal para a classe Esfera.
-     */
     public Esfera(double radius, Vector3 center, Material material) {
         this.radius = radius;
         this.center = center;
         setMaterial(material);
     }
 
-    /**
-     *Calcula a interseção de um raio com a esfera.
-     */
     @Override
     public Intersection intersect(Ray ray) {
         Vector3 oc = ray.origin.subtract(center);
@@ -41,17 +35,11 @@ public class Esfera extends Objeto3D implements Intersectable {
     }
 
 
-    /**
-     *Calcula a normal da esfera em um ponto específico.
-     */
     @Override
     public Vector3 calcularNormal(Vector3 ponto) {
         return ponto.subtract(center).normalize();
     }
 
-    /**
-     *Move a esfera ao longo de um vetor (dx, dy, dz).
-     */
     @Override
     public void transladar(double dx, double dy, double dz) {
         this.center = this.center.add(new Vector3(dx, dy, dz));

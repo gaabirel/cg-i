@@ -18,17 +18,16 @@ public class MateriaisPadrao {
 
     public Material getMaterialAleatorio() {
         Material[] materiais = getTodosMateriais();
-        int indexAleatorio = random.nextInt(materiais.length); // Gera um índice aleatório
+        int indexAleatorio = random.nextInt(materiais.length); //Gera um índice aleatório
         return materiais[indexAleatorio];
     }
 
-    // Função para retornar uma string com os nomes de todos os materiais
     public String[] getNomesMateriais() {
         Material[] materiais = getTodosMateriais();
         String[] nomes = new String[materiais.length];
         
         for (int i = 0; i < materiais.length; i++) {
-            nomes[i] = materiais[i].getNome(); // Supondo que Material possui um método getNome()
+            nomes[i] = materiais[i].getNome(); 
         }
         
         return nomes;

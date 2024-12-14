@@ -90,8 +90,8 @@ public class Cilindro extends Objeto3D implements Intersectable {
                 return interseccaoBase;
             }        }
 
-        // Verifica interseção com a tampa superior
-        if (d2 > 0) { // Garante que está na direção do raio
+        //verifica interseção com a tampa superior
+        if (d2 > 0) { //garante que está na direção do raio
             Vector3 Qp2 = D.multiply(d2).subtract(centroBase2);
             double teste2 = Qp2.dot(Qp2);
             if (teste2 < Math.pow(raio, 2)) {
@@ -100,7 +100,7 @@ public class Cilindro extends Objeto3D implements Intersectable {
                 return interseccaoTampa;
             }
         }
-        // Nenhuma interseção encontrada
+        //nenhuma intersecao encontrada
         return null;
             
     }
@@ -110,20 +110,18 @@ public class Cilindro extends Objeto3D implements Intersectable {
         Vector3 vetorCentroBaseParaPonto = pontoInterseccao.subtract(centroBase);
         double alturaProjetada = this.eixo.dot(vetorCentroBaseParaPonto);
 
-        // Define uma tolerância para comparação numérica
         double tolerancia = 1e-6;
 
-        // Verifica se está na base inferior
+        //verifica se está na base inferior
         if (alturaProjetada < tolerancia) {
-            return this.eixo.multiply(-1).normalize(); // Normal apontando para baixo
+            return this.eixo.multiply(-1).normalize(); //Normal apontando para baixo
         }
 
-        // Verifica se está na tampa superior
+        //Verifica se está na tampa superior
         if (Math.abs(alturaProjetada - altura) < tolerancia) {
-            return this.eixo.normalize(); // Normal apontando para cima
+            return this.eixo.normalize(); //Normal apontando para cima
         }
-
-        // Caso contrário, está na superfície lateral
+        //Caso contrario, esta na superficie lateral
         Vector3 pontoProjetadoNoEixo = centroBase.add(this.eixo.multiply(alturaProjetada));
         Vector3 normalLateral = pontoInterseccao.subtract(pontoProjetadoNoEixo).normalize();
         return normalLateral;
@@ -139,7 +137,6 @@ public class Cilindro extends Objeto3D implements Intersectable {
 
     @Override
     public void transladar(double dx, double dy, double dz) {
-        // Movendo o cilindro alterando o centro da base
         this.centroBase = this.centroBase.add(new Vector3(dx, dy, dz));
     }
 

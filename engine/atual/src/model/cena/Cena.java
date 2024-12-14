@@ -1,4 +1,4 @@
-package src.controller.cena;
+package src.model.cena;
 
 import java.util.ArrayList;
 import src.model.interseccao.*;

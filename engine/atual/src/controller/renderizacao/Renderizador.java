@@ -4,22 +4,22 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 
-import src.controller.cena.Cena;
+import src.model.cena.Cena;
 import src.model.interseccao.*;
 
 
 public class Renderizador{
 
-     private double w; // largura da janela
-    private double h; // altura da janela
-    private double d; // distância do olho do pintor até a janela
+     private double w;              // largura da janela
+    private double h;               // altura da janela
+    private double d;               // distância do olho do pintor até a janela
 
-    private int nCol; // número de colunas do canvas
-    private int nLin; // número de linhas do canvas
+    private int nCol;               // número de colunas do canvas
+    private int nLin;               // número de linhas do canvas
 
-    private BufferedImage canvas; // tela a ser pintada
-    private double Dx; // largura do retângulo
-    private double Dy; // altura do retângulo
+    private BufferedImage canvas;   // tela a ser pintada
+    private double Dx;              // largura do retângulo
+    private double Dy;              // altura do retângulo
 
     private ArrayList<Intersectable> objetos;
     private ArrayList<Light> luzes;
@@ -51,21 +51,27 @@ public class Renderizador{
         WritableRaster raster = canvas.getRaster();
         int[] pixelColor = new int[3]; // Vetor pra pegar as cores R G B
     
+        //pre calculo de variaveis
+        double half_H = h / 2;
+        double half_W = w / 2;
+        double half_Dy = Dy / 2;
+        double half_Dx = Dx / 2;
+        double sub_HalfH_HalfDy = half_H - half_Dy;
+        double sub_HalfW_HalfDx = half_Dx - half_W;
+        double dz = -this.d; // distancia da tela projetada pro olho do observador
 
         for (int l = 0; l < this.nLin; l++) {
-            double y = this.h / 2.0 - this.Dy / 2.0 - l * this.Dy; // Posiçao do meio da altura do retangulo
+            double y = sub_HalfH_HalfDy - l * this.Dy; 
             for (int c = 0; c < this.nCol; c++) {
-                double x = -this.w / 2.0 + this.Dx / 2.0 + c * this.Dx; // posiçao do meio da largura do retangulo
-                double dz = -this.d; // distancia da tela projetada pro olho do observador
+                double x = sub_HalfW_HalfDx + c * this.Dx; 
 
-                Vector3 direcaoRaio = new Vector3(x, y, dz); // direcao do raio na direcao do centro do retangulo
-                Ray raio = new Ray(this.origemRaio, direcaoRaio);
+                Vector3 direcaoRaio = new Vector3(x, y, dz);
 
                 // Convertendo a cor do resultado pra R G B
-                int color = processador.interseccionarObjetos(raio);
-                pixelColor[0] = (color >> 16) & 0xFF; // Red component
-                pixelColor[1] = (color >> 8) & 0xFF;  // Green component
-                pixelColor[2] = color & 0xFF;         // Blue component
+                int color = processador.interseccionarObjetos(new Ray(this.origemRaio, direcaoRaio));
+                pixelColor[0] = (color >> 16) & 0xFF; // Red 
+                pixelColor[1] = (color >> 8) & 0xFF;  // Green
+                pixelColor[2] = color & 0xFF;         // Blue 
 
                 //Setta o pixel no raster do canvas
                 raster.setPixel(c, l, pixelColor);

@@ -21,8 +21,8 @@ public class Cone extends Objeto3D implements Intersectable {
     }
 
     public Intersection intersect(Ray ray) {
-        Vector3 v = this.eixo.negate(); // Vetor do vértice para a base
-        double tan2Theta = Math.pow(raioBase / altura, 2); // Tangente ao quadrado do ângulo do cone
+        Vector3 v = this.eixo.negate(); //vetor do vertice para a base
+        double tan2Theta = Math.pow(raioBase / altura, 2); //tangente ao quadrado do ângulo do cone
 
         Vector3 deltaP = ray.origin.subtract(vertice);
         Vector3 d = ray.direction;
@@ -34,15 +34,15 @@ public class Cone extends Objeto3D implements Intersectable {
         double b = 2 * (vDotD * vDotDeltaP - d.dot(deltaP) * tan2Theta);
         double c = vDotDeltaP * vDotDeltaP - deltaP.dot(deltaP) * tan2Theta;
     
-        // Delta (discriminante) da equação quadrática
+        //delta (discriminante) da equação quadrática
         double discriminante = b * b - 4 * a * c;
     
         if (discriminante < 0) {
-            // Não há interseção
+            //nao ha interseção
             return null;
         }
     
-        // Calculando as duas raízes da equação quadrática
+        //calculando as duas raízes da equação quadrática
         double sqrtDelta = Math.sqrt(discriminante);
         double t1 = (-b - sqrtDelta) / (2 * a);
         double t2 = (-b + sqrtDelta) / (2 * a);
@@ -78,6 +78,7 @@ public class Cone extends Objeto3D implements Intersectable {
     public Vector3 calcularNormal(Vector3 pontoIntersecao) {
         Vector3 vetorVerticeParaPonto = pontoIntersecao.subtract(vertice);
         double alturaProjetada = eixo.dot(vetorVerticeParaPonto);
+
 
         Vector3 pontoProjetadoNoEixo = vertice.add(eixo.multiply(alturaProjetada));
         Vector3 normal = pontoIntersecao.subtract(pontoProjetadoNoEixo);

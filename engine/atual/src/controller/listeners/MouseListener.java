@@ -29,12 +29,12 @@ public class MouseListener extends MouseAdapter {
         pick(mouseX, mouseY);  // Chama a função pick quando o mouse é pressionado
     }
 
-    // Função pick para detectar qual objeto foi clicado
+    //Função pick para detectar qual objeto foi clicado
     public void pick(int mouseX, int mouseY) {
-        Ray raio = criarRaio(mouseX, mouseY);  // Cria o raio a partir do clique
-        Intersectable objeto = renderizador.processador.encontrarObjetoMaisProximo(raio);
+        Ray raio = criarRaio(mouseX, mouseY);  
+        Intersectable objeto = renderizador.processador.encontrarObjetoMaisProximo(raio).getObject();
         System.out.println("Objeto clicado: " + objeto);
-        if (objeto != null) {  // Verifica se o raio intersecta com o objeto
+        if (objeto != null) { 
             @SuppressWarnings("unused")
             OpcaoJanela opcaoJanela = new OpcaoJanela(janela, objeto, mainController);
         }
@@ -45,8 +45,8 @@ public class MouseListener extends MouseAdapter {
     private Ray criarRaio(int mouseX, int mouseY) {
         double Dx = renderizador.getLargura() / renderizador.getNcol();
         double Dy = renderizador.getAltura() / renderizador.getNlin();
-        double y = renderizador.getAltura() / 2.0 - Dy / 2.0 - mouseY * Dy; // Posiçao do meio da altura do retangulo
-        double x = -renderizador.getLargura() / 2.0 + Dx / 2.0 + mouseX * Dx;
+        double y = (renderizador.getAltura() / 2.0) - (Dy / 2.0) - mouseY * Dy; // Posiçao do meio da altura do retangulo
+        double x = (-renderizador.getLargura() / 2.0) + (Dx / 2.0) + mouseX * Dx;
         Vector3 direcaoRaio = new Vector3(x, y, -renderizador.getDistancia()).normalize();
         Vector3 origemRaio = new Vector3(0, 0, 0);  // Origem do raio (posição da câmera)
 

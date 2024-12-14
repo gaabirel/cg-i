@@ -12,14 +12,14 @@ public abstract class Objeto3D{
 
     public void setCor(Color cor) {
         // Extrair os componentes RGB da cor
-        float r = cor.getRed() / 255.0f; // Valor entre 0 e 1
-        float g = cor.getGreen() / 255.0f; // Valor entre 0 e 1
-        float b = cor.getBlue() / 255.0f; // Valor entre 0 e 1
+        float r = cor.getRed() / 255.0f;
+        float g = cor.getGreen() / 255.0f; 
+        float b = cor.getBlue() / 255.0f; 
 
-        Vector3 kAmbiente = new Vector3(r * 0.2f, g * 0.2f, b * 0.2f); // Ajuste para ambiente
-        Vector3 kDifuso = new Vector3(r * 0.7f, g * 0.7f, b * 0.7f); // Ajuste para difuso
+        Vector3 kAmbiente = new Vector3(r * 0.2f, g * 0.2f, b * 0.2f); //Ajuste para ambiente
+        Vector3 kDifuso = new Vector3(r * 0.7f, g * 0.7f, b * 0.7f); //Ajuste para difuso
         float max = Math.max(r, Math.max(g, b));
-        Vector3 kEspecular = new Vector3(max, max, max); // Ajuste para especular
+        Vector3 kEspecular = new Vector3(max, max, max); //Ajuste para especular
 
         Material novoMaterial = new Material(kDifuso, kEspecular, kAmbiente);
         this.material = novoMaterial;
@@ -65,7 +65,7 @@ public abstract class Objeto3D{
 
     public static double calcularMenorRaiz(double a, double b, double discriminant) {
         double sqrtDiscriminant = Math.sqrt(discriminant);
-        a *= 2; // Otimização, evitando divisão repetida
+        a *= 2;
         double t1 = (-b + sqrtDiscriminant) / a;
         double t2 = (-b - sqrtDiscriminant) / a;
 
@@ -73,23 +73,17 @@ public abstract class Objeto3D{
     }
 
     public static double menorValorPositivo(double a, double b) {
-        // Verifica se ambos os valores são negativos ou zero e retorna Double.POSITIVE_INFINITY
         if (a <= 0 && b <= 0) {
-            return Double.POSITIVE_INFINITY; // Nenhum valor positivo, retorna infinito positivo
+            return Double.POSITIVE_INFINITY; 
         }
-    
-        // Caso contrário, retorna o menor valor positivo
+
         if (a > 0 && b > 0) {
-            return Math.min(a, b); // Ambos são positivos, retorna o menor
+            return Math.min(a, b);
         }
     
-        // Caso um seja positivo e o outro negativo ou zero, retorna o valor positivo
         return (a > 0) ? a : b;
     }
 
-     /**
-     *Converte uma cor RGB para um vetor normalizado.
-     */
     public Vector3 colorToVector(Color color) {
         return new Vector3(
             color.getRed() / 255.0,
