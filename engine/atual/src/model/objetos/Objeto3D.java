@@ -73,15 +73,16 @@ public abstract class Objeto3D{
     }
 
     public static double menorValorPositivo(double a, double b) {
-        if (a <= 0 && b <= 0) {
+        double tolerancia = 1e-6;
+        if (a <=  tolerancia && b <=  tolerancia) {
             return Double.POSITIVE_INFINITY; 
         }
 
-        if (a > 0 && b > 0) {
+        if (a >  tolerancia && b >  tolerancia) {
             return Math.min(a, b);
         }
     
-        return (a > 0) ? a : b;
+        return (a >  tolerancia) ? a : b;
     }
 
     public Vector3 colorToVector(Color color) {

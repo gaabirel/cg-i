@@ -68,16 +68,16 @@ public class ProcessadorInterseccoes {
         
         Vector3 vetorVisao = raio.direction.negate();                                   // Vetor de visão (V)
         Vector3 vetorNormal = objeto.calcularNormal(pontoIntersecao);                   // Vetor normal (N)
-        Vector3 pontoDeslocado = pontoIntersecao.add(vetorNormal.multiply(EPSILON));    // Evitar auto-interseção
+        Vector3 shadowRayOrigin = pontoIntersecao.add(vetorNormal.multiply(EPSILON));    // Evitar auto-interseção
     
         externo:
         for (Light luz : luzes) {
 
-            Vector3 direcaoLuz = luz.calcularDirecaoLuz(pontoIntersecao); // possivel recalculo do sqrt aqui em
+            Vector3 lightDirection = luz.calcularDirecaoLuz(pontoIntersecao); // possivel recalculo do sqrt aqui em
+            double distanciaAteLuz = lightDirection.length();
+            lightDirection = lightDirection.normalize();
             
-            double comprimentoLuz = direcaoLuz.length();
-        
-            Ray raioDaSombra = new Ray(pontoDeslocado, direcaoLuz);
+            Ray raioDaSombra = new Ray(shadowRayOrigin, lightDirection);
             for (Intersectable objetoSombra : objetos) {
                 if (objetoSombra == objeto) {
                     continue; //Ignorar o proprio objeto
@@ -85,11 +85,11 @@ public class ProcessadorInterseccoes {
                 Intersection interseccaoSombra = objetoSombra.intersect(raioDaSombra);
                 if (interseccaoSombra != null 
                     && interseccaoSombra.distance > EPSILON
-                    && interseccaoSombra.distance < comprimentoLuz) {
+                    && interseccaoSombra.distance < distanciaAteLuz) {
                     break externo; //Objeto está na sombra
                 }
             }
-            energiaLuz = energiaLuz.add(ContribuicoesDeLuz(luz, objeto, vetorNormal, vetorVisao, direcaoLuz, comprimentoLuz, corPintar, energiaLuz));
+            energiaLuz = energiaLuz.add(ContribuicoesDeLuz(luz, objeto, vetorNormal, vetorVisao, lightDirection, distanciaAteLuz, corPintar, energiaLuz));
             }
 
         corPintar[0] = Math.min(255, (int) (corPintar[0] + 255 * energiaLuz.getX()));  //Red

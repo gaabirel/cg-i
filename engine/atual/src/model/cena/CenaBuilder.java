@@ -47,9 +47,9 @@ public class CenaBuilder {
         ArrayList<Plano> planos = new ArrayList<>();
 
         planos.add(new Plano(new Vector3(0, -1, -20), new Vector3(0, 1, 0), materiais.MADEIRA_ENVELHECIDA));
-        planos.add(new Plano(new Vector3(2, 0, -20), new Vector3(-1.0, 0, 0), materiais.MADEIRA_ENVELHECIDA));
-        planos.add(new Plano(new Vector3(0, 0, -20), new Vector3(0, 0, -1), materiais.MADEIRA_ENVELHECIDA));
-        planos.add(new Plano(new Vector3(-2, 0, -20), new Vector3(1, 0, 0), materiais.MADEIRA_ENVELHECIDA));
+        //planos.add(new Plano(new Vector3(2, 0, -20), new Vector3(-1.0, 0, 0), materiais.MADEIRA_ENVELHECIDA));
+        //planos.add(new Plano(new Vector3(0, 0, -20), new Vector3(0, 0, -1), materiais.MADEIRA_ENVELHECIDA));
+        //planos.add(new Plano(new Vector3(-2, 0, -20), new Vector3(1, 0, 0), materiais.MADEIRA_ENVELHECIDA));
         planos.add(new Plano(new Vector3(0, 2, -20), new Vector3(0, -1.0, 0), materiais.MADEIRA_ENVELHECIDA));
 
         return planos;

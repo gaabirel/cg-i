@@ -25,6 +25,11 @@ public class Cilindro extends Objeto3D implements Intersectable {
 
     @Override
     public Intersection intersect(Ray ray) {
+
+        double valoresT[] = new double[4];
+        boolean t1Valid, t2Valid;
+        Intersection[] interseccoes = new Intersection[4];
+
         // Vetores de origem e direção do raio
         Vector3 O = ray.origin;  // Ponto de origem do raio
         Vector3 D = ray.direction;  // Direção do raio
@@ -50,30 +55,44 @@ public class Cilindro extends Objeto3D implements Intersectable {
         double delta_sqr = Math.sqrt(delta);
         double Ax2 = 2 * A;
         // Calculando os valores de t para a interseção
-        double t1 = (-B - delta_sqr) / Ax2;
-        double t2 = (-B + delta_sqr) / Ax2;
-        
-        //se ambos forem menor que 0 nao possui interseccao, pois esta atras do olho do pintor
-        //double t = Math.min(t1 > 0 ? t1 : Double.POSITIVE_INFINITY, t2 > 0 ? t2 : Double.POSITIVE_INFINITY);
-        //if(t == Double.POSITIVE_INFINITY) return null;
-        double t = Math.min(t1, t2);
-        Vector3 pontoInterseccao = ray.getPoint(t);
-        
-        // Calculando a projeção dos pontos sobre o this.eixo do cilindro
-        double distanciaNothisEixo1 = (pontoInterseccao.subtract(centroBase)).dot(this.eixo);
-        // Verifica se o primEiro ponto está dentro da altura do cilindro
-        if (((distanciaNothisEixo1 >= 0) && (distanciaNothisEixo1 <= altura))) {
-            return new Intersection(pontoInterseccao, t);
+        valoresT[0] = (-B - delta_sqr) / Ax2;
+        valoresT[1] = (-B + delta_sqr) / Ax2;
+  
+        Vector3 pontoInterseccao = ray.getPoint(valoresT[0]);
+        interseccoes[0] = new Intersection(pontoInterseccao, valoresT[0]);
+
+        Vector3 pontoInterseccao2 = ray.getPoint(valoresT[1]);
+        interseccoes[1] = new Intersection(pontoInterseccao2, valoresT[1]);
+
+        double distanciaNoeixo = (pontoInterseccao.subtract(centroBase)).dot(eixo);
+        if (valoresT[0] > 0 && ((distanciaNoeixo >= 0) && (Math.abs(distanciaNoeixo) < altura))) {
+            t1Valid = true;
+        }
+        else{
+            t1Valid = false;
         }
 
-        /* Verifica se o segundo ponto está dentro da altura do cilindro
-        double distanciaNothis.eixo2 = (pontoInterseccao.subtract(centroBase)).dot(this.eixo);
-         pra caso nao tenha tampa
-        if (((distanciaNothis.eixo2 >= 0) && (distanciaNothis.eixo2 <= altura))) {
-            return new Intersection(pontoInterseccao, t2);
+        double distanciaNoeixo2 = (pontoInterseccao2.subtract(centroBase)).dot(eixo);
+        if (valoresT[1] > 0 && ((distanciaNoeixo2 >= 0) && (Math.abs(distanciaNoeixo2) < altura))) {
+            t2Valid = true;
         }
-            */
+        else{
+            t2Valid = false;
+        }
+        
+        if (t1Valid && t2Valid) {
+            if (valoresT[0] < valoresT[1]) {
+                return interseccoes[0];
+            } else {
+                return interseccoes[1];
+            }
+        } else if (t1Valid) {
+            return interseccoes[0];
+        } else if (t2Valid) {
+            return interseccoes[1];
+        }
 
+        /* 
         Vector3 centroBase2 = centroBase.add(this.eixo.multiply(altura));  // base do topo do cilindro
         double dem = (this.eixo.dot(D));                                   //denominador dos calculos
 
@@ -83,18 +102,18 @@ public class Cilindro extends Objeto3D implements Intersectable {
         Intersection interseccaoTampa = null;
 
         // Verifica interseção com a base inferior
-        if (d < d2 && d > 0) { // Garante que está na direção do raio
+        if (d < d2 && d > 0) {
             Vector3 Qp1 = D.multiply(d).subtract(centroBase);
             double teste1 = Qp1.dot(Qp1);
             if (teste1 < squareRadius) {
-                //.multiply(d).subtract(centroBase)
                 Vector3 pontoInterseccaoBase = D.multiply(d).subtract(centroBase);
                 interseccaoBase = new Intersection(pontoInterseccaoBase, d);
                 return interseccaoBase;
-            }        }
+            }        
+        }
 
         //verifica interseção com a tampa superior
-        if (d2 > 0) { //garante que está na direção do raio
+        if (d2 > 0) { 
             Vector3 Qp2 = D.multiply(d2).subtract(centroBase2);
             double teste2 = Qp2.dot(Qp2);
             if (teste2 < squareRadius) {
@@ -104,6 +123,7 @@ public class Cilindro extends Objeto3D implements Intersectable {
             }
         }
         //nenhuma intersecao encontrada
+        */
         return null;
             
     }

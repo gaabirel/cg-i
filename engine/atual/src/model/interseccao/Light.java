@@ -28,6 +28,6 @@ public class Light {
     }
 
     public Vector3 calcularDirecaoLuz(Vector3 pontoIntersecao) {
-        return this.posicao.subtract(pontoIntersecao).normalize();
+        return this.posicao.subtract(pontoIntersecao);
     }
 }

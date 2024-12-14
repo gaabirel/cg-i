@@ -17,6 +17,12 @@ public class Ray {
     public void setDirection(Vector3 newDirection) {
         this.direction = newDirection.normalize();
     }
+    public Vector3 getOrigin() {
+        return origin;
+    }
+    public Vector3 getDirection() {
+        return direction;
+    }
     @Override
     public String toString() {
         return "Ray [origin=" + origin + ", direction=" + direction + "]";
