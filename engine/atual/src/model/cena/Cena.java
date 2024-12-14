@@ -15,11 +15,11 @@ public class Cena {
         luzes = cenaBuilder.criarLuzesPadrao();
 
         objetosCena.addAll(cenaBuilder.criarCilindrosPadrao());
-        objetosCena.addAll(cenaBuilder.criarConesPadrao()); 
-        objetosCena.addAll(cenaBuilder.criarTriangulosPadrao());
-        objetosCena.addAll(cenaBuilder.criarPlanosPadrao());
+        //objetosCena.addAll(cenaBuilder.criarConesPadrao()); 
+        //objetosCena.addAll(cenaBuilder.criarTriangulosPadrao());
+        //objetosCena.addAll(cenaBuilder.criarPlanosPadrao());
         objetosCena.addAll(cenaBuilder.criarEsferasPadrao());
-        objetosCena.addAll(cenaBuilder.criarEsferasAleatorias(1));
+        //objetosCena.addAll(cenaBuilder.criarEsferasAleatorias(1));
     }
 
     public ArrayList<Light> getLuzes(){

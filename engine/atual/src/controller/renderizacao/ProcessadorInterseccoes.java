@@ -70,8 +70,11 @@ public class ProcessadorInterseccoes {
         Vector3 vetorNormal = objeto.calcularNormal(pontoIntersecao);                   // Vetor normal (N)
         Vector3 pontoDeslocado = pontoIntersecao.add(vetorNormal.multiply(EPSILON));    // Evitar auto-interseção
     
+        externo:
         for (Light luz : luzes) {
-            Vector3 direcaoLuz = luz.calcularDirecaoLuz(pontoIntersecao);
+
+            Vector3 direcaoLuz = luz.calcularDirecaoLuz(pontoIntersecao); // possivel recalculo do sqrt aqui em
+            
             double comprimentoLuz = direcaoLuz.length();
         
             Ray raioDaSombra = new Ray(pontoDeslocado, direcaoLuz);
@@ -83,7 +86,7 @@ public class ProcessadorInterseccoes {
                 if (interseccaoSombra != null 
                     && interseccaoSombra.distance > EPSILON
                     && interseccaoSombra.distance < comprimentoLuz) {
-                    continue; //Objeto está na sombra
+                    break externo; //Objeto está na sombra
                 }
             }
             energiaLuz = energiaLuz.add(ContribuicoesDeLuz(luz, objeto, vetorNormal, vetorVisao, direcaoLuz, comprimentoLuz, corPintar, energiaLuz));
@@ -103,7 +106,8 @@ public class ProcessadorInterseccoes {
         
         Vector3 energiaDifusa = luz.getIntensidade().arroba(objeto.getKdifuso()).multiply(produtoEscalarNL);
         Vector3 energiaEspecular = luz.getIntensidade().arroba(objeto.getKespecular()).multiply(Math.pow(produtoEscalarRV, objeto.getBrilho()));
-        double fatorAtenuacao = 1 / (1 + 0.1 * comprimentoLuz + 0.001 * comprimentoLuz * comprimentoLuz);
+        double fatorAtenuacao = 1 / (1 + 0.1 * comprimentoLuz + 0.001);
+        //double fatorAtenuacao = 1 / (1 + 0.1 * comprimentoLuz + 0.001 * comprimentoLuz * comprimentoLuz);
 
         return (energiaDifusa.add(energiaEspecular)).multiply(fatorAtenuacao);      
     }

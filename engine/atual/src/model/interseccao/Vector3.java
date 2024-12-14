@@ -19,7 +19,12 @@ public class Vector3 {
     public double getZ(){
         return this.values[2];
     }
-
+    
+    public Vector3 normalize() {
+        double length = this.length();
+        return new Vector3(getX() / length, getY() / length, getZ() / length);
+        
+    }
     public double length() {
         return Math.sqrt(this.dot(this));
     }
@@ -40,11 +45,6 @@ public class Vector3 {
         return new Vector3(getX() * scalar, getY() * scalar, getZ() * scalar);
     }
 
-    public Vector3 normalize() {
-        double length = this.length();
-        return new Vector3(getX() / length, getY() / length, getZ() / length);
-        
-    }
 
     public Vector3 cross(Vector3 other) {
         double cx = getY() * other.getZ() - getZ() * other.getY();

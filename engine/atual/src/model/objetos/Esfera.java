@@ -10,10 +10,12 @@ public class Esfera extends Objeto3D implements Intersectable {
 
     private double radius;    // Raio da esfera
     private Vector3 center;   // Centro da esfera
+    private double squareRadius; // Raio ao quadrado
 
     public Esfera(double radius, Vector3 center, Material material) {
         this.radius = radius;
         this.center = center;
+        this.squareRadius = radius * radius;
         setMaterial(material);
     }
 
@@ -22,7 +24,7 @@ public class Esfera extends Objeto3D implements Intersectable {
         Vector3 oc = ray.origin.subtract(center);
         double a = ray.direction.dot(ray.direction);
         double b = 2.0 * oc.dot(ray.direction);
-        double c = oc.dot(oc) - radius * radius;
+        double c = oc.dot(oc) - squareRadius;
         double discriminant = b * b - 4 * a * c;
 
         if (discriminant < 0) return null; //Sem interseção

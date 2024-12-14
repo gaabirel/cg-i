@@ -11,6 +11,7 @@ public class Cilindro extends Objeto3D implements Intersectable {
     private Vector3 centroBase;    // Ponto central da base do cilindro
     private double altura;         // Altura do cilindro
     private Vector3 eixo;        // Vetor unitário que define o eixo do cilindro
+    private double squareRadius;
 
     public Cilindro(Vector3 centroBase, double raio, double altura,
                     Vector3 eixo, Material material) {
@@ -19,6 +20,7 @@ public class Cilindro extends Objeto3D implements Intersectable {
         this.altura = altura;
         setMaterial(material);
         this.eixo = eixo.normalize();
+        this.squareRadius = raio * raio;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class Cilindro extends Objeto3D implements Intersectable {
         // Definição dos vetores conforme as equações
         double A = W.dot(W);  // Coeficiente A
         double B = 2*(V.dot(W));  // Coeficiente B
-        double C = V.dot(V) - Math.pow(raio, 2);  // Coeficiente C
+        double C = V.dot(V) - squareRadius;  // Coeficiente C
 
         
         // Calculando o discriminante
@@ -45,10 +47,11 @@ public class Cilindro extends Objeto3D implements Intersectable {
         if (delta < 0) {
             return null; // Não há interseção
         }
-
+        double delta_sqr = Math.sqrt(delta);
+        double Ax2 = 2 * A;
         // Calculando os valores de t para a interseção
-        double t1 = (-B - Math.sqrt(delta)) / (2 * A);
-        double t2 = (-B + Math.sqrt(delta)) / (2 * A);
+        double t1 = (-B - delta_sqr) / Ax2;
+        double t2 = (-B + delta_sqr) / Ax2;
         
         //se ambos forem menor que 0 nao possui interseccao, pois esta atras do olho do pintor
         //double t = Math.min(t1 > 0 ? t1 : Double.POSITIVE_INFINITY, t2 > 0 ? t2 : Double.POSITIVE_INFINITY);
@@ -83,7 +86,7 @@ public class Cilindro extends Objeto3D implements Intersectable {
         if (d < d2 && d > 0) { // Garante que está na direção do raio
             Vector3 Qp1 = D.multiply(d).subtract(centroBase);
             double teste1 = Qp1.dot(Qp1);
-            if (teste1 < Math.pow(raio, 2)) {
+            if (teste1 < squareRadius) {
                 //.multiply(d).subtract(centroBase)
                 Vector3 pontoInterseccaoBase = D.multiply(d).subtract(centroBase);
                 interseccaoBase = new Intersection(pontoInterseccaoBase, d);
@@ -94,7 +97,7 @@ public class Cilindro extends Objeto3D implements Intersectable {
         if (d2 > 0) { //garante que está na direção do raio
             Vector3 Qp2 = D.multiply(d2).subtract(centroBase2);
             double teste2 = Qp2.dot(Qp2);
-            if (teste2 < Math.pow(raio, 2)) {
+            if (teste2 < squareRadius) {
                 Vector3 pontoInterseccaoTampa = D.multiply(d2).subtract(centroBase);
                 interseccaoTampa = new Intersection(pontoInterseccaoTampa, d2);
                 return interseccaoTampa;
