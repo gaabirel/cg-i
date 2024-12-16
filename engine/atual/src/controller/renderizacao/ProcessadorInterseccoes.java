@@ -74,9 +74,9 @@ public class ProcessadorInterseccoes {
         externo:
         for (Light luz : luzes) {
 
-            Vector3 lightDirection = luz.calcularDirecaoLuz(pontoIntersecao); // possivel recalculo do sqrt aqui em
+            Vector3 lightDirection = luz.calcularDirecaoLuz(pontoIntersecao); 
             double distanciaAteLuz = lightDirection.length();
-            lightDirection = lightDirection.normalize();
+            lightDirection = lightDirection.multiply(1/distanciaAteLuz);
             
             Ray raioDaSombra = new Ray(shadowRayOrigin, lightDirection);
             for (Intersectable objetoSombra : objetos) {
