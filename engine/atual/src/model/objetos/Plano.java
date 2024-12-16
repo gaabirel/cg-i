@@ -6,6 +6,7 @@ import src.model.interseccao.Intersection;
 import src.model.interseccao.Ray;
 import src.model.interseccao.Vector3;
 import src.model.materiais.Material;
+import src.config.Config;
 
 public class Plano extends Objeto3D implements Intersectable  {
 
@@ -18,11 +19,8 @@ public class Plano extends Objeto3D implements Intersectable  {
 
     public Plano(Vector3 Ppl, Vector3 N, Color colorDifuso) {
         this.Ppl = Ppl;
-        this.N = N.normalize(); //normalizamos para garantir que a normal seja unitária
-
-
+        this.N = N.normalize();
        setMaterial(new Material(colorToVector(colorDifuso), DEFAULT_K_ESPECULAR, DEFAULT_K_AMBIENTE));
-
     }
 
     public Plano(Vector3 Ppl, Vector3 N, Material material){
@@ -32,25 +30,16 @@ public class Plano extends Objeto3D implements Intersectable  {
 
     @Override
     public Intersection intersect(Ray ray) {
-        // Cálculo da interseção com o plano
-        double t = this.calcularInterseccao(ray); //sem interseccao ou plano atras do pintor
-        if ((t == Double.POSITIVE_INFINITY) || t <= 0){
-            return null;
-        }
-        //Ponto de interseção
-        Vector3 pontoInterseccao = ray.origin.add(ray.direction.multiply(t));
-
-        return new Intersection(pontoInterseccao, t);
-        
-    }
-    public double calcularInterseccao(Ray ray) {
         double denom = N.dot(ray.direction);
-        if (denom == 0) {
-            return Double.POSITIVE_INFINITY; //Não há interseção
+        if (Math.abs(denom) > 1e-6) { // Verifica se o raio não é paralelo ao plano
+            Vector3 p0l0 = Ppl.subtract(ray.origin);
+            double t = p0l0.dot(N) / denom;
+            if (t >= 1e-5) { // Usamos epsilon para evitar interseções muito próximas
+                Vector3 pontoInterseccao = ray.getPoint(t);
+                return new Intersection(pontoInterseccao, t);
+            }
         }
-
-        double t = N.dot(Ppl.subtract(ray.origin)) / denom;
-        return t;
+        return null; // Não há interseção 
     }
 
     @Override

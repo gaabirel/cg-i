@@ -21,7 +21,7 @@ public class CenaBuilder {
         esferas.add(new Esfera(0.5, new Vector3(0, 0, -10), materiais.OBSIDIANA));
         esferas.add(new Esfera(1.0, new Vector3(0, 0, -15), materiais.MADEIRA));
         esferas.add(new Esfera(1.0, new Vector3(2, 0, -15), materiais.VIDRO));
-        esferas.add(new Esfera(0.2, new Vector3(0, 1.2, -8), materiais.getMaterialAleatorio()));
+        //esferas.add(new Esfera(0.2, new Vector3(0, 1.2, -8), materiais.getMaterialAleatorio()));
 
         return esferas;
     }
@@ -46,11 +46,11 @@ public class CenaBuilder {
     public ArrayList<Plano> criarPlanosPadrao() {
         ArrayList<Plano> planos = new ArrayList<>();
 
-        planos.add(new Plano(new Vector3(0, -1, -20), new Vector3(0, 1, 0), materiais.MADEIRA_ENVELHECIDA));
-        //planos.add(new Plano(new Vector3(2, 0, -20), new Vector3(-1.0, 0, 0), materiais.MADEIRA_ENVELHECIDA));
-        //planos.add(new Plano(new Vector3(0, 0, -20), new Vector3(0, 0, -1), materiais.MADEIRA_ENVELHECIDA));
-        //planos.add(new Plano(new Vector3(-2, 0, -20), new Vector3(1, 0, 0), materiais.MADEIRA_ENVELHECIDA));
-        planos.add(new Plano(new Vector3(0, 2, -20), new Vector3(0, -1.0, 0), materiais.MADEIRA_ENVELHECIDA));
+        planos.add(new Plano(new Vector3(0, -1, 0), new Vector3(0, 1.0, 0), materiais.MADEIRA_ENVELHECIDA));
+        planos.add(new Plano(new Vector3(2, 0, 0), new Vector3(-1, 0, 0), materiais.METALICO));
+        planos.add(new Plano(new Vector3(0, 0, -20), new Vector3(0, 0, 1), materiais.MADEIRA_ENVELHECIDA));
+        planos.add(new Plano(new Vector3(-2, 0, 0),  new Vector3(1, 0, 0), materiais.METALICO));
+        planos.add(new Plano(new Vector3(0, 2, 0), new Vector3(0, -1, 0), materiais.MADEIRA_ENVELHECIDA));
 
         return planos;
     }
@@ -73,7 +73,7 @@ public class CenaBuilder {
         ArrayList<Light> luzes = new ArrayList<>();
         Vector3 intensidade = new Vector3(0.8, 0.8, 0.8);
 
-        luzes.add(new Light(new Vector3(0, 2, -8), intensidade));
+        luzes.add(new Light(new Vector3(0, 1.8, -6), intensidade));
 
         return luzes;
     }

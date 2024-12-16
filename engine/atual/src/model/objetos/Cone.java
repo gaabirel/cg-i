@@ -44,8 +44,9 @@ public class Cone extends Objeto3D implements Intersectable {
     
         //calculando as duas raízes da equação quadrática
         double sqrtDelta = Math.sqrt(discriminante);
-        double t1 = (-b - sqrtDelta) / (2 * a);
-        double t2 = (-b + sqrtDelta) / (2 * a);
+        double A2 = 2 * a;
+        double t1 = (-b - sqrtDelta) / (A2);
+        double t2 = (-b + sqrtDelta) / (A2);
     
         // Se t1 ou t2 for negativo, isso significa que a interseção está atrás da origem do raio.
         // Podemos ignorar esses casos.

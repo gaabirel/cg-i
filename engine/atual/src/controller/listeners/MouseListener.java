@@ -45,6 +45,7 @@ public class MouseListener extends MouseAdapter {
     private Ray criarRaio(int mouseX, int mouseY) {
         double Dx = renderizador.getLargura() / renderizador.getNcol();
         double Dy = renderizador.getAltura() / renderizador.getNlin();
+        
         double y = (renderizador.getAltura() / 2.0) - (Dy / 2.0) - mouseY * Dy; // Posiçao do meio da altura do retangulo
         double x = (-renderizador.getLargura() / 2.0) + (Dx / 2.0) + mouseX * Dx;
         Vector3 direcaoRaio = new Vector3(x, y, -renderizador.getDistancia()).normalize();

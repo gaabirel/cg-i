@@ -3,6 +3,7 @@ package src.controller.renderizacao;
 import java.awt.Color;
 import java.util.ArrayList;
 import src.model.interseccao.*;
+import src.config.Config;
 
 public class ProcessadorInterseccoes {
 
@@ -11,7 +12,7 @@ public class ProcessadorInterseccoes {
     private final ArrayList<Light> luzes;
     private Vector3 energiaLuz;   //Energia da luz final
     private Vector3 intensidadeAmbiente;
-    final double EPSILON = 1e-5; // Valor pequeno para evitar auto-interseção
+
     //Construtor
     public ProcessadorInterseccoes(ArrayList<Intersectable> objetos, ArrayList<Light> luzes) {
         this.bgColor = new Color(100, 100, 100); // Cor de fundo (cinza)
@@ -68,7 +69,7 @@ public class ProcessadorInterseccoes {
         
         Vector3 vetorVisao = raio.direction.negate();                                   // Vetor de visão (V)
         Vector3 vetorNormal = objeto.calcularNormal(pontoIntersecao);                   // Vetor normal (N)
-        Vector3 shadowRayOrigin = pontoIntersecao.add(vetorNormal.multiply(EPSILON));    // Evitar auto-interseção
+        Vector3 shadowRayOrigin = pontoIntersecao.add(vetorNormal.multiply(Config.EPSILON));    // Evitar auto-interseção
     
         externo:
         for (Light luz : luzes) {
@@ -79,12 +80,10 @@ public class ProcessadorInterseccoes {
             
             Ray raioDaSombra = new Ray(shadowRayOrigin, lightDirection);
             for (Intersectable objetoSombra : objetos) {
-                if (objetoSombra == objeto) {
-                    continue; //Ignorar o proprio objeto
-                }
+                
                 Intersection interseccaoSombra = objetoSombra.intersect(raioDaSombra);
                 if (interseccaoSombra != null 
-                    && interseccaoSombra.distance > EPSILON
+                    && interseccaoSombra.distance > Config.EPSILON
                     && interseccaoSombra.distance < distanciaAteLuz) {
                     break externo; //Objeto está na sombra
                 }
