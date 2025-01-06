@@ -4,9 +4,9 @@ import java.awt.*;
 import javax.swing.*;
 
 import src.controller.MainController;
-import src.model.interseccao.Intersectable;
 import src.model.materiais.MateriaisPadrao;
 import src.model.materiais.Material;
+import src.model.objetos.Intersectable;
 
 public class OpcaoJanela extends JDialog {
 

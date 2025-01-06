@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import src.model.cena.Cena;
 import src.model.interseccao.*;
+import src.model.objetos.Intersectable;
 
 
 public class Renderizador{

@@ -1,5 +1,7 @@
 package src.model.interseccao;
 
+import src.model.objetos.Intersectable;
+
 public class IntersectResult {
     public double distance;
     public Intersectable object;

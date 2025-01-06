@@ -2,6 +2,7 @@ package src.model.cena;
 
 import java.util.ArrayList;
 import src.model.interseccao.*;
+import src.model.objetos.Intersectable;
 
 public class Cena {
     private ArrayList<Intersectable> objetosCena;

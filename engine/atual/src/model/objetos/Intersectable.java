@@ -1,7 +1,10 @@
-package src.model.interseccao;
+package src.model.objetos;
 
 import java.awt.Color;
 
+import src.model.interseccao.Intersection;
+import src.model.interseccao.Ray;
+import src.model.interseccao.Vector3;
 import src.model.materiais.Material;
 
 public interface Intersectable {

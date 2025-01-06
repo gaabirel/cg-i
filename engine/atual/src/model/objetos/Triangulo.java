@@ -1,6 +1,5 @@
 package src.model.objetos;
 
-import src.model.interseccao.Intersectable;
 import src.model.interseccao.Intersection;
 import src.model.interseccao.Ray;
 import src.model.interseccao.Vector3;

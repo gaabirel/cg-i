@@ -3,6 +3,7 @@ package src.controller.renderizacao;
 import java.awt.Color;
 import java.util.ArrayList;
 import src.model.interseccao.*;
+import src.model.objetos.Intersectable;
 import src.config.Config;
 
 public class ProcessadorInterseccoes {

@@ -4,11 +4,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import src.model.interseccao.Ray;
 import src.model.interseccao.Vector3;
+import src.model.objetos.Intersectable;
 import src.view.Janela;
 import src.view.OpcaoJanela;
 import src.controller.MainController;
 import src.controller.renderizacao.Renderizador;
-import src.model.interseccao.Intersectable;
 
 public class MouseListener extends MouseAdapter {
 

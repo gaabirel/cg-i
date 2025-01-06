@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import src.controller.MainController;
 import src.controller.renderizacao.Renderizador;
-import src.model.interseccao.Intersectable;
 import src.model.interseccao.Vector3;
 import src.model.objetos.*;
 
