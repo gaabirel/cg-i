@@ -64,6 +64,12 @@ public class Esfera extends Objeto3D implements Intersectable {
     }
 
     @Override
+    public void rotacionar(double angleDegrees, Vector3 axis) {
+        // Rotaciona o centro da esfera
+        this.center = this.center.rotate(angleDegrees, axis);
+    }
+
+    @Override
     public String toString() {
         return "esfera {" +
                 "centro=" + this.center +

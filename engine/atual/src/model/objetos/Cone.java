@@ -100,7 +100,7 @@ public class Cone extends Objeto3D implements Intersectable {
         // Rotaciona o vetor eixo do cone em torno do eixo de rotação
         this.eixo = this.eixo.rotate(anguloGraus, eixoRotacao).normalize();
     }
-    
+
     @Override
     public String toString() {
         return "Cone {" +
@@ -108,6 +108,7 @@ public class Cone extends Objeto3D implements Intersectable {
                 ", eixo=" + eixo +
                 ", altura=" + altura +
                 ", raioBase=" + raioBase +
+                ", material=" + material +
                 '}';
     }
 

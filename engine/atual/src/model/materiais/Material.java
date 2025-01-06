@@ -71,12 +71,13 @@ public class Material {
 
     @Override
     public String toString() {
-        return "Material {" +
-                "kDifuso=" + kDifuso +
-                ", kEspecular=" + kEspecular +
-                ", kAmbiente=" + kAmbiente +
-                ", brilho=" + brilho +
-                ", corBase=" + corBase +
-                '}';
+        return "  \n Material {" +
+                " \n nome=" + nome +
+                " \n kDifuso=" + kDifuso +
+                " \n kEspecular=" + kEspecular +
+                " \n kAmbiente=" + kAmbiente +
+                " \n brilho=" + brilho +
+                " \n corBase=" + corBase +
+                "}";
     }
 }
