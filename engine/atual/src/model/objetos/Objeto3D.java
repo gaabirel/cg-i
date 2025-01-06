@@ -94,7 +94,7 @@ public abstract class Objeto3D{
     }
 
     public void rotacionar(double d, Vector3 axis){
-       
+       //para os que nao foram implementados ainda
     }
     /* Apenas o que deveria ser feito caso utilizasse gpu pela eficiência 
     public void translate(double dx, double dy, double dz) {

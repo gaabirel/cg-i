@@ -161,7 +161,16 @@ public class Cilindro extends Objeto3D implements Intersectable {
     public void transladar(double dx, double dy, double dz) {
         this.centroBase = this.centroBase.add(new Vector3(dx, dy, dz));
     }
+    
+    @Override 
+    public void rotacionar(double anguloGraus, Vector3 eixoRotacao) {
+        // Rotaciona o centro da base em torno do eixo de rotação
+        this.centroBase = this.centroBase.rotate(anguloGraus, eixoRotacao);
 
+        // Rotaciona o vetor eixo do cilindro em torno do eixo de rotação
+        this.eixo = this.eixo.rotate(anguloGraus, eixoRotacao).normalize();
+    }
+    
     @Override
     public String toString() {
         return "Cilindro {" +
