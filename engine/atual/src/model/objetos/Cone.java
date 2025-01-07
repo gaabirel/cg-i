@@ -94,11 +94,19 @@ public class Cone extends Objeto3D implements Intersectable {
 
     @Override
     public void rotacionar(double anguloGraus, Vector3 eixoRotacao) {
-        // Rotaciona o vértice do cone em torno do eixo de rotação
-        this.vertice = this.vertice.rotate(anguloGraus, eixoRotacao);
-
         // Rotaciona o vetor eixo do cone em torno do eixo de rotação
         this.eixo = this.eixo.rotate(anguloGraus, eixoRotacao).normalize();
+    }
+
+    @Override
+    public void escala(double sx, double sy, double sz) {
+        // Escala uniforme
+        if (sx != sy || sy != sz) {
+            throw new IllegalArgumentException("Escala não-uniforme não é suportada para cones.");
+        }
+
+        this.raioBase *= sx;
+        this.altura *= sy;
     }
 
     @Override

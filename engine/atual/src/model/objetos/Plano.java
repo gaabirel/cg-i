@@ -52,10 +52,14 @@ public class Plano extends Objeto3D implements Intersectable  {
 
     @Override
     public void rotacionar(double angleDegrees, Vector3 axis) {
-        this.Ppl = this.Ppl.rotate(angleDegrees, axis);
         this.N = this.N.rotate(angleDegrees, axis);
     }
 
+    @Override
+    public void escala(double sx, double sy, double sz){
+        // Não faz nada
+        throw new UnsupportedOperationException("Não é possível escalar um plano infinito");
+    }
     @Override
     public String toString() {
         return "Plano {" +

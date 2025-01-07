@@ -164,11 +164,31 @@ public class Cilindro extends Objeto3D implements Intersectable {
     
     @Override 
     public void rotacionar(double anguloGraus, Vector3 eixoRotacao) {
+        // Armazena a posição original do centro da base
+        Vector3 posicaoOriginal = this.centroBase;
+        // Translada o cilindro para a origem
+        this.centroBase = new Vector3(0, 0, 0);
+
         // Rotaciona o centro da base em torno do eixo de rotação
         this.centroBase = this.centroBase.rotate(anguloGraus, eixoRotacao);
 
         // Rotaciona o vetor eixo do cilindro em torno do eixo de rotação
         this.eixo = this.eixo.rotate(anguloGraus, eixoRotacao).normalize();
+        
+        // Retorna o cilindro para sua posição original
+        this.centroBase = posicaoOriginal;
+    }
+    
+    @Override
+    public void escala(double sx, double sy, double sz) {
+        // Escala uniforme
+        if (sx != sy || sy != sz) {
+            throw new IllegalArgumentException("Escala não-uniforme não é suportada para cilindros.");
+        }
+
+        this.raio *= sx;
+        this.squareRadius = this.raio * this.raio;
+        this.altura *= sy;
     }
     
     @Override

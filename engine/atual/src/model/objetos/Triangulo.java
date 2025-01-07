@@ -78,10 +78,26 @@ public class Triangulo extends Objeto3D implements Intersectable {
 
     @Override
     public void rotacionar(double angleDegrees, Vector3 axis) {
+
+        //levando o centro do triangulo para a origem
+        Vector3 centroid = new Vector3(
+            (v1.getX() + v2.getX() + v3.getX()) / 3.0,
+            (v1.getY() + v2.getY() + v3.getY()) / 3.0,
+            (v1.getZ() + v2.getZ() + v3.getZ()) / 3.0
+        );
+        v1 = v1.subtract(centroid);
+        v2 = v2.subtract(centroid);
+        v3 = v3.subtract(centroid);
+
+        //rotacionando o triangulo
         this.v1 = this.v1.rotate(angleDegrees, axis);
         this.v2 = this.v2.rotate(angleDegrees, axis);
         this.v3 = this.v3.rotate(angleDegrees, axis);
         
+        //levando o triangulo de volta para a posição original
+        v1 = v1.add(centroid);
+        v2 = v2.add(centroid);
+        v3 = v3.add(centroid);
         atualizarNormal();
     }
 

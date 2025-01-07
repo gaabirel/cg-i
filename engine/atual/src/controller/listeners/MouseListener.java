@@ -31,9 +31,7 @@ public class MouseListener extends MouseAdapter {
 
     //Função pick para detectar qual objeto foi clicado
     public void pick(int mouseX, int mouseY) {
-        // mouseX -= 7;  // 
-        // mouseY -= 30; //
-        System.out.println("X: " + mouseX + ", Y: " + mouseY);
+        
         Ray raio = criarRaio(mouseX, mouseY);  
         Intersectable objeto = renderizador.processador.encontrarObjetoMaisProximo(raio).getObject();
         System.out.println("Objeto clicado: " + objeto);

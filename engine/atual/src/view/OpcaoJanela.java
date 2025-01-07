@@ -20,7 +20,7 @@ public class OpcaoJanela extends JDialog {
         this.materiaisPadrao = MateriaisPadrao.getInstance();
         this.mainController = mainController;
         configurarJanela( objeto);
-        setLocationRelativeTo(parent); // Centraliza a janela em relação à janela pai
+        setLocationRelativeTo(parent); 
         setVisible(true);
     }
 
@@ -33,7 +33,7 @@ public class OpcaoJanela extends JDialog {
         add(criarLabelInformativo(objeto), BorderLayout.NORTH);
         add(criarPainelCentral( objeto), BorderLayout.CENTER);
         add(criarBotaoCancelar(), BorderLayout.SOUTH);
-        pack(); //Ajusta o tamanho da janela de acordo com o conteúdo
+        pack(); 
     }
 
     /**

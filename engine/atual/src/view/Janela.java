@@ -18,7 +18,6 @@ public class Janela extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         adicionarComponentes();
-        setVisible(true);
     }
 
     
@@ -26,6 +25,8 @@ public class Janela extends JFrame {
         renderPanel = new RenderPanel();
         renderPanel.setFocusable(true);
         add(renderPanel); 
+
+
     }
     
     public void setCanvas(BufferedImage canvas){
@@ -35,7 +36,7 @@ public class Janela extends JFrame {
     public RenderPanel getRenderPanel(){
         return this.renderPanel;
     }
-    
+
     //classe do painel que vai suportar o canvas e os listeners
     public class RenderPanel extends JPanel {
         private BufferedImage canvas;

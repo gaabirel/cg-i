@@ -1,33 +1,20 @@
 package src.controller;
 
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-
-import javax.swing.JPanel;
-
 import src.controller.listeners.MouseListener;
 import src.controller.listeners.TecladoListener;
 import src.controller.renderizacao.Renderizador;
 import src.view.Janela;
+import src.view.MenuBarraSuperior;
 
 public class MainController {
     /* O canvas é um objeto de imagem compartilhado entre a janela e o renderizador */
     Janela janela;
-    Renderizador renderizador;
-    BufferedImage canvas; 
+    private Renderizador renderizador;
+    private BufferedImage canvas; 
 
-    //painel que vai suportar o canvas para por na janela principal
-    public class Painel extends JPanel{
-        BufferedImage imagem;
-        public Painel(BufferedImage imagem){
-            this.imagem = imagem;
-        }
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.drawImage(this.imagem, 0, 0, null);
-        }
-        
-    }
+    private MouseListener mouseListener;
+    private TecladoListener tecladoListener;
 
     public MainController(Janela janela, Renderizador renderizador){
         this.janela = janela;
@@ -39,8 +26,19 @@ public class MainController {
         atualizarCena();
        
         //Adicionando os listeners
-        janela.getRenderPanel().addMouseListener(new MouseListener(this));
-        janela.getRenderPanel().addKeyListener(new TecladoListener(this));
+        MouseListener mouseListener = new MouseListener(this);
+        this.mouseListener = mouseListener;
+        janela.getRenderPanel().addMouseListener(mouseListener);
+
+        TecladoListener tecladoListener = new TecladoListener(this);
+        this.tecladoListener = tecladoListener;
+        janela.getRenderPanel().addKeyListener(tecladoListener);
+
+        //Adicionando a barra de menu
+        janela.setJMenuBar(new MenuBarraSuperior(this));
+
+        //Mostrando a janela finalizada
+        janela.setVisible(true);
     }
     
     public void atualizarCena(){
@@ -55,4 +53,21 @@ public class MainController {
     public Renderizador getRenderizador(){
         return this.renderizador;
     }
+
+    public BufferedImage getCanvas(){
+        return this.canvas;
+    }
+
+    public void setCanvas(BufferedImage canvas){
+        this.canvas = canvas;
+    }
+
+    public MouseListener getMouseListener(){
+        return this.mouseListener;
+    }
+
+    public TecladoListener getTecladoListener(){
+        return this.tecladoListener;
+    }
+
 }

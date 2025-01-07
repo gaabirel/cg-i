@@ -55,6 +55,14 @@ public class Esfera extends Objeto3D implements Intersectable {
         this.radius *= sx;
         this.squareRadius = this.radius * this.radius;
     }
+
+    @Override
+    public void rotacionar(double angleDegrees, Vector3 axis) {
+        throw new UnsupportedOperationException("Rotacao nao eh suportada para esferas.");
+        // Rotaciona o centro da esfera
+        //this.center = this.center.rotate(angleDegrees, axis);
+    }
+    
     //Getters e Setters 
     public double getRadius() {
         return radius;
@@ -72,11 +80,6 @@ public class Esfera extends Objeto3D implements Intersectable {
         this.center = center;
     }
 
-    @Override
-    public void rotacionar(double angleDegrees, Vector3 axis) {
-        // Rotaciona o centro da esfera
-        this.center = this.center.rotate(angleDegrees, axis);
-    }
 
     @Override
     public String toString() {
