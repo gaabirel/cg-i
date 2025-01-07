@@ -35,13 +35,12 @@ public class MainController {
 
         //Inicializando a cena e repassando para a janela
         this.canvas = renderizador.getCanvas();
+        janela.setCanvas(canvas);
         atualizarCena();
-        Painel panel = new Painel(canvas);
-        panel.addMouseListener(new MouseListener(this));
-
-        janela.add(panel);
+       
+        //Adicionando os listeners
+        janela.getRenderPanel().addMouseListener(new MouseListener(this));
         janela.getRenderPanel().addKeyListener(new TecladoListener(this));
-        janela.setVisible(true);
     }
     
     public void atualizarCena(){
