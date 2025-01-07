@@ -85,20 +85,45 @@ public class Triangulo extends Objeto3D implements Intersectable {
         atualizarNormal();
     }
 
-    @Override 
-    public void escala(double sx, double sy, double sz){
-        double[][] scaleMatrix = {
-            {sx, 0, 0, 0},
-            {0, sy, 0, 0},
-            {0, 0, sz, 0},
+
+    @Override
+    public void escala(double sx, double sy, double sz) {
+        //matriz de translação para a origem
+        double[][] transToOrigin = {
+            {1, 0, 0, -v1.getX()},
+            {0, 1, 0, -v1.getY()},
+            {0, 0, 1, -v1.getZ()},
             {0, 0, 0, 1}
         };
-        v1 = v1.multiplyMatrix4x4(scaleMatrix);
-        v2 = v2.multiplyMatrix4x4(scaleMatrix);
-        v3 = v3.multiplyMatrix4x4(scaleMatrix);
-        
+    
+        //matriz de escala
+        double[][] scaleMatrix = {
+            {sx, 0,  0,  0},
+            {0,  sy, 0,  0},
+            {0,  0,  sz, 0},
+            {0,  0,  0,  1}
+        };
+    
+        //matriz de translação de volta ao ponto fixo original
+        double[][] transBack = {
+            {1, 0, 0, v1.getX()},
+            {0, 1, 0, v1.getY()},
+            {0, 0, 1, v1.getZ()},
+            {0, 0, 0, 1}
+        };
+    
+        double[][] transformationMatrix = multiplyMatrices(
+            multiplyMatrices(transBack, scaleMatrix),
+            transToOrigin
+        );
+
+        v1 = v1.multiplyMatrix4x4(transformationMatrix);
+        v2 = v2.multiplyMatrix4x4(transformationMatrix);
+        v3 = v3.multiplyMatrix4x4(transformationMatrix);
+    
         atualizarNormal();
     }
+
     @Override
     public String toString() {
         return "Triangulo {" +

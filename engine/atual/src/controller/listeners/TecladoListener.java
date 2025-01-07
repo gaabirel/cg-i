@@ -54,8 +54,8 @@ public class TecladoListener extends KeyAdapter {
 
     public void checarEscala(KeyEvent e){
         switch (e.getKeyCode()){
-            case KeyEvent.VK_X -> ( objetos.get(idx_objeto_deslocado)).escala(1.2, 1, 1.2);
-            case KeyEvent.VK_Z -> ( objetos.get(idx_objeto_deslocado)).escala(0.2, 0.2, 0.2);
+            case KeyEvent.VK_X -> ( objetos.get(idx_objeto_deslocado)).escala(0.8, 0.8, 0.8);
+            case KeyEvent.VK_Z -> ( objetos.get(idx_objeto_deslocado)).escala(1.2, 1.2, 1.2);
         }
     }
 

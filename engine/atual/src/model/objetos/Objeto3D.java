@@ -93,8 +93,22 @@ public abstract class Objeto3D{
         );
     }
 
+    // Método para multiplicar duas matrizes 4x4
+    public double[][] multiplyMatrices(double[][] m1, double[][] m2) {
+        double[][] result = new double[4][4];
+
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                result[i][j] = 0;
+                for (int k = 0; k < 4; k++) {
+                    result[i][j] += m1[i][k] * m2[k][j];
+                }
+            }
+        }
+
+        return result;
+    }
     public void escala(double sx, double sy, double sz) {
-        // Apenas o que deveria ser feito caso utilizasse gpu pela eficiência 
         /*double[][] scaleMatrix = {
                 {sx, 0, 0, 0},
                 {0, sy, 0, 0},
@@ -105,19 +119,5 @@ public abstract class Objeto3D{
             ponto = pontos.multiply(scaleMatrix);
         }*/
     }
-    
-    
-    /* Apenas o que deveria ser feito caso utilizasse gpu pela eficiência 
-    public void translate(double dx, double dy, double dz) {
-        double[][] translationMatrix = {
-                {1, 0, 0, dx},
-                {0, 1, 0, dy},
-                {0, 0, 1, dz},
-                {0, 0, 0, 1}
-        };
-        for(ponto : pontosObjeto){
-            ponto = pontos.multiply(translationMatrix);
-        }
-    }
-        */
+
 }
