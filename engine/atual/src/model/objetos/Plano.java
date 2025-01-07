@@ -5,7 +5,6 @@ import src.model.interseccao.Intersection;
 import src.model.interseccao.Ray;
 import src.model.interseccao.Vector3;
 import src.model.materiais.Material;
-import src.config.Config;
 
 public class Plano extends Objeto3D implements Intersectable  {
 

@@ -61,6 +61,19 @@ public class Triangulo extends Objeto3D implements Intersectable {
         v2 = v2.add(deslocamento);
         v3 = v3.add(deslocamento);
         atualizarNormal();
+
+        /*  Utilizando multiplicação de matrizes, ao invés de uma forma direta, ficaria assim: 
+        double[][] translationMatrix = {
+            {1, 0, 0, dx},
+            {0, 1, 0, dy},
+            {0, 0, 1, dz},
+            {0, 0, 0, 1}
+        };
+        v1 = v1.multiplyMatrix4x4(translationMatrix);
+        v2 = v2.multiplyMatrix4x4(translationMatrix);
+        v3 = v3.multiplyMatrix4x4(translationMatrix);
+        atualizarNormal();
+        */
     }
 
     @Override
@@ -68,6 +81,21 @@ public class Triangulo extends Objeto3D implements Intersectable {
         this.v1 = this.v1.rotate(angleDegrees, axis);
         this.v2 = this.v2.rotate(angleDegrees, axis);
         this.v3 = this.v3.rotate(angleDegrees, axis);
+        
+        atualizarNormal();
+    }
+
+    @Override 
+    public void escala(double sx, double sy, double sz){
+        double[][] scaleMatrix = {
+            {sx, 0, 0, 0},
+            {0, sy, 0, 0},
+            {0, 0, sz, 0},
+            {0, 0, 0, 1}
+        };
+        v1 = v1.multiplyMatrix4x4(scaleMatrix);
+        v2 = v2.multiplyMatrix4x4(scaleMatrix);
+        v3 = v3.multiplyMatrix4x4(scaleMatrix);
         
         atualizarNormal();
     }

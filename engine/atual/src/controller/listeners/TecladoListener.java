@@ -29,6 +29,7 @@ public class TecladoListener extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         checarMovimento(e);
         checarRotacao(e);
+        checarEscala(e);
         mainController.atualizarCena();
     }
 
@@ -48,6 +49,13 @@ public class TecladoListener extends KeyAdapter {
         switch (e.getKeyCode()){
             case KeyEvent.VK_N -> ( objetos.get(idx_objeto_deslocado)).rotacionar(2, new Vector3(1, 0, 0));
             case KeyEvent.VK_M -> ( objetos.get(idx_objeto_deslocado)).rotacionar(2, new Vector3(0, 0, 1));
+        }
+    }
+
+    public void checarEscala(KeyEvent e){
+        switch (e.getKeyCode()){
+            case KeyEvent.VK_X -> ( objetos.get(idx_objeto_deslocado)).escala(1.2, 1, 1.2);
+            case KeyEvent.VK_Z -> ( objetos.get(idx_objeto_deslocado)).escala(0.2, 0.2, 0.2);
         }
     }
 

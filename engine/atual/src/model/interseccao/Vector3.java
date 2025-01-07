@@ -98,6 +98,24 @@ public class Vector3 {
                 .add(paralelo);
     }
     
+    public Vector3 escala(double sx, double sy, double sz) {
+        return new Vector3(getX() * sx, getY() * sy, getZ() * sz);
+    }
+
+    public Vector3 multiplyMatrix4x4(double[][] matrix) {
+        double[] result = new double[4];
+        double[] pontoHomogenio = {getX(), getY(), getZ(), 1.0};
+        
+        for (int i = 0; i < 4; i++) {
+            result[i] = 0;
+            for (int j = 0; j < 4; j++) {
+                result[i] += matrix[i][j] * pontoHomogenio[j];
+            }
+        }
+    
+        return new Vector3(result[0], result[1], result[2]);
+    }
+
     @Override
     public String toString() {
         return "(" + getX() + ", " + getY() + ", " + getZ() + ")";

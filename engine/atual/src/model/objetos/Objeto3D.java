@@ -93,9 +93,20 @@ public abstract class Objeto3D{
         );
     }
 
-    public void rotacionar(double d, Vector3 axis){
-       //para os que nao foram implementados ainda
+    public void escala(double sx, double sy, double sz) {
+        // Apenas o que deveria ser feito caso utilizasse gpu pela eficiência 
+        /*double[][] scaleMatrix = {
+                {sx, 0, 0, 0},
+                {0, sy, 0, 0},
+                {0, 0, sz, 0},
+                {0, 0, 0, 1}
+        };
+        for(ponto : pontosObjeto){
+            ponto = pontos.multiply(scaleMatrix);
+        }*/
     }
+    
+    
     /* Apenas o que deveria ser feito caso utilizasse gpu pela eficiência 
     public void translate(double dx, double dy, double dz) {
         double[][] translationMatrix = {
