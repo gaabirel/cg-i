@@ -1,6 +1,5 @@
 package src.model.objetos;
 
-import src.model.interseccao.Intersectable;
 import src.model.interseccao.Intersection;
 import src.model.interseccao.Ray;
 import src.model.interseccao.Vector3;
@@ -62,6 +61,12 @@ public class Esfera extends Objeto3D implements Intersectable {
 
     public void setCenter(Vector3 center) {
         this.center = center;
+    }
+
+    @Override
+    public void rotacionar(double angleDegrees, Vector3 axis) {
+        // Rotaciona o centro da esfera
+        this.center = this.center.rotate(angleDegrees, axis);
     }
 
     @Override

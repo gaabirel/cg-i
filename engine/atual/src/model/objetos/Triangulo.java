@@ -1,6 +1,5 @@
 package src.model.objetos;
 
-import src.model.interseccao.Intersectable;
 import src.model.interseccao.Intersection;
 import src.model.interseccao.Ray;
 import src.model.interseccao.Vector3;
@@ -63,4 +62,23 @@ public class Triangulo extends Objeto3D implements Intersectable {
         v3 = v3.add(deslocamento);
         atualizarNormal();
     }
+
+    @Override
+    public void rotacionar(double angleDegrees, Vector3 axis) {
+        this.v1 = this.v1.rotate(angleDegrees, axis);
+        this.v2 = this.v2.rotate(angleDegrees, axis);
+        this.v3 = this.v3.rotate(angleDegrees, axis);
+        
+        atualizarNormal();
+    }
+    @Override
+    public String toString() {
+        return "Triangulo {" +
+                "  v1=" + this.v1 +
+                ", v2=" + this.v2 +
+                ", v3=" + this.v3 +
+                ", material=" + this.material + 
+                '}';
+    }
+
 }

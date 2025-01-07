@@ -2,6 +2,7 @@ package src.model.cena;
 
 import java.util.ArrayList;
 import src.model.interseccao.*;
+import src.model.objetos.Intersectable;
 
 public class Cena {
     private ArrayList<Intersectable> objetosCena;
@@ -14,12 +15,12 @@ public class Cena {
         this.objetosCena = new ArrayList<>();
         luzes = cenaBuilder.criarLuzesPadrao();
         
-        objetosCena.addAll(cenaBuilder.criarCilindrosPadrao());
-        //objetosCena.addAll(cenaBuilder.criarConesPadrao()); 
-        //objetosCena.addAll(cenaBuilder.criarTriangulosPadrao());
-        //objetosCena.addAll(cenaBuilder.criarPlanosPadrao());
+        objetosCena.addAll(cenaBuilder.criarPlanosPadrao());
+        objetosCena.addAll(cenaBuilder.criarTriangulosPadrao());
         objetosCena.addAll(cenaBuilder.criarEsferasPadrao());
-        objetosCena.addAll(cenaBuilder.criarEsferasAleatorias(1));
+        objetosCena.addAll(cenaBuilder.criarConesPadrao()); 
+        objetosCena.addAll(cenaBuilder.criarCilindrosPadrao());
+        //objetosCena.addAll(cenaBuilder.criarEsferasAleatorias(1));
     }
 
     public ArrayList<Light> getLuzes(){

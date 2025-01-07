@@ -61,7 +61,7 @@ public class Vector3 {
         Vector3 produtoVetorial = this.cross(U);
         double tolerancia = 1e-6;
     
-        // Verifica se o produto vetorial é próximo de (0, 0, 0)
+        //Verifica se o produto vetorial é próximo de (0, 0, 0)
         return Math.abs(produtoVetorial.getX()) < tolerancia &&
                Math.abs(produtoVetorial.getY()) < tolerancia &&
                Math.abs(produtoVetorial.getZ()) < tolerancia;
@@ -70,10 +70,34 @@ public class Vector3 {
     public Vector3 arroba(Vector3 other){
         return new Vector3(getX() * other.getX(), getY() * other.getY(), getZ() * other.getZ());
     }
+
     public Boolean equals(Vector3 other){
         if(other.getX() == getX() && other.getY() == getY() && other.getZ() == getZ()) return true;
         else return false;
     }
+
+    // Método para rotacionar este vetor em torno de um eixo
+    public Vector3 rotate(double angleDegrees, Vector3 axis) {
+        double angleRadians = Math.toRadians(angleDegrees); //Converte para radianos
+        Vector3 normalizedAxis = axis.normalize(); //Normaliza o eixo
+
+        double cosTheta = Math.cos(angleRadians);
+        double sinTheta = Math.sin(angleRadians);
+
+        //Produto escalar (componente paralela ao eixo)
+        double dotProduct = this.dot(normalizedAxis);
+
+        //Calcula os componentes usando a fórmula de Rodrigues
+        Vector3 paralelo = normalizedAxis.multiply(dotProduct);
+        Vector3 perpendicular = this.subtract(paralelo);
+        Vector3 cruzado = normalizedAxis.cross(this);
+
+        //Combina os componentes rotacionados
+        return perpendicular.multiply(cosTheta)
+                .add(cruzado.multiply(sinTheta))
+                .add(paralelo);
+    }
+    
     @Override
     public String toString() {
         return "(" + getX() + ", " + getY() + ", " + getZ() + ")";

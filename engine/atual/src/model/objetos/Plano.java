@@ -1,7 +1,6 @@
 package src.model.objetos;
 import java.awt.Color;
 
-import src.model.interseccao.Intersectable;
 import src.model.interseccao.Intersection;
 import src.model.interseccao.Ray;
 import src.model.interseccao.Vector3;
@@ -52,7 +51,19 @@ public class Plano extends Objeto3D implements Intersectable  {
         Ppl.add(new Vector3(Ppl.getX() + dx, Ppl.getY() + dy, Ppl.getZ() + dz));
     }
 
+    @Override
+    public void rotacionar(double angleDegrees, Vector3 axis) {
+        this.Ppl = this.Ppl.rotate(angleDegrees, axis);
+        this.N = this.N.rotate(angleDegrees, axis);
+    }
 
-
+    @Override
+    public String toString() {
+        return "Plano {" +
+                "Ppl=" + this.Ppl +
+                ", normal=" + this.N+
+                ", material=" + material +
+                '}';
+    }
 
 }
