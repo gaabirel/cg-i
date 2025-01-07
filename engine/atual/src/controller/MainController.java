@@ -1,6 +1,9 @@
 package src.controller;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
+import javax.swing.JPanel;
 
 import src.controller.listeners.MouseListener;
 import src.controller.listeners.TecladoListener;
@@ -13,17 +16,32 @@ public class MainController {
     Renderizador renderizador;
     BufferedImage canvas; 
 
+    //painel que vai suportar o canvas para por na janela principal
+    public class Painel extends JPanel{
+        BufferedImage imagem;
+        public Painel(BufferedImage imagem){
+            this.imagem = imagem;
+        }
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(this.imagem, 0, 0, null);
+        }
+        
+    }
+
     public MainController(Janela janela, Renderizador renderizador){
         this.janela = janela;
         this.renderizador = renderizador;
 
         //Inicializando a cena e repassando para a janela
         this.canvas = renderizador.getCanvas();
-        this.janela.setCanvas(canvas);
         atualizarCena();
+        Painel panel = new Painel(canvas);
+        panel.addMouseListener(new MouseListener(this));
 
-        janela.addMouseListener(new MouseListener(this));
+        janela.add(panel);
         janela.getRenderPanel().addKeyListener(new TecladoListener(this));
+        janela.setVisible(true);
     }
     
     public void atualizarCena(){
