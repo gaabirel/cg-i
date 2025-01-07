@@ -85,28 +85,27 @@ public class Cone extends Objeto3D implements Intersectable {
         return normal.normalize();
     }
 
-    public void alterarEixo(Vector3 novoEixo) {
-        if (novoEixo.length() == 0) {
-            throw new IllegalArgumentException("O eixo não pode ter comprimento zero.");
-        }
-        this.eixo = this.eixo.add(novoEixo).normalize();
-    }
-
     @Override
     public void rotacionar(double anguloGraus, Vector3 eixoRotacao) {
-        // Rotaciona o vetor eixo do cone em torno do eixo de rotação
+        //Rotaciona o vetor eixo do cone em torno do eixo de rotação
         this.eixo = this.eixo.rotate(anguloGraus, eixoRotacao).normalize();
     }
 
     @Override
     public void escala(double sx, double sy, double sz) {
-        // Escala uniforme
+        //Escala uniforme
         if (sx != sy || sy != sz) {
             throw new IllegalArgumentException("Escala não-uniforme não é suportada para cones.");
         }
 
         this.raioBase *= sx;
         this.altura *= sy;
+    }
+
+    @Override
+    public void transladar(double dx, double dy, double dz) {
+        //Movendo o cilindro alterando o centro da base
+        this.vertice = this.vertice.add(new Vector3(dx, dy, dz));
     }
 
     @Override
@@ -120,9 +119,4 @@ public class Cone extends Objeto3D implements Intersectable {
                 '}';
     }
 
-    @Override
-    public void transladar(double dx, double dy, double dz) {
-        // Movendo o cilindro alterando o centro da base
-        this.vertice = this.vertice.add(new Vector3(dx, dy, dz));
-    }
 }
