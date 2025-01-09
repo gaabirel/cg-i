@@ -120,4 +120,21 @@ public abstract class Objeto3D{
         }*/
     }
 
+    public void cisalhar(double shXY, double shXZ, double shYX, double shYZ, double shZX, double shZY) {
+        throw new UnsupportedOperationException("Cisalhamento não suportado.");
+    }
+    
+    protected Vector3 aplicarCisalhamento(Vector3 ponto, double[][] shearMatrix) {
+        double x = ponto.getX();
+        double y = ponto.getY();
+        double z = ponto.getZ();
+        
+        // Aplicação da matriz de cisalhamento
+        double novoX = shearMatrix[0][0] * x + shearMatrix[0][1] * y + shearMatrix[0][2] * z;
+        double novoY = shearMatrix[1][0] * x + shearMatrix[1][1] * y + shearMatrix[1][2] * z;
+        double novoZ = shearMatrix[2][0] * x + shearMatrix[2][1] * y + shearMatrix[2][2] * z;
+
+        return new Vector3(novoX, novoY, novoZ);
+    }
+
 }

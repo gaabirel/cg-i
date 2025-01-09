@@ -30,10 +30,15 @@ public class TecladoListener extends KeyAdapter {
     }
     @Override
     public void keyPressed(KeyEvent e) {
-        checarMovimento(e);
-        checarRotacao(e);
-        checarEscala(e);
-        mainController.atualizarCena();
+        try {
+            checarMovimento(e);
+            checarRotacao(e);
+            checarEscala(e);
+            checarCisalhamento(e);
+            mainController.atualizarCena();
+        } catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
     public void checarMovimento(KeyEvent e){
@@ -50,17 +55,12 @@ public class TecladoListener extends KeyAdapter {
     }
 
     public void checarRotacao(KeyEvent e){
-        try{
-            double anguloRotacao = 5;
-            Intersectable objeto = objetos.get(idxObjetoTransformado);
-            switch (e.getKeyCode()){
-                case KeyEvent.VK_N -> objeto.rotacionar(anguloRotacao, new Vector3(1, 0, 0));
-                case KeyEvent.VK_M -> objeto.rotacionar(anguloRotacao, new Vector3(0, 0, 1));
-                case KeyEvent.VK_B -> objeto.rotacionar(anguloRotacao, new Vector3(0, 1, 0));
-            }
-        }
-        catch (Exception ex){
-            System.out.println(ex.getMessage());
+        double anguloRotacao = 5;
+        Intersectable objeto = objetos.get(idxObjetoTransformado);
+        switch (e.getKeyCode()){
+            case KeyEvent.VK_N -> objeto.rotacionar(anguloRotacao, new Vector3(1, 0, 0));
+            case KeyEvent.VK_M -> objeto.rotacionar(anguloRotacao, new Vector3(0, 0, 1));
+            case KeyEvent.VK_B -> objeto.rotacionar(anguloRotacao, new Vector3(0, 1, 0));
         }
     }
 
@@ -69,6 +69,16 @@ public class TecladoListener extends KeyAdapter {
         switch (e.getKeyCode()){
             case KeyEvent.VK_X -> objeto.escala(0.8, 0.8, 0.8);
             case KeyEvent.VK_Z -> objeto.escala(1.2, 1.2, 1.2);
+        }
+    }
+
+
+    public void checarCisalhamento(KeyEvent e) {
+        Intersectable objeto = objetos.get(idxObjetoTransformado);
+
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_Q -> objeto.cisalhar(0.3, 0.2, 0, 0, 0, 0);
+            case KeyEvent.VK_A -> objeto.cisalhar(-0.3, -0.2, 0, 0, 0, 0);
         }
     }
 

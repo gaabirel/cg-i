@@ -141,6 +141,47 @@ public class Triangulo extends Objeto3D implements Intersectable {
     }
 
     @Override
+    public void cisalhar(double shXY, double shXZ, double shYX, double shYZ, double shZX, double shZY) {
+
+        //matriz de translação para a origem
+        double[][] transToOrigin = {
+            {1, 0, 0, -v1.getX()},
+            {0, 1, 0, -v1.getY()},
+            {0, 0, 1, -v1.getZ()},
+            {0, 0, 0, 1}
+        };
+
+        // Matriz de cisalhamento
+        double[][] shearMatrix = {
+            {1, shXY, shXZ, 0},
+            {shYX, 1, shYZ, 0},
+            {shZX, shZY, 1, 0},
+            {0, 0, 0, 1}
+        };
+    
+        //matriz de translação de volta ao ponto fixo original
+        double[][] transBack = {
+            {1, 0, 0, v1.getX()},
+            {0, 1, 0, v1.getY()},
+            {0, 0, 1, v1.getZ()},
+            {0, 0, 0, 1}
+        };
+    
+        double[][] transformationMatrix = multiplyMatrices(
+            multiplyMatrices(transBack, shearMatrix),
+            transToOrigin
+        );
+
+        v1 = v1.multiplyMatrix4x4(transformationMatrix);
+        v2 = v2.multiplyMatrix4x4(transformationMatrix);
+        v3 = v3.multiplyMatrix4x4(transformationMatrix);
+    
+
+        // Atualizar a normal após a transformação
+        atualizarNormal();
+    }
+
+    @Override
     public String toString() {
         return "Triangulo {" +
                 "  v1=" + this.v1 +
