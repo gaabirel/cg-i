@@ -8,6 +8,9 @@ import src.model.objetos.Intersectable;
 import src.view.Janela;
 import src.view.MenuBarraSuperior;
 
+/*
+ * Classe que gerencia a janela e o renderizador
+ */
 public class MainController {
     /* O canvas é um objeto de imagem compartilhado entre a janela e o renderizador */
     Janela janela;
@@ -21,12 +24,12 @@ public class MainController {
         this.janela = janela;
         this.renderizador = renderizador;
 
-        //Inicializando a cena e repassando para a janela
+        //Renderizando a cena e repassando para a janela
         this.canvas = renderizador.getCanvas();
         janela.setCanvas(canvas);
         atualizarCena();
        
-        //Adicionando os listeners
+        //Adicionando os listeners ao painel da janela
         MouseListener mouseListener = new MouseListener(this);
         this.mouseListener = mouseListener;
         janela.getRenderPanel().addMouseListener(mouseListener);

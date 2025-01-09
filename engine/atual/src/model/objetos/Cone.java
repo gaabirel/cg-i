@@ -60,6 +60,7 @@ public class Cone extends Objeto3D implements Intersectable {
         }
 
         t = Math.max(t1, t2); //como o primeiro não é válido, testando a segunda distancia
+
         Vector3 pontoIntersecao2 = ray.origin.add(ray.direction.multiply(t));
         double alturaIntersecao2 = eixo.dot(pontoIntersecao2.subtract(vertice));
 

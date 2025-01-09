@@ -5,7 +5,9 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
-
+/*
+ * Janela principal que possui um painel onde é posto o canvas gerado pelo renderizador
+ */
 public class Janela extends JFrame {
     
     private RenderPanel renderPanel; // Painel customizado para por o canvas
@@ -21,12 +23,13 @@ public class Janela extends JFrame {
     }
 
     
+    /*
+     * adicionar os componentes a janela principal
+     */
     public void adicionarComponentes(){
         renderPanel = new RenderPanel();
         renderPanel.setFocusable(true);
         add(renderPanel); 
-
-
     }
     
     public void setCanvas(BufferedImage canvas){
@@ -37,7 +40,7 @@ public class Janela extends JFrame {
         return this.renderPanel;
     }
 
-    //classe do painel que vai suportar o canvas e os listeners
+    //classe do painel que vai suportar o canvas e os listeners de teclado e mouse
     public class RenderPanel extends JPanel {
         private BufferedImage canvas;
         
