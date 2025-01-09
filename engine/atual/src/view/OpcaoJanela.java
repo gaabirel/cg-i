@@ -19,7 +19,7 @@ public class OpcaoJanela extends JDialog {
         this.parent = parent;
         this.materiaisPadrao = MateriaisPadrao.getInstance();
         this.mainController = mainController;
-        configurarJanela( objeto);
+        configurarJanela(objeto);
         setLocationRelativeTo(parent); 
         setVisible(true);
     }
@@ -28,10 +28,10 @@ public class OpcaoJanela extends JDialog {
      * Configura a janela principal.
      */
     private void configurarJanela( Intersectable objeto) {
-        setLayout(new BorderLayout());
-          
+        setLayout(new BorderLayout()); 
+        setResizable(false);
         add(criarLabelInformativo(objeto), BorderLayout.NORTH);
-        add(criarPainelCentral( objeto), BorderLayout.CENTER);
+        add(criarPainelCentral(objeto), BorderLayout.CENTER);
         add(criarBotaoCancelar(), BorderLayout.SOUTH);
         pack(); 
     }
@@ -40,7 +40,7 @@ public class OpcaoJanela extends JDialog {
      * Cria o rótulo informativo no topo da janela.
      */
     private JLabel criarLabelInformativo(Intersectable objeto) {
-        JLabel label = new JLabel("Você clicou no objeto: " + objeto);
+        JLabel label = new JLabel("Você clicou no objeto: " + objeto.getClass());
         label.setHorizontalAlignment(SwingConstants.CENTER);
         return label;
     }
@@ -63,7 +63,7 @@ public class OpcaoJanela extends JDialog {
         JPanel painelSuperior = new JPanel(new FlowLayout(FlowLayout.CENTER));
         painelSuperior.add(alterarMaterial);
         painelSuperior.add(alterarCor);
-
+        painelSuperior.add(criarSelecionarObjeto(objeto));
         painelCentral.add(painelSuperior, BorderLayout.NORTH);
 
         return painelCentral;
@@ -143,5 +143,15 @@ public class OpcaoJanela extends JDialog {
             dispose();
         });
         return cancelar;
+    }
+
+    private JButton criarSelecionarObjeto(Intersectable objeto){
+        JButton selecionar = new JButton("Selecionar");
+        selecionar.addActionListener(e -> {
+            //checar a selecao de algum objeto e setar o novo objeto para ser transformado no mainController
+            mainController.getTecladoListener().setIdxObjetoTransformado(mainController.getIdxObject(objeto));
+            dispose();
+        });
+        return selecionar;
     }
 }

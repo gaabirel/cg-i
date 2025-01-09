@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import src.controller.listeners.MouseListener;
 import src.controller.listeners.TecladoListener;
 import src.controller.renderizacao.Renderizador;
+import src.model.objetos.Intersectable;
 import src.view.Janela;
 import src.view.MenuBarraSuperior;
 
@@ -70,4 +71,10 @@ public class MainController {
         return this.tecladoListener;
     }
 
+    /*
+     * Retorna o índice do objeto na lista de objetos do renderizador
+     */
+    public int getIdxObject(Intersectable objeto){
+        return renderizador.getObjetos().indexOf(objeto);
+    }
 }
