@@ -91,7 +91,7 @@ public class Cilindro extends Objeto3D implements Intersectable {
             return interseccoes[1];
         }
 
-        /* 
+        /*  para cilidrno com tampa
         Vector3 centroBase2 = centroBase.add(this.eixo.multiply(altura));  // base do topo do cilindro
         double dem = (this.eixo.dot(D));                                   //denominador dos calculos
 
@@ -174,7 +174,7 @@ public class Cilindro extends Objeto3D implements Intersectable {
 
         // Rotaciona o vetor eixo do cilindro em torno do eixo de rotação
         this.eixo = this.eixo.rotate(anguloGraus, eixoRotacao).normalize();
-        
+
         // Retorna o cilindro para sua posição original
         this.centroBase = posicaoOriginal;
     }

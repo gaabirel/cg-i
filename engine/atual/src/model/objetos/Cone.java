@@ -20,18 +20,15 @@ public class Cone extends Objeto3D implements Intersectable {
     }
 
     public Intersection intersect(Ray ray) {
-        Vector3 v = this.eixo.negate(); //vetor do vertice para a base
-        double tan2Theta = Math.pow(raioBase / altura, 2); //tangente ao quadrado do ângulo do cone
-
-        Vector3 deltaP = ray.origin.subtract(vertice);
+        Vector3 v = this.eixo;
+        double cos2Theta = Math.pow(altura / Math.sqrt(altura * altura + raioBase * raioBase), 2);
         Vector3 d = ray.direction;
 
         double vDotD = v.dot(d);
-        double vDotDeltaP = v.dot(deltaP);
 
-        double a = vDotD * vDotD - tan2Theta;
-        double b = 2 * (vDotD * vDotDeltaP - d.dot(deltaP) * tan2Theta);
-        double c = vDotDeltaP * vDotDeltaP - deltaP.dot(deltaP) * tan2Theta;
+        double a = vDotD * vDotD - d.dot(d) * cos2Theta;
+        double b = 2 * (vertice.dot(d) * cos2Theta - vertice.dot(v) * vDotD);
+        double c = vertice.dot(v) * vertice.dot(v) - vertice.dot(vertice) * cos2Theta;
     
         //delta (discriminante) da equação quadrática
         double discriminante = b * b - 4 * a * c;
@@ -47,16 +44,17 @@ public class Cone extends Objeto3D implements Intersectable {
         double t1 = (-b - sqrtDelta) / (A2);
         double t2 = (-b + sqrtDelta) / (A2);
     
-        // Se t1 ou t2 for negativo, isso significa que a interseção está atrás da origem do raio.
-        // Podemos ignorar esses casos.
+        //ponto atras da origem do raio
         if(t1 < 0 && t2 < 0) return null;
-        //double t = (t1 > 0 ? t1 : t2);
+
+        //calcula o ponto mais proximo
         double t = Math.min(t1 > 0 ? t1 : Double.POSITIVE_INFINITY, t2 > 0 ? t2 : Double.POSITIVE_INFINITY);
         if(t == Double.POSITIVE_INFINITY) return null;
+        
         Vector3 pontoIntersecao = ray.origin.add(ray.direction.multiply(t));
+        
+        //verifica se a interseção está dentro dos limites do cone
         double alturaIntersecao = eixo.dot(pontoIntersecao.subtract(vertice));
-
-        // Verifica se a interseção está dentro dos limites do cone
         if (alturaIntersecao >= 0 && alturaIntersecao <= altura) {
             return new Intersection(pontoIntersecao, t);
         }
@@ -70,18 +68,15 @@ public class Cone extends Objeto3D implements Intersectable {
             return new Intersection(pontoIntersecao2, t);
         }
         return null;
-        
 
     }
 
     @Override
     public Vector3 calcularNormal(Vector3 pontoIntersecao) {
         Vector3 vetorVerticeParaPonto = pontoIntersecao.subtract(vertice);
-        double alturaProjetada = eixo.dot(vetorVerticeParaPonto);
-
-
-        Vector3 pontoProjetadoNoEixo = vertice.add(eixo.multiply(alturaProjetada));
-        Vector3 normal = pontoIntersecao.subtract(pontoProjetadoNoEixo);
+        double  alturaProjetada       = eixo.dot(vetorVerticeParaPonto);
+        Vector3 pontoProjetadoNoEixo  = vertice.add(eixo.multiply(alturaProjetada));
+        Vector3 normal                = pontoIntersecao.subtract(pontoProjetadoNoEixo);
         return normal.normalize();
     }
 
