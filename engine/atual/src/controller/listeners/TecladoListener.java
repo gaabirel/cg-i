@@ -30,11 +30,15 @@ public class TecladoListener extends KeyAdapter {
     }
     @Override
     public void keyPressed(KeyEvent e) {
+        // fechar o programa caso o usuario aperte ESC
+        if ( e.getKeyCode() == KeyEvent.VK_ESCAPE ) System.exit(0);
+
         try {
             checarMovimento(e);
             checarRotacao(e);
             checarEscala(e);
             checarCisalhamento(e);
+            checarEspelhamento(e);
             mainController.atualizarCena();
         } catch (Exception ex){
             System.out.println(ex.getMessage());
@@ -72,13 +76,22 @@ public class TecladoListener extends KeyAdapter {
         }
     }
 
-
     public void checarCisalhamento(KeyEvent e) {
         Intersectable objeto = objetos.get(idxObjetoTransformado);
 
         switch (e.getKeyCode()) {
             case KeyEvent.VK_Q -> objeto.cisalhar(0.3, 0.2, 0, 0, 0, 0);
             case KeyEvent.VK_A -> objeto.cisalhar(-0.3, -0.2, 0, 0, 0, 0);
+        }
+    }
+
+    public void checarEspelhamento(KeyEvent e) {
+        Intersectable objeto = objetos.get(idxObjetoTransformado);
+
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_I -> objeto.espelhar("yz"); // Espelhar em relação ao plano YZ
+            case KeyEvent.VK_O -> objeto.espelhar("zx"); // Espelhar em relação ao plano ZX
+            case KeyEvent.VK_P -> objeto.espelhar("xy"); // Espelhar em relação ao plano XY
         }
     }
 

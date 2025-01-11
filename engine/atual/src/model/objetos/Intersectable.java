@@ -22,5 +22,6 @@ public interface Intersectable {
     void rotacionar(double angulo, Vector3 axis);
     void escala(double sx, double sy, double sz);
     void cisalhar(double shXY, double shXZ, double shYX, double shYZ, double shZX, double shZY);
+    void espelhar(String eixo);
 
 }

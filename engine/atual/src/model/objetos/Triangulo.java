@@ -53,7 +53,7 @@ public class Triangulo extends Objeto3D implements Intersectable {
     public Vector3 calcularNormal(Vector3 ponto) {
         return normal;
     }
-
+    
     @Override
     public void transladar(double dx, double dy, double dz) {
         Vector3 deslocamento = new Vector3(dx, dy, dz);
@@ -179,6 +179,79 @@ public class Triangulo extends Objeto3D implements Intersectable {
 
         // Atualizar a normal após a transformação
         atualizarNormal();
+    }
+
+    @Override
+    public void espelhar(String eixo) {
+
+        // Matriz de espelhamento dependendo do eixo
+        double[][] reflectionMatrix;
+
+        switch (eixo.toLowerCase()) {
+            case "xy": // Reflexão em relação ao plano XY
+                reflectionMatrix = new double[][] {
+                    {1,  0,  0, 0},
+                    {0,  1,  0, 0},
+                    {0,  0, -1, 0},
+                    {0,  0,  0, 1}
+                };
+                break;
+
+            case "yz": // Reflexão em relação ao plano YZ
+                reflectionMatrix = new double[][] {
+                    {-1, 0,  0, 0},
+                    {0,  1,  0, 0},
+                    {0,  0,  1, 0},
+                    {0,  0,  0, 1}
+                };
+                break;
+
+            case "zx": // Reflexão em relação ao plano ZX
+                reflectionMatrix = new double[][] {
+                    {1,  0,  0, 0},
+                    {0, -1,  0, 0},
+                    {0,  0,  1, 0},
+                    {0,  0,  0, 1}
+                };
+                break;
+
+            default:
+                throw new IllegalArgumentException("Eixo inválido para espelhamento. Use 'xy', 'yz' ou 'zx'.");
+        }
+
+        //matriz de translação para a origem
+        double[][] transToOrigin = {
+            {1, 0, 0, -v1.getX()},
+            {0, 1, 0, -v1.getY()},
+            {0, 0, 1, -v1.getZ()},
+            {0, 0, 0, 1}
+        };
+
+        //matriz de translação de volta ao ponto fixo original
+        double[][] transBack = {
+            {1, 0, 0, v1.getX()},
+            {0, 1, 0, v1.getY()},
+            {0, 0, 1, v1.getZ()},
+            {0, 0, 0, 1}
+        };
+
+        double[][] transformationMatrix = multiplyMatrices(
+            multiplyMatrices(transBack, reflectionMatrix),
+            transToOrigin
+        );
+
+        // Aplicar a matriz de reflexão a cada vértice
+        v1 = v1.multiplyMatrix4x4(transformationMatrix);
+        v2 = v2.multiplyMatrix4x4(transformationMatrix);
+        v3 = v3.multiplyMatrix4x4(transformationMatrix);
+
+        // v1 = v1.multiplyMatrix4x4(reflectionMatrix);
+        // v2 = v2.multiplyMatrix4x4(reflectionMatrix);
+        // v3 = v3.multiplyMatrix4x4(reflectionMatrix);
+
+        // Atualizar a normal após o espelhamento
+        atualizarNormal();
+
     }
 
     @Override

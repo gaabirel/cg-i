@@ -137,4 +137,8 @@ public abstract class Objeto3D{
         return new Vector3(novoX, novoY, novoZ);
     }
 
+    public void espelhar(String eixo) {
+        
+    }
+
 }
