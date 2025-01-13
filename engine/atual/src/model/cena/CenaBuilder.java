@@ -26,6 +26,36 @@ public class CenaBuilder {
         return esferas;
     }
 
+    public ArrayList<Malha> criarMalha(){
+        ArrayList<Malha> malhas = new ArrayList<>();
+        Vector3 v0 = new Vector3(0, 0, -8);
+        Vector3 v1 = new Vector3(1, 0, -8);
+        Vector3 v2 = new Vector3(0, 1, -8);
+
+        Vector3 v3 = new Vector3(-0.5, 0, -10);
+
+        // Criar arestas
+        Aresta a1 = new Aresta(v0, v1);
+        Aresta a2 = new Aresta(v1, v2);
+        Aresta a3 = new Aresta(v2, v0);
+        Aresta a4 = new Aresta(v0, v3);
+
+        // Criar face a partir das arestas
+        Face face = new Face(a1, a2, a3);
+        Face face2 = new Face(a2, a3, a4);
+
+        // Criar malha
+        Malha malha = new Malha(
+            new Vector3[] { v0, v1, v2, v3 },
+            new Aresta[] { a1, a2, a3, a4 },
+            new Face[] { face,  face2 },
+            materiais.PLASTICO_BRILHANTE
+        );
+
+        malhas.add(malha);
+
+        return malhas;
+    }
     public ArrayList<Esfera> criarEsferasAleatorias(int quantidade) {
         ArrayList<Esfera> esferas = new ArrayList<>();
         double limitePosicao = 3.0;
@@ -56,7 +86,7 @@ public class CenaBuilder {
     }
     public ArrayList<Cone> criarConesPadrao(){
         ArrayList<Cone> cones = new ArrayList<>();
-        Cone cone = new Cone(new Vector3(1, 1, -8), new Vector3(0, 1, 1), 0.2, 0.1, materiais.METALICO);
+        Cone cone = new Cone(new Vector3(1, 1, -8), new Vector3(0, 1, 0), 0.2, 0.3, materiais.METALICO);
         cones.add(cone);
         return cones;
     }

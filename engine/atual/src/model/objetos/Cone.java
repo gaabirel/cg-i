@@ -74,10 +74,9 @@ public class Cone extends Objeto3D implements Intersectable {
 
     @Override
     public Vector3 calcularNormal(Vector3 pontoIntersecao) {
-        Vector3 vetorVerticeParaPonto = pontoIntersecao.subtract(vertice);
-        double  alturaProjetada       = eixo.dot(vetorVerticeParaPonto);
-        Vector3 pontoProjetadoNoEixo  = vertice.add(eixo.multiply(alturaProjetada));
-        Vector3 normal                = pontoIntersecao.subtract(pontoProjetadoNoEixo);
+        Vector3 vetorVerticeParaPonto = vertice.subtract(pontoIntersecao);
+        Vector3 eixoCrossVp = vetorVerticeParaPonto.cross(eixo.negate());
+        Vector3 normal  = eixoCrossVp.cross(vetorVerticeParaPonto);
         return normal.normalize();
     }
 
