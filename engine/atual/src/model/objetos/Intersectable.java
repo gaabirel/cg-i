@@ -17,7 +17,7 @@ public interface Intersectable {
     Material getMaterial();
     void setCor(Color cor);
     void setMaterial(Material material);
-    
+    Intersectable aplicarMatrixCamera(double [][] matriz);
     void transladar(double dx, double dy, double dz);
     void rotacionar(double angulo, Vector3 axis);
     void escala(double sx, double sy, double sz);

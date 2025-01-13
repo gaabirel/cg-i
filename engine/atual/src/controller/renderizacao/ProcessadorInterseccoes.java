@@ -2,6 +2,8 @@ package src.controller.renderizacao;
 
 import java.awt.Color;
 import java.util.ArrayList;
+
+import src.model.Camera;
 import src.model.interseccao.*;
 import src.model.objetos.Intersectable;
 import src.config.Config;
@@ -9,19 +11,31 @@ import src.config.Config;
 public class ProcessadorInterseccoes {
 
     private final Color bgColor; //cor de fundo
-    private final ArrayList<Intersectable> objetos;
-    private final ArrayList<Light> luzes;
+    private ArrayList<Intersectable> objetosMundo;
+    private ArrayList<Light> luzesMundo;
+    private ArrayList<Intersectable> objetos;
+    private ArrayList<Light> luzes;
     private Vector3 energiaLuz;   //Energia da luz final
     private Vector3 intensidadeAmbiente;
+    private Camera camera;
 
     //Construtor
-    public ProcessadorInterseccoes(ArrayList<Intersectable> objetos, ArrayList<Light> luzes) {
+    public ProcessadorInterseccoes(ArrayList<Intersectable> objetosMundo, ArrayList<Light> luzesMundo, Camera camera) {
         this.bgColor = new Color(100, 100, 100); // Cor de fundo (cinza)
-        this.objetos = objetos;
-        this.luzes = luzes;
+        this.camera = camera;
+        this.objetos = objetosMundo;
+        this.luzes = luzesMundo;
+        // this.objetosMundo = objetosMundo;
+        // this.luzesMundo = luzesMundo;
+        // this.objetos = camera.aplicarMatrixCameraObjetos(objetosMundo);
+        // this.luzes = camera.aplicarMatrixCameraLuzes(luzesMundo);
         this.intensidadeAmbiente = new Vector3(0.2, 0.2, 0.2);
     }
 
+    public void atualizarCoordCamera(){
+        this.objetos = camera.aplicarMatrixCameraObjetos(objetosMundo);
+        this.luzes = camera.aplicarMatrixCameraLuzes(luzesMundo);
+    }
     //Método principal para calcular interseções e determinar a cor resultante
     public int interseccionarObjetos(Ray raio) {
         IntersectResult intersectResult = encontrarObjetoMaisProximo(raio);

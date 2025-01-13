@@ -63,6 +63,10 @@ public abstract class Objeto3D{
         this.material.setkEspecular(novoK);
     }
 
+    public Intersectable aplicarMatrixCamera(double[][] matriz){
+        return new Esfera(getBrilho(), getKambiente(), material);
+    }
+
     public static double calcularMenorRaiz(double a, double b, double discriminant) {
         double sqrtDiscriminant = Math.sqrt(discriminant);
         a *= 2;

@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 
+import src.model.Camera;
 import src.model.cena.Cena;
 import src.model.interseccao.*;
 import src.model.objetos.Intersectable;
@@ -27,6 +28,8 @@ public class Renderizador{
 
     public ProcessadorInterseccoes processador;
     
+    public Camera camera;
+
     public Vector3 origemRaio;
     public Renderizador(Cena cena, double w, double h, double d, int nCol, int nLin){
         this.w = w;
@@ -43,8 +46,22 @@ public class Renderizador{
         this.objetos = cena.getObjetos();
         this.luzes = cena.getLuzes();
 
+        //Camera
+        // Posição da câmera (Eye position)
+        Vector3 posEye = new Vector3(0, 0, 0);
+        
+        // Ponto que a câmera está olhando (LookAt)
+        Vector3 lookAt = new Vector3(0.5, 0, -5);
+        
+        // Vetor "para cima" da câmera (ViewUp)
+        Vector3 viewUp = new Vector3(0, 1, 0);
+        
+        // Criando a instância da câmera
+        this.camera = new Camera(posEye, lookAt, viewUp);
+
         //classe que vai processar as interseccoes dos objetos
-        this.processador = new ProcessadorInterseccoes(objetos, luzes);  
+        this.processador = new ProcessadorInterseccoes(objetos, luzes, camera);
+        
     }
 
     public void renderizar() {
@@ -61,6 +78,7 @@ public class Renderizador{
         double sub_HalfW_HalfDx = half_Dx - half_W;
         double dz = -this.d; // distancia da tela projetada pro olho do observador
 
+  
         for (int l = 0; l < this.nLin; l++) {
             double y = sub_HalfH_HalfDy - l * this.Dy; 
             for (int c = 0; c < this.nCol; c++) {

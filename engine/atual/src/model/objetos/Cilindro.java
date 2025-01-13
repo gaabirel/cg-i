@@ -191,6 +191,11 @@ public class Cilindro extends Objeto3D implements Intersectable {
         this.altura *= sy;
     }
     
+    @Override 
+    public Intersectable aplicarMatrixCamera(double[][] matrix){
+        return new Cilindro(centroBase.multiplyMatrix4x4(matrix), raio, altura, eixo, material);
+    }
+    
     @Override
     public String toString() {
         return "Cilindro {" +

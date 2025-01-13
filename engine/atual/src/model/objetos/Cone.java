@@ -104,6 +104,11 @@ public class Cone extends Objeto3D implements Intersectable {
         this.vertice = this.vertice.add(new Vector3(dx, dy, dz));
     }
 
+    @Override 
+    public Intersectable aplicarMatrixCamera(double[][] matrix){
+        return new Cone(vertice.multiplyMatrix4x4(matrix), eixo, altura, raioBase, material);
+    }
+    
     @Override
     public String toString() {
         return "Cone {" +

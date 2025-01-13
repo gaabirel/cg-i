@@ -11,6 +11,10 @@ public class Light {
 
     }
 
+    public Light aplicarMatrixCamera(double[][] matrix){
+        return new Light(posicao.multiplyMatrix4x4(matrix), intensidade);
+    }
+
     public Vector3 getPosicao() {
         return posicao;
     }
