@@ -8,6 +8,7 @@ import src.model.interseccao.Vector3;
 import src.model.materiais.Material;
 
 public interface Intersectable {
+    Intersectable aplicarMatrixCamera(double[][] matrix);
     Intersection intersect(Ray ray);
     Vector3 calcularNormal(Vector3 ponto);
     Vector3 getKdifuso();

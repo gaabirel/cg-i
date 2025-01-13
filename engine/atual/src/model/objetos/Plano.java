@@ -60,6 +60,11 @@ public class Plano extends Objeto3D implements Intersectable  {
         // Não faz nada
         throw new UnsupportedOperationException("Não é possível escalar um plano infinito");
     }
+
+    @Override 
+    public Intersectable aplicarMatrixCamera(double[][] matrix){
+        return new Plano(Ppl.multiplyMatrix4x4(matrix), DEFAULT_K_AMBIENTE, material);
+    }
     @Override
     public String toString() {
         return "Plano {" +

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import src.controller.MainController;
 import src.controller.renderizacao.Renderizador;
+import src.model.Camera;
 import src.model.interseccao.Vector3;
 import src.model.objetos.*;
 
@@ -34,11 +35,13 @@ public class TecladoListener extends KeyAdapter {
         if ( e.getKeyCode() == KeyEvent.VK_ESCAPE ) System.exit(0);
 
         try {
+            System.out.println(idxObjetoTransformado);
             checarMovimento(e);
             checarRotacao(e);
             checarEscala(e);
             checarCisalhamento(e);
             checarEspelhamento(e);
+            checarCameraTranslacao(e);
             mainController.atualizarCena();
         } catch (Exception ex){
             System.out.println(ex.getMessage());
@@ -93,6 +96,16 @@ public class TecladoListener extends KeyAdapter {
             case KeyEvent.VK_O -> objeto.espelhar("zx"); // Espelhar em relação ao plano ZX
             case KeyEvent.VK_P -> objeto.espelhar("xy"); // Espelhar em relação ao plano XY
         }
+    }
+
+    public void checarCameraTranslacao(KeyEvent e){
+        Camera camera  = renderizador.getCamera();
+        
+        switch (e.getKeyCode()){
+            case KeyEvent.VK_4 -> camera.setPosEye(camera.getPosEye().add(new Vector3(0.1, 0, 0)));
+            case KeyEvent.VK_3 -> camera.setPosEye(camera.getPosEye().add(new Vector3(-0.1, 0, 0)));
+        }
+        renderizador.getProcessador().setObjetos(camera.aplicarMatrixCamera(objetos));
     }
 
 }

@@ -93,6 +93,10 @@ public abstract class Objeto3D{
         );
     }
 
+    public Intersectable aplicarMatrixCamera(double [][] matrix){
+        return new Esfera(getBrilho(), getKambiente(), material);
+    }
+
     // Método para multiplicar duas matrizes 4x4
     public double[][] multiplyMatrices(double[][] m1, double[][] m2) {
         double[][] result = new double[4][4];
@@ -123,7 +127,7 @@ public abstract class Objeto3D{
     public void cisalhar(double shXY, double shXZ, double shYX, double shYZ, double shZX, double shZY) {
         throw new UnsupportedOperationException("Cisalhamento não suportado.");
     }
-    
+
     protected Vector3 aplicarCisalhamento(Vector3 ponto, double[][] shearMatrix) {
         double x = ponto.getX();
         double y = ponto.getY();

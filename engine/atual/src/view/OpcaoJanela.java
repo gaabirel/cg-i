@@ -149,6 +149,9 @@ public class OpcaoJanela extends JDialog {
         JButton selecionar = new JButton("Selecionar");
         selecionar.addActionListener(e -> {
             //checar a selecao de algum objeto e setar o novo objeto para ser transformado no mainController
+            int idx = mainController.getIdxObject(objeto);
+            System.out.println("Esse é o objeto: " + objeto.getClass());
+            System.out.println("O indice é esse: " + idx);
             mainController.getTecladoListener().setIdxObjetoTransformado(mainController.getIdxObject(objeto));
             dispose();
         });

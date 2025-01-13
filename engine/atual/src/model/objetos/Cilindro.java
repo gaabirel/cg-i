@@ -149,6 +149,11 @@ public class Cilindro extends Objeto3D implements Intersectable {
         return normalLateral;
     }
 
+    @Override 
+    public Intersectable aplicarMatrixCamera(double[][] matrix){
+        return new Cilindro(centroBase.multiplyMatrix4x4(matrix), raio, altura, eixo, material);
+    }
+
     public void alterarEixo(Vector3 ajuste) {
         this.eixo =  this.eixo.add(ajuste).normalize();
     }

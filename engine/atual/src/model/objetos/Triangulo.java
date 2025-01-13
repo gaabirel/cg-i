@@ -54,6 +54,16 @@ public class Triangulo extends Objeto3D implements Intersectable {
         return normal;
     }
     
+    @Override 
+    public Intersectable aplicarMatrixCamera(double[][] matrix){
+        Vector3 v_1 = v1.multiplyMatrix4x4(matrix);
+        Vector3 v_2 = v2.multiplyMatrix4x4(matrix);
+        Vector3 v_3 = v3.multiplyMatrix4x4(matrix);
+
+        Triangulo triangulo = new Triangulo(v_1, v_2, v_3, material);
+        return triangulo;
+    }
+
     @Override
     public void transladar(double dx, double dy, double dz) {
         Vector3 deslocamento = new Vector3(dx, dy, dz);

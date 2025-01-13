@@ -9,7 +9,7 @@ import src.config.Config;
 public class ProcessadorInterseccoes {
 
     private final Color bgColor; //cor de fundo
-    private final ArrayList<Intersectable> objetos;
+    private ArrayList<Intersectable> objetos;
     private final ArrayList<Light> luzes;
     private Vector3 energiaLuz;   //Energia da luz final
     private Vector3 intensidadeAmbiente;
@@ -112,5 +112,7 @@ public class ProcessadorInterseccoes {
         return (energiaDifusa.add(energiaEspecular)).multiply(fatorAtenuacao);      
     }
     
-
+    public void setObjetos(ArrayList<Intersectable> objetos){
+        this.objetos = objetos;
+    }
 }

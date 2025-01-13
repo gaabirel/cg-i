@@ -80,7 +80,12 @@ public class Esfera extends Objeto3D implements Intersectable {
         this.center = center;
     }
 
-
+    @Override 
+    public Intersectable aplicarMatrixCamera(double[][] matrix){
+        Vector3 newCenter = center.multiplyMatrix4x4(matrix);
+        Esfera esfera = new Esfera(radius, newCenter, material);
+        return esfera;
+    }
     @Override
     public String toString() {
         return "esfera {" +
