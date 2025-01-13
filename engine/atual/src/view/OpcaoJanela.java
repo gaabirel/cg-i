@@ -128,6 +128,7 @@ public class OpcaoJanela extends JDialog {
         System.out.println(novaCor);
         if (novaCor != null) {
             objeto.setCor(novaCor); 
+            System.out.println(objeto);
             mainController.atualizarCena();
             JOptionPane.showMessageDialog(this, "Cor alterada com sucesso!");
         }

@@ -104,6 +104,10 @@ public class TecladoListener extends KeyAdapter {
         switch (e.getKeyCode()){
             case KeyEvent.VK_4 -> camera.setPosEye(camera.getPosEye().add(new Vector3(0.1, 0, 0)));
             case KeyEvent.VK_3 -> camera.setPosEye(camera.getPosEye().add(new Vector3(-0.1, 0, 0)));
+            case KeyEvent.VK_5 -> camera.setPosEye(camera.getPosEye().add(new Vector3(0, 0.1, 0)));
+            case KeyEvent.VK_6 -> camera.setPosEye(camera.getPosEye().add(new Vector3(0, -0.1, 0)));
+            case KeyEvent.VK_7 -> camera.setPosEye(camera.getPosEye().add(new Vector3(0, 0, 0.1)));
+            case KeyEvent.VK_8 -> camera.setPosEye(camera.getPosEye().add(new Vector3(0, 0, -0.1)));
         }
         renderizador.getProcessador().setObjetos(camera.aplicarMatrixCamera(objetos));
     }
