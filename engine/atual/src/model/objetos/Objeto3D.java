@@ -9,7 +9,6 @@ public abstract class Objeto3D{
 
     protected Material material;
 
-
     public void setCor(Color cor) {
         // Extrair os componentes RGB da cor
         float r = cor.getRed() / 255.0f;

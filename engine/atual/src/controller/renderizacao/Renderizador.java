@@ -40,7 +40,6 @@ public class Renderizador{
         this.canvas = new BufferedImage(nCol, nLin, BufferedImage.TYPE_INT_RGB);
         this.Dx = w / nCol;
         this.Dy = h / nLin;
-        origemRaio = new Vector3(0, 0, 0); // origem do raio saindo do olho do observador
 
         //Objetos e cor de fundo
         this.objetos = cena.getObjetos();
@@ -62,6 +61,8 @@ public class Renderizador{
         //classe que vai processar as interseccoes dos objetos
         this.processador = new ProcessadorInterseccoes(objetos, luzes, camera);
         
+        //origem do sistema de coordenadas
+        this.origemRaio = new Vector3(0, 0, 0); // origem do raio saindo do olho do observador
     }
 
     public void renderizar() {
@@ -102,6 +103,17 @@ public class Renderizador{
         }
     }
 
+    public void transladarCamera(double dx, double dy, double dz) {
+        Vector3 translacao = new Vector3(dx, dy, dz);
+        Vector3 novaPos = this.camera.getPosEye().add(translacao);
+        Vector3 novoLookAt = this.camera.getLookAt().add(translacao);
+        this.camera.setPosEye(novaPos);
+        this.camera.setLookAt(novoLookAt);
+    }
+
+    public ProcessadorInterseccoes getProcessador(){
+        return this.processador;
+    }
     public BufferedImage getCanvas(){
         return this.canvas;
     }

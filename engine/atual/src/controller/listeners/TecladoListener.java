@@ -39,6 +39,7 @@ public class TecladoListener extends KeyAdapter {
             checarEscala(e);
             checarCisalhamento(e);
             checarEspelhamento(e);
+            checarMovimentoCamera(e);
             mainController.atualizarCena();
         } catch (Exception ex){
             System.out.println(ex.getMessage());
@@ -93,6 +94,19 @@ public class TecladoListener extends KeyAdapter {
             case KeyEvent.VK_O -> objeto.espelhar("zx"); // Espelhar em relação ao plano ZX
             case KeyEvent.VK_P -> objeto.espelhar("xy"); // Espelhar em relação ao plano XY
         }
+    }
+
+    public void checarMovimentoCamera(KeyEvent e) {
+        double deslocamento = 0.1;
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_6 -> renderizador.transladarCamera(0, deslocamento, 0);
+            case KeyEvent.VK_5 -> renderizador.transladarCamera(0, -deslocamento, 0);
+            case KeyEvent.VK_3 -> renderizador.transladarCamera(-deslocamento, 0, 0);
+            case KeyEvent.VK_4 -> renderizador.transladarCamera(deslocamento, 0, 0);
+            case KeyEvent.VK_7 -> renderizador.transladarCamera(0, 0, deslocamento);
+            case KeyEvent.VK_8 -> renderizador.transladarCamera(0, 0, -deslocamento);
+        }
+        renderizador.getProcessador().atualizarCoordCamera();
     }
 
 }

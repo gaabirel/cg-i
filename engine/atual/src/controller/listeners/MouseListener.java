@@ -34,6 +34,7 @@ public class MouseListener extends MouseAdapter {
         
         Ray raio = criarRaio(mouseX, mouseY);  
         Intersectable objeto = renderizador.processador.encontrarObjetoMaisProximo(raio).getObject();
+
         System.out.println("Objeto clicado: " + objeto);
         if (objeto != null) { 
             @SuppressWarnings("unused")

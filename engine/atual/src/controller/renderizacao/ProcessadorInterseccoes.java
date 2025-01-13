@@ -23,12 +23,10 @@ public class ProcessadorInterseccoes {
     public ProcessadorInterseccoes(ArrayList<Intersectable> objetosMundo, ArrayList<Light> luzesMundo, Camera camera) {
         this.bgColor = new Color(100, 100, 100); // Cor de fundo (cinza)
         this.camera = camera;
-        this.objetos = objetosMundo;
-        this.luzes = luzesMundo;
-        // this.objetosMundo = objetosMundo;
-        // this.luzesMundo = luzesMundo;
-        // this.objetos = camera.aplicarMatrixCameraObjetos(objetosMundo);
-        // this.luzes = camera.aplicarMatrixCameraLuzes(luzesMundo);
+        this.objetosMundo = objetosMundo;
+        this.luzesMundo = luzesMundo;
+        this.objetos = camera.aplicarMatrixCameraObjetos(objetosMundo);
+        this.luzes = camera.aplicarMatrixCameraLuzes(luzesMundo);
         this.intensidadeAmbiente = new Vector3(0.2, 0.2, 0.2);
     }
 
@@ -126,5 +124,7 @@ public class ProcessadorInterseccoes {
         return (energiaDifusa.add(energiaEspecular)).multiply(fatorAtenuacao);      
     }
     
-
+    public ArrayList<Intersectable> getObjetosMundo(){
+        return this.objetosMundo;
+    }
 }
