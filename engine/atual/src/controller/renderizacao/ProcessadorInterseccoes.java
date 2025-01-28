@@ -11,35 +11,28 @@ import src.config.Config;
 public class ProcessadorInterseccoes {
 
     private final Color bgColor; //cor de fundo
-    private ArrayList<Intersectable> objetosMundo;
-    private ArrayList<Light> luzesMundo;
     private ArrayList<Intersectable> objetos;
     private ArrayList<Light> luzes;
     private Vector3 energiaLuz;   //Energia da luz final
     private Vector3 intensidadeAmbiente;
     private Camera camera;
-
+    private double[][] matrizTransformacao;
     //Construtor
     public ProcessadorInterseccoes(ArrayList<Intersectable> objetosMundo, ArrayList<Light> luzesMundo, Camera camera) {
         this.bgColor = new Color(100, 100, 100); // Cor de fundo (cinza)
         this.camera = camera;
-        this.objetosMundo = objetosMundo;
-        this.luzesMundo = luzesMundo;
-        this.objetos = camera.aplicarMatrixCameraObjetos(objetosMundo);
-        this.luzes = camera.aplicarMatrixCameraLuzes(luzesMundo);
+        this.objetos = objetosMundo;
+        this.luzes = luzesMundo;
         this.intensidadeAmbiente = new Vector3(0.2, 0.2, 0.2);
+        this.matrizTransformacao = camera.getCameraMatrix();
     }
 
-    public void atualizarCoordCamera(){
-        this.objetos = camera.aplicarMatrixCameraObjetos(objetosMundo);
-        this.luzes = camera.aplicarMatrixCameraLuzes(luzesMundo);
-    }
     //Método principal para calcular interseções e determinar a cor resultante
     public int interseccionarObjetos(Ray raio) {
         IntersectResult intersectResult = encontrarObjetoMaisProximo(raio);
         Intersectable objetoMaisProximo = intersectResult.getObject();
         double menorDistancia = intersectResult.getDistance();
-
+        matrizTransformacao = camera.getCameraMatrix();
         //Sem interseção: Retornar cor de fundo
         if (objetoMaisProximo == null) {
             return bgColor.getRGB();
@@ -60,7 +53,7 @@ public class ProcessadorInterseccoes {
         Intersectable objetoMaisProximo = null;
 
         for (Intersectable objeto : objetos) {
-            Intersection intersecao = objeto.intersect(raio);
+            Intersection intersecao = objeto.intersect(raio, matrizTransformacao);
 
             if (intersecao != null && intersecao.distance < menorDistancia) {
                 menorDistancia = intersecao.distance;
@@ -81,20 +74,20 @@ public class ProcessadorInterseccoes {
         energiaLuz = intensidadeAmbiente.arroba(objeto.getKambiente());                 // Adicionar luz ambiente
         
         Vector3 vetorVisao = raio.direction.negate();                                   // Vetor de visão (V)
-        Vector3 vetorNormal = objeto.calcularNormal(pontoIntersecao);                   // Vetor normal (N)
+        Vector3 vetorNormal = objeto.calcularNormal(pontoIntersecao, matrizTransformacao);                   // Vetor normal (N)
         Vector3 shadowRayOrigin = pontoIntersecao.add(vetorNormal.multiply(Config.EPSILON));    // Evitar auto-interseção
-    
+        
         externo:
         for (Light luz : luzes) {
-
+            luz = luz.aplicarMatrixCamera(matrizTransformacao);
             Vector3 lightDirection = luz.calcularDirecaoLuz(pontoIntersecao); 
             double distanciaAteLuz = lightDirection.length();
             lightDirection = lightDirection.multiply(1/distanciaAteLuz);
-            
+
             Ray raioDaSombra = new Ray(shadowRayOrigin, lightDirection);
             for (Intersectable objetoSombra : objetos) {
                 
-                Intersection interseccaoSombra = objetoSombra.intersect(raioDaSombra);
+                Intersection interseccaoSombra = objetoSombra.intersect(raioDaSombra, matrizTransformacao);
                 if (interseccaoSombra != null 
                     && interseccaoSombra.distance > Config.EPSILON
                     && interseccaoSombra.distance < distanciaAteLuz) {
@@ -124,7 +117,4 @@ public class ProcessadorInterseccoes {
         return (energiaDifusa.add(energiaEspecular)).multiply(fatorAtenuacao);      
     }
     
-    public ArrayList<Intersectable> getObjetosMundo(){
-        return this.objetosMundo;
-    }
 }

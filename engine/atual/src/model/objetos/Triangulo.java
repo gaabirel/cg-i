@@ -27,7 +27,13 @@ public class Triangulo extends Objeto3D implements Intersectable {
     }
 
     @Override
-    public Intersection intersect(Ray raio) {
+    public Intersection intersect(Ray raio, double[][] matrizTransformacao) {
+
+        Vector3 v1 = this.v1.multiplyMatrix4x4(matrizTransformacao);
+        Vector3 v2 = this.v2.multiplyMatrix4x4(matrizTransformacao);
+        Vector3 v3 = this.v3.multiplyMatrix4x4(matrizTransformacao);
+        Vector3 normal = this.normal.multiplyMatrix4x4(matrizTransformacao);
+        
         double denom = raio.direction.dot(normal);
         if (Math.abs(denom) < 1e-6) return null;
 
@@ -50,7 +56,7 @@ public class Triangulo extends Objeto3D implements Intersectable {
     }
 
     @Override
-    public Vector3 calcularNormal(Vector3 ponto) {
+    public Vector3 calcularNormal(Vector3 ponto, double[][] matrizTransformacao) {
         return normal;
     }
     

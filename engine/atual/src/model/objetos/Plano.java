@@ -27,7 +27,8 @@ public class Plano extends Objeto3D implements Intersectable  {
     }   
 
     @Override
-    public Intersection intersect(Ray ray) {
+    public Intersection intersect(Ray ray, double[][] matrizTransformacao) {
+        Vector3 Ppl = this.Ppl.multiplyMatrix4x4(matrizTransformacao);
         double denom = N.dot(ray.direction);
         if (Math.abs(denom) > 1e-6) { // Verifica se o raio não é paralelo ao plano
             Vector3 p0l0 = Ppl.subtract(ray.origin);
@@ -41,7 +42,7 @@ public class Plano extends Objeto3D implements Intersectable  {
     }
 
     @Override
-    public Vector3 calcularNormal(Vector3 ponto) {
+    public Vector3 calcularNormal(Vector3 ponto, double[][] matrizTransformacao) {
         return this.N;
     }
 

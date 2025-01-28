@@ -23,7 +23,10 @@ public class Cilindro extends Objeto3D implements Intersectable {
     }
 
     @Override
-    public Intersection intersect(Ray ray) {
+    public Intersection intersect(Ray ray, double[][] matrizTransformacao) {
+        
+        Vector3 centroBase = this.centroBase.multiplyMatrix4x4(matrizTransformacao);
+        Vector3 eixo = this.eixo.multiplyMatrix4x4(matrizTransformacao);
 
         double valoresT[] = new double[4];
         boolean t1Valid, t2Valid;
@@ -128,7 +131,7 @@ public class Cilindro extends Objeto3D implements Intersectable {
     }
 
     @Override
-    public Vector3 calcularNormal(Vector3 pontoInterseccao) {
+    public Vector3 calcularNormal(Vector3 pontoInterseccao, double[][] matrizTransformacao) {
         Vector3 vetorCentroBaseParaPonto = pontoInterseccao.subtract(centroBase);
         double alturaProjetada = this.eixo.dot(vetorCentroBaseParaPonto);
 

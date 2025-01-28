@@ -106,7 +106,7 @@ public class TecladoListener extends KeyAdapter {
             case KeyEvent.VK_7 -> renderizador.transladarCamera(0, 0, deslocamento);
             case KeyEvent.VK_8 -> renderizador.transladarCamera(0, 0, -deslocamento);
         }
-        renderizador.getProcessador().atualizarCoordCamera();
+
     }
 
 }

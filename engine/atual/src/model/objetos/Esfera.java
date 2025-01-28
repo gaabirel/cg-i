@@ -19,7 +19,9 @@ public class Esfera extends Objeto3D implements Intersectable {
     }
 
     @Override
-    public Intersection intersect(Ray ray) {
+    public Intersection intersect(Ray ray, double[][] matrizTransformacao) {
+        Vector3 center = this.center.multiplyMatrix4x4(matrizTransformacao);
+
         Vector3 oc = ray.origin.subtract(center);
         double a = ray.direction.dot(ray.direction);
         double b = 2.0 * oc.dot(ray.direction);
@@ -37,8 +39,8 @@ public class Esfera extends Objeto3D implements Intersectable {
 
 
     @Override
-    public Vector3 calcularNormal(Vector3 ponto) {
-        return ponto.subtract(center).normalize();
+    public Vector3 calcularNormal(Vector3 ponto, double[][] matrizTransformacao) {
+        return ponto.subtract(center).normalize().multiplyMatrix4x4(matrizTransformacao);
     }
 
     @Override

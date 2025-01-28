@@ -79,8 +79,7 @@ public class Renderizador{
         double sub_HalfW_HalfDx = half_Dx - half_W;
         double dz = -this.d; // distancia da tela projetada pro olho do observador
 
-        ArrayList<Intersectable> objetinhos = camera.aplicarMatrixCameraObjetos(objetos);
-        for(Intersectable objeto : objetinhos){
+        for(Intersectable objeto : objetos){
             System.out.println(objeto.getClass());
         }
         

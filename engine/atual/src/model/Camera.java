@@ -58,22 +58,6 @@ public class Camera {
         return result;
     }
 
-    public ArrayList<Intersectable> aplicarMatrixCameraObjetos(ArrayList<Intersectable> objetos){
-        ArrayList<Intersectable> objetosCoordCamera = new ArrayList<Intersectable>();
-        for (Intersectable objeto : objetos){
-            objetosCoordCamera.add(objeto.aplicarMatrixCamera(getCameraMatrix()));
-        }
-        return objetosCoordCamera;
-    }
-    public ArrayList<Light> aplicarMatrixCameraLuzes(ArrayList<Light> luzes){
-        ArrayList<Light> luzesCoordCamera = new ArrayList<Light>();
-        for(Light luz : luzes){
-            luzesCoordCamera.add(luz.aplicarMatrixCamera(getCameraMatrix()));
-        }
-        return luzesCoordCamera;
-    }
-
-
     // Getters e Setters
     public Vector3 getPosEye() {
         return posEye;

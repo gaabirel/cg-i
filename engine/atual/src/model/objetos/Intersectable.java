@@ -8,8 +8,8 @@ import src.model.interseccao.Vector3;
 import src.model.materiais.Material;
 
 public interface Intersectable {
-    Intersection intersect(Ray ray);
-    Vector3 calcularNormal(Vector3 ponto);
+    Intersection intersect(Ray ray, double[][] matrizTransformacao);
+    Vector3 calcularNormal(Vector3 ponto, double[][] matrizTransformacao);
     Vector3 getKdifuso();
     Vector3 getKespecular();
     Vector3 getKambiente();
