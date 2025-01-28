@@ -109,7 +109,7 @@ public class TecladoListener extends KeyAdapter {
             case KeyEvent.VK_7 -> camera.setPosEye(camera.getPosEye().add(new Vector3(0, 0, 0.1)));
             case KeyEvent.VK_8 -> camera.setPosEye(camera.getPosEye().add(new Vector3(0, 0, -0.1)));
         }
-        renderizador.getProcessador().setObjetos(camera.aplicarMatrixCamera(objetos));
+ 
     }
 
 }

@@ -61,7 +61,7 @@ public class Renderizador{
         this.camera = new Camera(posEye, lookAt, viewUp);
 
         //classe que vai processar as interseccoes dos objetos
-        this.processador = new ProcessadorInterseccoes(camera.aplicarMatrixCamera(objetos), luzes);
+        this.processador = new ProcessadorInterseccoes(objetos, luzes, camera);
 
     }
 
@@ -79,8 +79,6 @@ public class Renderizador{
         double sub_HalfW_HalfDx = half_Dx - half_W;
         double dz = -this.d; // distancia da tela projetada pro olho do observador
         
-        processador.setObjetos(camera.aplicarMatrixCamera(objetos));
-
         for (int l = 0; l < this.nLin; l++) {
             double y = sub_HalfH_HalfDy - l * this.Dy; 
             for (int c = 0; c < this.nCol; c++) {

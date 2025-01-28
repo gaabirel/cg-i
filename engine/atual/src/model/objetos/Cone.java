@@ -19,7 +19,7 @@ public class Cone extends Objeto3D implements Intersectable {
         setMaterial(material);
     }
 
-    public Intersection intersect(Ray ray) {
+    public Intersection intersect(Ray ray, double[][] matrixCamera) {
         Vector3 v = this.eixo;
         double cos2Theta = Math.pow(altura / Math.sqrt(altura * altura + raioBase * raioBase), 2);
         Vector3 d = ray.direction;
@@ -73,11 +73,11 @@ public class Cone extends Objeto3D implements Intersectable {
     }
 
     @Override
-    public Vector3 calcularNormal(Vector3 pontoIntersecao) {
-        Vector3 vetorVerticeParaPonto = pontoIntersecao.subtract(vertice);
+    public Vector3 calcularNormal(Vector3 ponto, double[][] matrixCamera) {
+        Vector3 vetorVerticeParaPonto = ponto.subtract(vertice);
         double  alturaProjetada       = eixo.dot(vetorVerticeParaPonto);
         Vector3 pontoProjetadoNoEixo  = vertice.add(eixo.multiply(alturaProjetada));
-        Vector3 normal                = pontoIntersecao.subtract(pontoProjetadoNoEixo);
+        Vector3 normal                = ponto.subtract(pontoProjetadoNoEixo);
         return normal.normalize();
     }
 

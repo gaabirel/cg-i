@@ -2,6 +2,8 @@ package src.controller.renderizacao;
 
 import java.awt.Color;
 import java.util.ArrayList;
+
+import src.model.Camera;
 import src.model.interseccao.*;
 import src.model.objetos.Intersectable;
 import src.config.Config;
@@ -13,13 +15,16 @@ public class ProcessadorInterseccoes {
     private final ArrayList<Light> luzes;
     private Vector3 energiaLuz;   //Energia da luz final
     private Vector3 intensidadeAmbiente;
-
+    private Camera camera;
+    private double[][] cameraMatrix;
     //Construtor
-    public ProcessadorInterseccoes(ArrayList<Intersectable> objetos, ArrayList<Light> luzes) {
+    public ProcessadorInterseccoes(ArrayList<Intersectable> objetos, ArrayList<Light> luzes, Camera camera) {
         this.bgColor = new Color(100, 100, 100); // Cor de fundo (cinza)
         this.objetos = objetos;
         this.luzes = luzes;
         this.intensidadeAmbiente = new Vector3(0.2, 0.2, 0.2);
+        this.camera = camera;
+        cameraMatrix = camera.getCameraMatrix();
     }
 
     //Método principal para calcular interseções e determinar a cor resultante
@@ -27,7 +32,7 @@ public class ProcessadorInterseccoes {
         IntersectResult intersectResult = encontrarObjetoMaisProximo(raio);
         Intersectable objetoMaisProximo = intersectResult.getObject();
         double menorDistancia = intersectResult.getDistance();
-
+        cameraMatrix = camera.getCameraMatrix();
         //Sem interseção: Retornar cor de fundo
         if (objetoMaisProximo == null) {
             return bgColor.getRGB();
@@ -48,7 +53,7 @@ public class ProcessadorInterseccoes {
         Intersectable objetoMaisProximo = null;
 
         for (Intersectable objeto : objetos) {
-            Intersection intersecao = objeto.intersect(raio);
+            Intersection intersecao = objeto.intersect(raio, cameraMatrix);
 
             if (intersecao != null && intersecao.distance < menorDistancia) {
                 menorDistancia = intersecao.distance;
@@ -69,7 +74,7 @@ public class ProcessadorInterseccoes {
         energiaLuz = intensidadeAmbiente.arroba(objeto.getKambiente());                 // Adicionar luz ambiente
         
         Vector3 vetorVisao = raio.direction.negate();                                   // Vetor de visão (V)
-        Vector3 vetorNormal = objeto.calcularNormal(pontoIntersecao);                   // Vetor normal (N)
+        Vector3 vetorNormal = objeto.calcularNormal(pontoIntersecao, cameraMatrix);                   // Vetor normal (N)
         Vector3 shadowRayOrigin = pontoIntersecao.add(vetorNormal.multiply(Config.EPSILON));    // Evitar auto-interseção
     
         externo:
@@ -82,7 +87,7 @@ public class ProcessadorInterseccoes {
             Ray raioDaSombra = new Ray(shadowRayOrigin, lightDirection);
             for (Intersectable objetoSombra : objetos) {
                 
-                Intersection interseccaoSombra = objetoSombra.intersect(raioDaSombra);
+                Intersection interseccaoSombra = objetoSombra.intersect(raioDaSombra, cameraMatrix);
                 if (interseccaoSombra != null 
                     && interseccaoSombra.distance > Config.EPSILON
                     && interseccaoSombra.distance < distanciaAteLuz) {
@@ -112,7 +117,4 @@ public class ProcessadorInterseccoes {
         return (energiaDifusa.add(energiaEspecular)).multiply(fatorAtenuacao);      
     }
     
-    public void setObjetos(ArrayList<Intersectable> objetos){
-        this.objetos = objetos;
-    }
 }

@@ -23,7 +23,7 @@ public class Cilindro extends Objeto3D implements Intersectable {
     }
 
     @Override
-    public Intersection intersect(Ray ray) {
+    public Intersection intersect(Ray ray, double[][] matrixCamera) {
 
         double valoresT[] = new double[4];
         boolean t1Valid, t2Valid;
@@ -128,8 +128,8 @@ public class Cilindro extends Objeto3D implements Intersectable {
     }
 
     @Override
-    public Vector3 calcularNormal(Vector3 pontoInterseccao) {
-        Vector3 vetorCentroBaseParaPonto = pontoInterseccao.subtract(centroBase);
+    public Vector3 calcularNormal(Vector3 ponto, double[][] matrixCamera) {
+        Vector3 vetorCentroBaseParaPonto = ponto.subtract(centroBase);
         double alturaProjetada = this.eixo.dot(vetorCentroBaseParaPonto);
 
         double tolerancia = 1e-6;
@@ -145,7 +145,7 @@ public class Cilindro extends Objeto3D implements Intersectable {
         }
         //Caso contrario, esta na superficie lateral
         Vector3 pontoProjetadoNoEixo = centroBase.add(this.eixo.multiply(alturaProjetada));
-        Vector3 normalLateral = pontoInterseccao.subtract(pontoProjetadoNoEixo).normalize();
+        Vector3 normalLateral = ponto.subtract(pontoProjetadoNoEixo).normalize();
         return normalLateral;
     }
 
