@@ -23,8 +23,7 @@ public class Cone extends Objeto3D implements Intersectable {
 
         Vector3 vertice = this.vertice.multiplyMatrix4x4(matrizTransformacao);
 
-
-        Vector3 v = this.eixo;
+        Vector3 v = eixo;
         double cos2Theta = Math.pow(altura / Math.sqrt(altura * altura + raioBase * raioBase), 2);
         Vector3 d = ray.direction;
 
