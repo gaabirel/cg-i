@@ -40,7 +40,7 @@ public class Esfera extends Objeto3D implements Intersectable {
 
     @Override
     public Vector3 calcularNormal(Vector3 ponto, double[][] matrizTransformacao) {
-        return ponto.subtract(center).normalize().multiplyMatrix4x4(matrizTransformacao);
+        return ponto.subtract(center.multiplyMatrix4x4(matrizTransformacao)).normalize();
     }
 
     @Override

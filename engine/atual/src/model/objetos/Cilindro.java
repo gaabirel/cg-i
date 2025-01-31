@@ -26,7 +26,7 @@ public class Cilindro extends Objeto3D implements Intersectable {
     public Intersection intersect(Ray ray, double[][] matrizTransformacao) {
         
         Vector3 centroBase = this.centroBase.multiplyMatrix4x4(matrizTransformacao);
-        Vector3 eixo = this.eixo.multiplyMatrix4x4(matrizTransformacao);
+    
 
         double valoresT[] = new double[4];
         boolean t1Valid, t2Valid;
