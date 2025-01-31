@@ -21,7 +21,7 @@ public class Main {
             Config.LARGURA_JANELA, 
             Config.ALTURA_JANELA
         );
-
+     
         //Printar os objetos no terminal
         ArrayList<Intersectable> objetos = renderizador.getObjetos();
         System.out.println("Lista de objetos: ");

@@ -20,6 +20,18 @@ public class Vector3 {
         return this.values[2];
     }
     
+    public void setX(double x){
+        this.values[0] = x;
+    }
+
+    public void setY(double y){
+        this.values[1] = y;
+    }
+
+    public void setZ(double z){
+        this.values[2] = z;
+    }
+    
     public Vector3 normalize() {
         double length = this.length();
         return new Vector3(getX() / length, getY() / length, getZ() / length);

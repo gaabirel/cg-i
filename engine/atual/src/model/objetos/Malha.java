@@ -62,15 +62,23 @@ public class Malha extends Objeto3D implements Intersectable{
 
     @Override
     public void transladar(double dx, double dy, double dz) {
-        for(Triangulo face : faces){
-            face.transladar(dx, dy, dz);
+        for(Vector3 vertice : vertices){
+            double x = vertice.getX();
+            double y = vertice.getY();
+            double z = vertice.getZ();
+            vertice.setX(x + dx);
+            vertice.setY(y + dy);
+            vertice.setZ(z + dz);
         }
     }
 
     @Override
     public void rotacionar(double angulo, Vector3 axis) {
         for(Vector3 vertice : vertices){
-            vertice.rotate(angulo, axis);
+            Vector3 verticeRodado = vertice.rotate(angulo, axis);
+            vertice.setX(verticeRodado.getX());
+            vertice.setY(verticeRodado.getY());
+            vertice.setZ(verticeRodado.getZ());
         }
     }
 
