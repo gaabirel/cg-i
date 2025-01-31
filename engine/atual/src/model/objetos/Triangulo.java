@@ -16,7 +16,30 @@ public class Triangulo extends Objeto3D implements Intersectable {
         atualizarNormal();
         setMaterial(material);
     }
-
+    public Triangulo(Aresta aresta1, Aresta aresta2, Material material) {
+        if (aresta1.getV1().equals(aresta2.getV1())) {
+            this.v1 = aresta1.getV1();
+            this.v2 = aresta1.getV2();
+            this.v3 = aresta2.getV2();
+        } else if (aresta1.getV1().equals(aresta2.getV2())) {
+            this.v1 = aresta1.getV1();
+            this.v2 = aresta1.getV2();
+            this.v3 = aresta2.getV1();
+        } else if (aresta1.getV2().equals(aresta2.getV1())) {
+            this.v1 = aresta1.getV2();
+            this.v2 = aresta1.getV1();
+            this.v3 = aresta2.getV2();
+        } else if (aresta1.getV2().equals(aresta2.getV2())) {
+            this.v1 = aresta1.getV2();
+            this.v2 = aresta1.getV1();
+            this.v3 = aresta2.getV1();
+        } else {
+            throw new IllegalArgumentException("As arestas fornecidas não compartilham um vértice comum.");
+        }
+        atualizarNormal();
+        setMaterial(material);
+    }
+   
     private void atualizarNormal() {
         Vector3 edge1 = v2.subtract(v1);
         Vector3 edge2 = v3.subtract(v1);

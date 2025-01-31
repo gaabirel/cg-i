@@ -15,6 +15,34 @@ public class CenaBuilder {
         this.random = new Random();
     }
 
+    public Malha criarMalhasPadrao(){
+        ArrayList<Vector3> vertices = new ArrayList<>();
+        ArrayList<Aresta> arestas = new ArrayList<>();
+        ArrayList<Triangulo> faces = new ArrayList<>();
+        Vector3 v1 = new Vector3(0, 0, -6);
+        Vector3 v2 = new Vector3(1, 0, -6);
+        Vector3 v3 = new Vector3(1, 1, -6);
+        Vector3 v4 = new Vector3(0, 1, -6);
+
+        // Definindo os vértices
+        vertices.add(v1);
+        vertices.add(v2);
+        vertices.add(v3);
+        vertices.add(v4);
+
+        // Definindo as arestas
+        arestas.add(new Aresta(vertices.get(0), vertices.get(1)));
+        arestas.add(new Aresta(vertices.get(1), vertices.get(2)));
+        arestas.add(new Aresta(vertices.get(2), vertices.get(3)));
+        arestas.add(new Aresta(vertices.get(3), vertices.get(0)));
+        // Definindo as faces
+        faces.add(new Triangulo(vertices.get(0), vertices.get(1), vertices.get(2), materiais.PLASTICO_BRILHANTE));
+        faces.add(new Triangulo(vertices.get(0), vertices.get(2), vertices.get(3), materiais.PLASTICO_BRILHANTE));
+        
+        Malha malha = new Malha(vertices, arestas, faces);
+        return malha;
+    }
+
     public ArrayList<Esfera> criarEsferasPadrao() {
         ArrayList<Esfera> esferas = new ArrayList<>();
 
