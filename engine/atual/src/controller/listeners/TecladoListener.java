@@ -40,6 +40,7 @@ public class TecladoListener extends KeyAdapter {
             checarCisalhamento(e);
             checarEspelhamento(e);
             checarMovimentoCamera(e);
+            checarOlharCamera(e);
             mainController.atualizarCena();
         } catch (Exception ex){
             System.out.println(ex.getMessage());
@@ -108,5 +109,13 @@ public class TecladoListener extends KeyAdapter {
         }
 
     }
-
+    public void checarOlharCamera(KeyEvent e){
+        double anguloRotacao = 5;
+        System.out.println("olhar camera");
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_J -> renderizador.mudarLookAt(anguloRotacao, 0, 0);
+            case KeyEvent.VK_K -> renderizador.mudarLookAt(0, anguloRotacao, 0);
+            case KeyEvent.VK_L -> renderizador.mudarLookAt(anguloRotacao, anguloRotacao, anguloRotacao);
+        }
+    }
 }

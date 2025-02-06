@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import src.model.interseccao.Intersection;
 import src.model.interseccao.Ray;
 import src.model.interseccao.Vector3;
+import src.model.materiais.Material;
 
 public class Malha extends Objeto3D implements Intersectable{
     
@@ -70,6 +71,7 @@ public class Malha extends Objeto3D implements Intersectable{
             vertice.setY(y + dy);
             vertice.setZ(z + dz);
         }
+        atualizarNormais();
     }
 
     @Override
@@ -79,6 +81,48 @@ public class Malha extends Objeto3D implements Intersectable{
             vertice.setX(verticeRodado.getX());
             vertice.setY(verticeRodado.getY());
             vertice.setZ(verticeRodado.getZ());
+        }
+        atualizarNormais();
+    }
+
+    private void atualizarNormais(){
+        for(Triangulo face : faces){
+            face.atualizarNormal();
+        }
+    }
+
+    @Override
+    public void setMaterial(Material material) {
+        for(Triangulo face : faces){
+            face.setMaterial(material);
+        }
+    }
+
+    @Override
+    public void setBrilho(double brilho) {
+        for (Triangulo face : faces) {
+            face.setBrilho(brilho);
+        }
+    }
+
+    @Override
+    public void setKambiente(Vector3 novoK) {
+        for (Triangulo face : faces) {
+            face.setKambiente(novoK);
+        }
+    }
+
+    @Override
+    public void setKdifuso(Vector3 novoK) {
+        for (Triangulo face : faces) {
+            face.setKdifuso(novoK);
+        }
+    }
+
+    @Override
+    public void setKespecular(Vector3 novoK) {
+        for (Triangulo face : faces) {
+            face.setKespecular(novoK);
         }
     }
 

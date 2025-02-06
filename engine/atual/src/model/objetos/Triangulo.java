@@ -40,7 +40,7 @@ public class Triangulo extends Objeto3D implements Intersectable {
         setMaterial(material);
     }
    
-    private void atualizarNormal() {
+    public void atualizarNormal() {
         Vector3 edge1 = v2.subtract(v1);
         Vector3 edge2 = v3.subtract(v1);
         this.normal = edge1.cross(edge2).normalize();

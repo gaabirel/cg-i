@@ -79,9 +79,6 @@ public class Renderizador{
         double sub_HalfW_HalfDx = half_Dx - half_W;
         double dz = -this.d; // distancia da tela projetada pro olho do observador
 
-        for(Intersectable objeto : objetos){
-            System.out.println(objeto.getClass());
-        }
         
         for (int l = 0; l < this.nLin; l++) {
             double y = sub_HalfH_HalfDy - l * this.Dy; 
@@ -108,9 +105,33 @@ public class Renderizador{
         Vector3 novoLookAt = this.camera.getLookAt().add(translacao);
         this.camera.setPosEye(novaPos);
         this.camera.setLookAt(novoLookAt);
+        }
+
+        public void mudarLookAt(double anguloX, double anguloY, double anguloZ) {
+        // Calcula o novo ponto LookAt usando os ângulos fornecidos
+        double radX = Math.toRadians(anguloX);
+        double radY = Math.toRadians(anguloY);
+        double radZ = Math.toRadians(anguloZ);
+
+        double cosY = Math.cos(radY);
+        double sinY = Math.sin(radY);
+        double cosP = Math.cos(radX);
+        double sinP = Math.sin(radX);
+        double cosR = Math.cos(radZ);
+        double sinR = Math.sin(radZ);
+
+        Vector3 lookAtOriginal = this.camera.getLookAt();
+
+        Vector3 novoLookAt = new Vector3(
+            lookAtOriginal.getX() * cosY * cosR - lookAtOriginal.getY() * sinR + lookAtOriginal.getZ() * sinY * cosR,
+            lookAtOriginal.getX() * sinP * sinY * cosR + lookAtOriginal.getY() * cosP * cosR + lookAtOriginal.getZ() * sinP * cosY * cosR,
+            lookAtOriginal.getX() * cosP * sinY * cosR - lookAtOriginal.getY() * sinP * sinR + lookAtOriginal.getZ() * cosP * cosY * cosR
+        ).add(this.camera.getPosEye());
+
+        this.camera.setLookAt(novoLookAt);
     }
 
-    public ProcessadorInterseccoes getProcessador(){
+    public ProcessadorInterseccoes getProcessador() {
         return this.processador;
     }
     public BufferedImage getCanvas(){

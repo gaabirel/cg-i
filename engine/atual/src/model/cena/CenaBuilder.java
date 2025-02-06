@@ -19,26 +19,63 @@ public class CenaBuilder {
         ArrayList<Vector3> vertices = new ArrayList<>();
         ArrayList<Aresta> arestas = new ArrayList<>();
         ArrayList<Triangulo> faces = new ArrayList<>();
-        Vector3 v1 = new Vector3(0, 0, -6);
-        Vector3 v2 = new Vector3(1, 0, -6);
-        Vector3 v3 = new Vector3(1, 1, -6);
-        Vector3 v4 = new Vector3(0, 1, -6);
+        // Vector3 v1 = new Vector3(0, 0, -6);
+        // Vector3 v2 = new Vector3(1, 0, -6);
+        // Vector3 v3 = new Vector3(1, 1, -6);
+        // Vector3 v4 = new Vector3(0, 1, -6);
 
-        // Definindo os vértices
-        vertices.add(v1);
-        vertices.add(v2);
-        vertices.add(v3);
-        vertices.add(v4);
+        // // Definindo os vértices
+        // vertices.add(v1);
+        // vertices.add(v2);
+        // vertices.add(v3);
+        // vertices.add(v4);
 
-        // Definindo as arestas
+        // // Definindo as arestas
+        // arestas.add(new Aresta(vertices.get(0), vertices.get(1)));
+        // arestas.add(new Aresta(vertices.get(1), vertices.get(2)));
+        // arestas.add(new Aresta(vertices.get(2), vertices.get(3)));
+        // arestas.add(new Aresta(vertices.get(3), vertices.get(0)));
+        // // Definindo as faces
+        // faces.add(new Triangulo(vertices.get(0), vertices.get(1), vertices.get(2), materiais.PLASTICO_BRILHANTE));
+        // faces.add(new Triangulo(vertices.get(0), vertices.get(2), vertices.get(3), materiais.PLASTICO_BRILHANTE));
+        
+        // Definindo os vértices do cubo
+        vertices.add(new Vector3(0, 0, -5));
+        vertices.add(new Vector3(1, 0, -5));
+        vertices.add(new Vector3(1, 1, -5));
+        vertices.add(new Vector3(0, 1, -5));
+        vertices.add(new Vector3(0, 0, -4));
+        vertices.add(new Vector3(1, 0, -4));
+        vertices.add(new Vector3(1, 1, -4));
+        vertices.add(new Vector3(0, 1, -4));
+
+        // Definindo as arestas do cubo
         arestas.add(new Aresta(vertices.get(0), vertices.get(1)));
         arestas.add(new Aresta(vertices.get(1), vertices.get(2)));
         arestas.add(new Aresta(vertices.get(2), vertices.get(3)));
         arestas.add(new Aresta(vertices.get(3), vertices.get(0)));
-        // Definindo as faces
-        faces.add(new Triangulo(vertices.get(0), vertices.get(1), vertices.get(2), materiais.PLASTICO_BRILHANTE));
-        faces.add(new Triangulo(vertices.get(0), vertices.get(2), vertices.get(3), materiais.PLASTICO_BRILHANTE));
-        
+        arestas.add(new Aresta(vertices.get(4), vertices.get(5)));
+        arestas.add(new Aresta(vertices.get(5), vertices.get(6)));
+        arestas.add(new Aresta(vertices.get(6), vertices.get(7)));
+        arestas.add(new Aresta(vertices.get(7), vertices.get(4)));
+        arestas.add(new Aresta(vertices.get(0), vertices.get(4)));
+        arestas.add(new Aresta(vertices.get(1), vertices.get(5)));
+        arestas.add(new Aresta(vertices.get(2), vertices.get(6)));
+        arestas.add(new Aresta(vertices.get(3), vertices.get(7)));
+
+        // Definindo as faces do cubo com normais para fora
+        faces.add(new Triangulo(new Aresta(vertices.get(0), vertices.get(3)), new Aresta(vertices.get(3), vertices.get(2)), materiais.PLASTICO_BRILHANTE));
+        faces.add(new Triangulo(new Aresta(vertices.get(0), vertices.get(2)), new Aresta(vertices.get(2), vertices.get(1)), materiais.PLASTICO_BRILHANTE));
+        faces.add(new Triangulo(new Aresta(vertices.get(4), vertices.get(7)), new Aresta(vertices.get(7), vertices.get(6)), materiais.PLASTICO_BRILHANTE));
+        faces.add(new Triangulo(new Aresta(vertices.get(4), vertices.get(6)), new Aresta(vertices.get(6), vertices.get(5)), materiais.PLASTICO_BRILHANTE));
+        faces.add(new Triangulo(new Aresta(vertices.get(0), vertices.get(4)), new Aresta(vertices.get(4), vertices.get(5)), materiais.PLASTICO_BRILHANTE));
+        faces.add(new Triangulo(new Aresta(vertices.get(0), vertices.get(5)), new Aresta(vertices.get(5), vertices.get(1)), materiais.PLASTICO_BRILHANTE));
+        faces.add(new Triangulo(new Aresta(vertices.get(1), vertices.get(5)), new Aresta(vertices.get(5), vertices.get(6)), materiais.PLASTICO_BRILHANTE));
+        faces.add(new Triangulo(new Aresta(vertices.get(1), vertices.get(6)), new Aresta(vertices.get(6), vertices.get(2)), materiais.PLASTICO_BRILHANTE));
+        faces.add(new Triangulo(new Aresta(vertices.get(2), vertices.get(6)), new Aresta(vertices.get(6), vertices.get(7)), materiais.PLASTICO_BRILHANTE));
+        faces.add(new Triangulo(new Aresta(vertices.get(2), vertices.get(7)), new Aresta(vertices.get(7), vertices.get(3)), materiais.PLASTICO_BRILHANTE));
+        faces.add(new Triangulo(new Aresta(vertices.get(3), vertices.get(7)), new Aresta(vertices.get(7), vertices.get(4)), materiais.PLASTICO_BRILHANTE));
+        faces.add(new Triangulo(new Aresta(vertices.get(3), vertices.get(4)), new Aresta(vertices.get(4), vertices.get(0)), materiais.PLASTICO_BRILHANTE));
         Malha malha = new Malha(vertices, arestas, faces);
         return malha;
     }

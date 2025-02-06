@@ -21,6 +21,7 @@ public class Camera {
     }
 
     public double[][] getCameraMatrix() {
+        k_c = posEye.subtract(lookAt).normalize();
         // Calculando os vetores da base da câmera
         Vector3 i_c = viewUp.cross(k_c).normalize();   // Vetor "direita"
         Vector3 j_c = k_c.cross(i_c).normalize();      // Vetor "para cima"
