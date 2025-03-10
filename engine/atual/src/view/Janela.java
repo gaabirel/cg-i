@@ -54,6 +54,14 @@ public class Janela extends JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.drawImage(renderPanel.getCanvas(), 0, 0, null);
+            // Define a cor e a fonte do texto
+            // g.setColor(Color.BLACK);
+            // g.setFont(new Font("Arial", Font.BOLD, 14));
+            
+            // // Adiciona explicações sobre os botões
+            // g.drawString("Botão 1: Iniciar", 10, 20);
+            // g.drawString("Botão 2: Parar", 10, 40);
+            // g.drawString("Botão 3: Resetar", 10, 60);
         }
     }
 }

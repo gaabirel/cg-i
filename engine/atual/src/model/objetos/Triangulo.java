@@ -1,5 +1,7 @@
 package src.model.objetos;
 
+import java.awt.image.BufferedImage;
+
 import src.model.interseccao.Intersection;
 import src.model.interseccao.Ray;
 import src.model.interseccao.Vector3;
@@ -8,6 +10,7 @@ import src.model.materiais.Material;
 public class Triangulo extends Objeto3D implements Intersectable {
     private Vector3 v1, v2, v3; // Vértices do triângulo
     private Vector3 normal;
+    private BufferedImage textura;
 
     public Triangulo(Vector3 v1, Vector3 v2, Vector3 v3, Material material) {
         this.v1 = v1;
@@ -16,6 +19,7 @@ public class Triangulo extends Objeto3D implements Intersectable {
         atualizarNormal();
         setMaterial(material);
     }
+
     public Triangulo(Aresta aresta1, Aresta aresta2, Material material) {
         if (aresta1.getV1().equals(aresta2.getV1())) {
             this.v1 = aresta1.getV1();
@@ -39,7 +43,15 @@ public class Triangulo extends Objeto3D implements Intersectable {
         atualizarNormal();
         setMaterial(material);
     }
-   
+    public Triangulo(Vector3 v1, Vector3 v2, Vector3 v3, BufferedImage textura) {
+        this.v1 = v1;
+        this.v2 = v2;
+        this.v3 = v3;
+        this.textura = textura;
+        atualizarNormal();
+        setMaterial(new Material(new Vector3(0.1, 0.1, 0.1), new Vector3(0.2, 0.2, 0.2), new Vector3(0.1, 0.1, 0.1)));
+    }
+
     public void atualizarNormal() {
         Vector3 edge1 = v2.subtract(v1);
         Vector3 edge2 = v3.subtract(v1);
@@ -288,7 +300,7 @@ public class Triangulo extends Objeto3D implements Intersectable {
         Vector3 v_2 = v2.multiplyMatrix4x4(matrix);
         Vector3 v_3 = v3.multiplyMatrix4x4(matrix);
 
-        Triangulo triangulo = new Triangulo(v_1, v_2, v_3, material);
+        Triangulo triangulo = new Triangulo(v_1, v_2, v_3, this.textura);
         return triangulo;
     }
 
@@ -302,9 +314,52 @@ public class Triangulo extends Objeto3D implements Intersectable {
             
                 '}';
     }
+    
     @Override
     public int[] getTexturaColor(Vector3 pontoIntersecao) {
-        return new int[] {0, 0, 0};
+        if (textura == null) {
+            return new int[]{0, 0, 0};
+        }
+
+        double[] baryCoords = calcularCoordenadasBaricentricas(pontoIntersecao);
+        double u = baryCoords[0];
+        double v = baryCoords[1];
+        double w = baryCoords[2];
+
+        double texU = u * 1 + v * 0 + w * 1; // Exemplo de interpolação
+        double texV = u * 1 + v * 1 + w * 0;
+
+        int texX = (int) (texU * (textura.getWidth() - 1));
+        int texY = (int) ((1 - texV) * (textura.getHeight() - 1));
+
+        texX = Math.max(0, Math.min(textura.getWidth() - 1, texX));
+        texY = Math.max(0, Math.min(textura.getHeight() - 1, texY));
+
+        int rgb = textura.getRGB(texX, texY);
+        int r = (rgb >> 16) & 0xFF;
+        int g = (rgb >> 8) & 0xFF;
+        int b = rgb & 0xFF;
+
+        return new int[]{r, g, b};
+    }
+
+    private double[] calcularCoordenadasBaricentricas(Vector3 p) {
+        Vector3 v0 = v2.subtract(this.v1);
+        Vector3 v1 = v3.subtract(this.v1);
+        Vector3 v2 = p.subtract(this.v1);
+
+        double d00 = v0.dot(v0);
+        double d01 = v0.dot(v1);
+        double d11 = v1.dot(v1);
+        double d20 = v2.dot(v0);
+        double d21 = v2.dot(v1);
+
+        double denom = d00 * d11 - d01 * d01;
+        double v = (d11 * d20 - d01 * d21) / denom;
+        double w = (d00 * d21 - d01 * d20) / denom;
+        double u = 1.0 - v - w;
+
+        return new double[]{u, v, w};
     }
 
 }

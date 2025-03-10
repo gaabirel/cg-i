@@ -22,7 +22,7 @@ public class Cone extends Objeto3D implements Intersectable {
     public Intersection intersect(Ray ray, double[][] matrizTransformacao) {
 
         Vector3 vertice = this.vertice.multiplyMatrix4x4(matrizTransformacao);
-
+        this.eixo = this.eixo.multiplyMatrix4x4(matrizTransformacao).normalize();
         Vector3 v = eixo;
         double cos2Theta = Math.pow(altura / Math.sqrt(altura * altura + raioBase * raioBase), 2);
         Vector3 d = ray.direction;

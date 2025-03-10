@@ -47,16 +47,16 @@ public class Renderizador{
 
         //Camera
         // Posição da câmera (Eye position)
-        Vector3 posEye = new Vector3(0, 0, 0);
+        Vector3 posEye = new Vector3(10, 20, -10);
         
         // Ponto que a câmera está olhando (LookAt)
-        Vector3 lookAt = new Vector3(0, 0, -5);
+        Vector3 lookAt = new Vector3(0, 0.8, -10);
         
         // Vetor "para cima" da câmera (ViewUp)
-        Vector3 viewUp = new Vector3(0, 1, 0);
+        Vector3 upPoint = new Vector3(0, 2, -10);
         
         // Criando a instância da câmera
-        this.camera = new Camera(posEye, lookAt, viewUp);
+        this.camera = new Camera(posEye, lookAt, upPoint);
 
         //classe que vai processar as interseccoes dos objetos
         this.processador = new ProcessadorInterseccoes(objetos, luzes, camera);

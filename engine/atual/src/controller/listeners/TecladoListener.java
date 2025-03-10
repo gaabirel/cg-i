@@ -2,7 +2,14 @@ package src.controller.listeners;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import src.controller.MainController;
 import src.controller.renderizacao.Renderizador;
@@ -42,11 +49,45 @@ public class TecladoListener extends KeyAdapter {
             checarMovimentoCamera(e);
             checarOlharCamera(e);
             checarZoom(e);
+            checarScreenshot(e);
             mainController.atualizarCena();
         } catch (Exception ex){
             System.out.println(ex.getMessage());
         }
     }
+
+    public void checarScreenshot(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_F12) { // Exemplo: Pressionar F12 para tirar screenshot
+            BufferedImage imagem = renderizador.getCanvas();
+            salvarImagem(imagem);
+        }
+    }
+
+    private void salvarImagem(BufferedImage imagem) {
+        // Define o diretório onde a imagem será salva
+        String pastaDestino = "../../imagens/";
+        File diretorio = new File(pastaDestino);
+
+        // Cria a pasta caso não exista
+        if (!diretorio.exists()) {
+            diretorio.mkdirs();
+        }
+
+        // Gera um nome único para a imagem baseado na data/hora
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+        String nomeArquivo = "screenshot_" + timestamp + ".png";
+
+        File arquivo = new File(diretorio, nomeArquivo);
+
+        try {
+            // Salva a imagem no formato PNG
+            ImageIO.write(imagem, "png", arquivo);
+            System.out.println("Screenshot salva em: " + arquivo.getAbsolutePath());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public void checarZoom(KeyEvent e){
         switch (e.getKeyCode()){
             case KeyEvent.VK_0 -> renderizador.zoomIn(1.1);

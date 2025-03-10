@@ -126,6 +126,19 @@ public class Vector3 {
     
         return new Vector3(result[0], result[1], result[2]);
     }
+    public Vector3 multiplyMatrix4x4Ponto(double[][] matrix) {
+        double[] result = new double[4];
+        double[] pontoHomogenio = {getX(), getY(), getZ(), 0};
+        
+        for (int i = 0; i < 4; i++) {
+            result[i] = 0;
+            for (int j = 0; j < 4; j++) {
+                result[i] += matrix[i][j] * pontoHomogenio[j];
+            }
+        }
+    
+        return new Vector3(result[0], result[1], result[2]);
+    }
 
     @Override
     public String toString() {

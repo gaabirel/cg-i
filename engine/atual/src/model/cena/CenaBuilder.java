@@ -69,7 +69,6 @@ public class CenaBuilder {
         arestas.add(new Aresta(vertices.get(2), vertices.get(6)));
         arestas.add(new Aresta(vertices.get(3), vertices.get(7)));
 
-        // Definindo as faces do cubo com normais para fora
         faces.add(new Triangulo(new Aresta(vertices.get(0), vertices.get(3)), new Aresta(vertices.get(3), vertices.get(2)), materiais.PLASTICO_BRILHANTE));
         faces.add(new Triangulo(new Aresta(vertices.get(0), vertices.get(2)), new Aresta(vertices.get(2), vertices.get(1)), materiais.PLASTICO_BRILHANTE));
         faces.add(new Triangulo(new Aresta(vertices.get(4), vertices.get(7)), new Aresta(vertices.get(7), vertices.get(6)), materiais.PLASTICO_BRILHANTE));
@@ -82,6 +81,9 @@ public class CenaBuilder {
         faces.add(new Triangulo(new Aresta(vertices.get(2), vertices.get(7)), new Aresta(vertices.get(7), vertices.get(3)), materiais.PLASTICO_BRILHANTE));
         faces.add(new Triangulo(new Aresta(vertices.get(3), vertices.get(7)), new Aresta(vertices.get(7), vertices.get(4)), materiais.PLASTICO_BRILHANTE));
         faces.add(new Triangulo(new Aresta(vertices.get(3), vertices.get(4)), new Aresta(vertices.get(4), vertices.get(0)), materiais.PLASTICO_BRILHANTE));
+        
+
+        // Definindo as faces do cubo com normais para fora
         Malha malha = new Malha(vertices, arestas, faces);
         return malha;
     }
@@ -141,7 +143,7 @@ public class CenaBuilder {
         ArrayList<Plano> planos = new ArrayList<>();
         BufferedImage textura = null;
         try {
-            textura = ImageIO.read(new File("C:\\Users\\gabri\\Desktop\\cg-i\\engine\\atual\\textura\\areia2.JPG"));
+            textura = ImageIO.read(new File("C:\\Users\\gabri\\Desktop\\cg-i\\engine\\atual\\textura\\neveSuprema.jpg"));
             planos.add(new Plano(new Vector3(0, -1, 0), new Vector3(0, 1.0, 0), textura, true));
         } catch (IOException e) {
             e.printStackTrace();
@@ -151,7 +153,7 @@ public class CenaBuilder {
         // planos.add(new Plano(new Vector3(2, 0, 0), new Vector3(-1, 0, 0), materiais.METALICO));
         //parede do fundo
         try{
-            textura = ImageIO.read(new File("C:\\Users\\gabri\\Desktop\\cg-i\\engine\\atual\\textura\\montanha.png"));
+            textura = ImageIO.read(new File("C:\\Users\\gabri\\Desktop\\cg-i\\engine\\atual\\textura\\neveChao.png"));
             planos.add(new Plano(new Vector3(0, 0, -20), new Vector3(0, 0, 1), textura, false));
         }catch (IOException e){
             planos.add(new Plano(new Vector3(0, 0, -20), new Vector3(0, 0, 1), materiais.MADEIRA_ENVELHECIDA, false));
@@ -180,10 +182,10 @@ public class CenaBuilder {
 
     public ArrayList<Light> criarLuzesPadrao() {
         ArrayList<Light> luzes = new ArrayList<>();
-        Vector3 intensidade = new Vector3(0.8, 0.8, 0.8);
+        Vector3 intensidade = new Vector3(0.4, 0.4, 0.4);
 
         luzes.add(new Light(new Vector3(0, 1.8, -6), intensidade));
-
+        //luzes.add(new Light(new Vector3(0.5, 1.2, -6), intensidade));
         return luzes;
     }
 
@@ -192,6 +194,14 @@ public class CenaBuilder {
         Vector3 v1 = new Vector3(-1.5, 0, -10); // base esquerda
         Vector3 v2 = new Vector3(-0.5, 0, -10); // base direita 
         Vector3 v3 = new Vector3(-1, 2, -10); // ponta superior
+        // BufferedImage textura = null;
+        // try {
+        //     textura = ImageIO.read(new File("C:\\Users\\gabri\\Desktop\\cg-i\\engine\\atual\\textura\\folha.png"));
+        //     Triangulo triangulo = new Triangulo(v1, v2, v3, textura);
+        //     triangulos.add(triangulo);
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
         Triangulo triangulo = new Triangulo(v1, v2, v3, materiais.FOLHA);
         triangulos.add(triangulo);
         return triangulos;
