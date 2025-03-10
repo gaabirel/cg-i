@@ -46,14 +46,14 @@ public class CenaBuilder {
         // faces.add(new Triangulo(vertices.get(0), vertices.get(2), vertices.get(3), materiais.PLASTICO_BRILHANTE));
         
         // Definindo os vértices do cubo
-        vertices.add(new Vector3(0, 0, -5));
-        vertices.add(new Vector3(1, 0, -5));
-        vertices.add(new Vector3(1, 1, -5));
-        vertices.add(new Vector3(0, 1, -5));
-        vertices.add(new Vector3(0, 0, -4));
-        vertices.add(new Vector3(1, 0, -4));
-        vertices.add(new Vector3(1, 1, -4));
-        vertices.add(new Vector3(0, 1, -4));
+        vertices.add(new Vector3(-0.5, -1, -10));
+        vertices.add(new Vector3(0.5, -1, -10));
+        vertices.add(new Vector3(0.5, -0.5, -10));
+        vertices.add(new Vector3(-0.5, -0.5, -10));
+        vertices.add(new Vector3(-0.5, -1, -9));
+        vertices.add(new Vector3(0.5, -1, -9));
+        vertices.add(new Vector3(0.5, -0.5, -9));
+        vertices.add(new Vector3(-0.5, -0.5, -9));
 
         // Definindo as arestas do cubo
         arestas.add(new Aresta(vertices.get(0), vertices.get(1)));
@@ -88,12 +88,31 @@ public class CenaBuilder {
 
     public ArrayList<Esfera> criarEsferasPadrao() {
         ArrayList<Esfera> esferas = new ArrayList<>();
-        Esfera olho = new Esfera(0.1, new Vector3(0.2, 0.9, -9.4), materiais.OBSIDIANA);
-        esferas.add(olho);
-        Esfera olho2 = new Esfera(0.1, new Vector3(-0.2, 0.9, -9.4), materiais.OBSIDIANA);
-        esferas.add(olho2);
-        esferas.add(new Esfera(0.5, new Vector3(0, 0, -10), materiais.NEVE));
-        esferas.add(new Esfera(0.4, new Vector3(0, 0.8, -10), materiais.NEVE));
+        BufferedImage textura = null;
+        try {
+            textura = ImageIO.read(new File("C:\\Users\\gabri\\Desktop\\cg-i\\engine\\atual\\textura\\neveSuprema.jpg"));
+            esferas.add(new Esfera(0.5, new Vector3(0, 0, -10), textura));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            textura = ImageIO.read(new File("C:\\Users\\gabri\\Desktop\\cg-i\\engine\\atual\\textura\\neveSuprema.jpg"));
+            esferas.add(new Esfera(0.4, new Vector3(0, 0.8, -10), textura));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            textura = ImageIO.read(new File("C:\\Users\\gabri\\Desktop\\cg-i\\engine\\atual\\textura\\olho.png"));
+            esferas.add(new Esfera(0.1, new Vector3(0.2, 0.9, -9.4), textura));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            textura = ImageIO.read(new File("C:\\Users\\gabri\\Desktop\\cg-i\\engine\\atual\\textura\\olho.png"));
+            esferas.add(new Esfera(0.1, new Vector3(-0.2, 0.9, -9.4), textura));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         
         //esferas.add(new Esfera(1.0, new Vector3(2, 0, -15), materiais.VIDRO));
         //esferas.add(new Esfera(0.2, new Vector3(0, 1.2, -8), materiais.getMaterialAleatorio()));
@@ -122,16 +141,21 @@ public class CenaBuilder {
         ArrayList<Plano> planos = new ArrayList<>();
         BufferedImage textura = null;
         try {
-            textura = ImageIO.read(new File("C:\\Users\\junin\\Documents\\GitHub\\cg-i\\engine\\atual\\textura\\areia2.jpg"));
-            planos.add(new Plano(new Vector3(0, -1, 0), new Vector3(0, 1.0, 0), textura));
+            textura = ImageIO.read(new File("C:\\Users\\gabri\\Desktop\\cg-i\\engine\\atual\\textura\\areia2.JPG"));
+            planos.add(new Plano(new Vector3(0, -1, 0), new Vector3(0, 1.0, 0), textura, true));
         } catch (IOException e) {
             e.printStackTrace();
-            planos.add(new Plano(new Vector3(0, -1, 0), new Vector3(0, 1.0, 0), materiais.MADEIRA_ENVELHECIDA));
+            planos.add(new Plano(new Vector3(0, -1, 0), new Vector3(0, 1.0, 0), materiais.MADEIRA_ENVELHECIDA, true));
         }
         // planos.add(new Plano(new Vector3(0, -1, 0), new Vector3(0, 1.0, 0), materiais.MADEIRA_ENVELHECIDA));
         // planos.add(new Plano(new Vector3(2, 0, 0), new Vector3(-1, 0, 0), materiais.METALICO));
         //parede do fundo
-        planos.add(new Plano(new Vector3(0, 0, -20), new Vector3(0, 0, 1), materiais.MADEIRA_ENVELHECIDA));
+        try{
+            textura = ImageIO.read(new File("C:\\Users\\gabri\\Desktop\\cg-i\\engine\\atual\\textura\\montanha.png"));
+            planos.add(new Plano(new Vector3(0, 0, -20), new Vector3(0, 0, 1), textura, false));
+        }catch (IOException e){
+            planos.add(new Plano(new Vector3(0, 0, -20), new Vector3(0, 0, 1), materiais.MADEIRA_ENVELHECIDA, false));
+        }
         // planos.add(new Plano(new Vector3(-2, 0, 0),  new Vector3(1, 0, 0), materiais.METALICO));
         // planos.add(new Plano(new Vector3(0, 2, 0), new Vector3(0, -1, 0), materiais.MADEIRA_ENVELHECIDA));
 

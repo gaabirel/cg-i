@@ -16,7 +16,7 @@ public class Janela extends JFrame {
         
         //Configura o JFrame
         setSize(nCol, nLin);
-        setTitle("Esfera lumiada");
+        setTitle("Neve");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         adicionarComponentes();

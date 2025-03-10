@@ -107,7 +107,7 @@ public class Renderizador{
         this.camera.setLookAt(novoLookAt);
         }
 
-        public void mudarLookAt(double anguloX, double anguloY, double anguloZ) {
+    public void mudarLookAt(double anguloX, double anguloY, double anguloZ) {
         // Calcula o novo ponto LookAt usando os ângulos fornecidos
         double radX = Math.toRadians(anguloX);
         double radY = Math.toRadians(anguloY);

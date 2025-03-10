@@ -1,5 +1,7 @@
 package src.model.objetos;
 
+import java.awt.image.BufferedImage;
+
 import src.model.interseccao.Intersection;
 import src.model.interseccao.Ray;
 import src.model.interseccao.Vector3;
@@ -10,12 +12,20 @@ public class Esfera extends Objeto3D implements Intersectable {
     private double radius;    //Raio da esfera
     private Vector3 center;   //Centro da esfera
     private double squareRadius; //Raio ao quadrado
+    private BufferedImage textura;
 
     public Esfera(double radius, Vector3 center, Material material) {
         this.radius = radius;
         this.center = center;
         this.squareRadius = radius * radius;
         setMaterial(material);
+    }
+    public Esfera(double radius, Vector3 center, BufferedImage textura) {
+        this.radius = radius;
+        this.center = center;
+        this.squareRadius = radius * radius;
+        this.textura = textura;
+        setMaterial(new Material(new Vector3(0.1, 0.1, 0.1), new Vector3(0.2, 0.2, 0.2), new Vector3(0.1, 0.1, 0.1)));
     }
 
     @Override
@@ -100,7 +110,43 @@ public class Esfera extends Objeto3D implements Intersectable {
 
     @Override
     public int[] getTexturaColor(Vector3 pontoIntersecao) {
-        return new int[] {0, 0, 0};
+        if (textura == null) {
+            return new int[]{0, 0, 0};
+        }
+    
+        // Converter ponto de interseção para coordenadas esféricas
+        double x = pontoIntersecao.getX() - center.getX();
+        double y = pontoIntersecao.getY() - center.getY();
+        double z = pontoIntersecao.getZ() - center.getZ();
+    
+        // Normalizar para a superfície da esfera
+        double r = Math.sqrt(x * x + y * y + z * z);
+        double theta = Math.atan2(z, x); // Ângulo azimutal
+        double phi = Math.acos(y / r);   // Ângulo polar
+    
+        // Mapear para coordenadas de textura (u, v)
+        double u = (theta / (2 * Math.PI)) + 0.5; // Ajusta para o intervalo [0,1]
+        double v = phi / Math.PI;                 // Ajusta para o intervalo [0,1]
+    
+        // Converter para coordenadas de pixel da textura
+        int texX = (int) (u * (textura.getWidth() - 1));
+        int texY = (int) ((1 - v) * (textura.getHeight() - 1)); // Inverter Y pois (0,0) geralmente está no topo
+    
+        // Obter a cor do pixel da textura
+        int rgb = textura.getRGB(texX, texY);
+    
+        // Extrair componentes RGB
+        int rC = (rgb >> 16) & 0xFF;
+        int gC = (rgb >> 8) & 0xFF;
+        int bC = rgb & 0xFF;
+    
+        // Atenuação da cor
+        double fator_atenuacao = 0.5;
+        return new int[]{
+            (int) (rC * fator_atenuacao),
+            (int) (gC * fator_atenuacao),
+            (int) (bC * fator_atenuacao)
+        };
     }
 
    

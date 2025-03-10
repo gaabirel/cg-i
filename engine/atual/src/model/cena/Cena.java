@@ -15,7 +15,7 @@ public class Cena {
         this.objetosCena = new ArrayList<>();
         luzes = cenaBuilder.criarLuzesPadrao();
         
-        //objetosCena.add(cenaBuilder.criarMalhasPadrao());  
+        objetosCena.add(cenaBuilder.criarMalhasPadrao());  
         objetosCena.addAll(cenaBuilder.criarPlanosPadrao());
         objetosCena.addAll(cenaBuilder.criarCilindrosPadrao());
         objetosCena.addAll(cenaBuilder.criarTriangulosPadrao());
