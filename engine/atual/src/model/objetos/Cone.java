@@ -124,4 +124,9 @@ public class Cone extends Objeto3D implements Intersectable {
                 '}';
     }
 
+    @Override
+    public int[] getTexturaColor(Vector3 pontoIntersecao) {
+        return new int[] {0, 0, 0};
+    }
+
 }

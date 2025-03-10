@@ -88,28 +88,45 @@ public class Vector3 {
         else return false;
     }
 
-    // Método para rotacionar este vetor em torno de um eixo
+    // Método para rotacionar este vetor em torno de um eixo usando quaternions
     public Vector3 rotate(double angleDegrees, Vector3 axis) {
-        double angleRadians = Math.toRadians(angleDegrees); //Converte para radianos
-        Vector3 normalizedAxis = axis.normalize(); //Normaliza o eixo
-
-        double cosTheta = Math.cos(angleRadians);
+        double angleRadians = Math.toRadians(angleDegrees) / 2.0; // Metade do ângulo para quaternions
+        Vector3 normalizedAxis = axis.normalize(); // Normaliza o eixo
+        
         double sinTheta = Math.sin(angleRadians);
-
-        //Produto escalar (componente paralela ao eixo)
-        double dotProduct = this.dot(normalizedAxis);
-
-        //Calcula os componentes usando a fórmula de Rodrigues
-        Vector3 paralelo = normalizedAxis.multiply(dotProduct);
-        Vector3 perpendicular = this.subtract(paralelo);
-        Vector3 cruzado = normalizedAxis.cross(this);
-
-        //Combina os componentes rotacionados
-        return perpendicular.multiply(cosTheta)
-                .add(cruzado.multiply(sinTheta))
-                .add(paralelo);
+        double cosTheta = Math.cos(angleRadians);
+        
+        // Quaternions (q = cos(θ/2) + sin(θ/2) * (xi + yj + zk))
+        double qx = normalizedAxis.getX() * sinTheta;
+        double qy = normalizedAxis.getY() * sinTheta;
+        double qz = normalizedAxis.getZ() * sinTheta;
+        double qw = cosTheta;
+        
+        // // Conjugado do quaternion
+        // double qcx = -qx;
+        // double qcy = -qy;
+        // double qcz = -qz;
+        // double qcw = qw;
+        
+        // Converte o vetor em um quaternion puro (0, v)
+        double vx = this.getX();
+        double vy = this.getY();
+        double vz = this.getZ();
+        
+        // Multiplicação q * v (quaternion-vetor)
+        double tx =  qw * vx + qy * vz - qz * vy;
+        double ty =  qw * vy + qz * vx - qx * vz;
+        double tz =  qw * vz + qx * vy - qy * vx;
+        double tw = -qx * vx - qy * vy - qz * vz;
+        
+        // Multiplicação (q * v) * q⁻¹
+        double rx =  tw * qx + tx * qw + ty * qz - tz * qy;
+        double ry =  tw * qy - tx * qz + ty * qw + tz * qx;
+        double rz =  tw * qz + tx * qy - ty * qx + tz * qw;
+        
+        return new Vector3(rx, ry, rz);
     }
-    
+
     public Vector3 escala(double sx, double sy, double sz) {
         return new Vector3(getX() * sx, getY() * sy, getZ() * sz);
     }

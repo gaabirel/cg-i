@@ -49,11 +49,15 @@ public class MateriaisPadrao {
             TURQUESA,
             RUBI,
             PEROLA,
-            OBSIDIANA
+            OBSIDIANA,
+            NEVE,
+            FOLHA
         };
     }
 
     // Definições dos materiais (exemplo)
+    public final Material FOLHA = new Material("Folha", new Vector3(0.0, 0.5, 0.0), new Vector3(0.0, 0.0, 0.0), new Vector3(0.0, 0.0, 0.0));
+    public final Material NEVE = new Material("Neve", new Vector3(0.9, 0.9, 0.9), new Vector3(1.0, 1.0, 1.0), new Vector3(0.1, 0.1, 0.1));
     public final Material METALICO = new Material("Metálico", new Vector3(0.8, 0.8, 0.8), new Vector3(0.9, 0.9, 0.9), new Vector3(0.1, 0.1, 0.1));
     public final Material MADEIRA = new Material("Madeira", new Vector3(0.6, 0.3, 0.1), new Vector3(0.5, 0.5, 0.5), new Vector3(0.2, 0.1, 0.05));
     public final Material VIDRO = new Material("Vidro", new Vector3(0.9, 0.9, 0.9), new Vector3(1.0, 1.0, 1.0), new Vector3(0.1, 0.1, 0.1));

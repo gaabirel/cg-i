@@ -69,7 +69,7 @@ public class ProcessadorInterseccoes {
      */
 
     public int[] calcularCorComLuz(Intersectable objeto, Vector3 pontoIntersecao, Ray raio) {
-        int[] corPintar = {0, 0, 0};
+        int[] corPintar = objeto.getTexturaColor(pontoIntersecao);
 
         energiaLuz = intensidadeAmbiente.arroba(objeto.getKambiente());                 // Adicionar luz ambiente
         

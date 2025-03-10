@@ -299,7 +299,12 @@ public class Triangulo extends Objeto3D implements Intersectable {
                 ", v2=" + this.v2 +
                 ", v3=" + this.v3 +
                 ", material=" + this.material + 
+            
                 '}';
+    }
+    @Override
+    public int[] getTexturaColor(Vector3 pontoIntersecao) {
+        return new int[] {0, 0, 0};
     }
 
 }

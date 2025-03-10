@@ -50,7 +50,7 @@ public class Renderizador{
         Vector3 posEye = new Vector3(0, 0, 0);
         
         // Ponto que a câmera está olhando (LookAt)
-        Vector3 lookAt = new Vector3(0.5, 0, -5);
+        Vector3 lookAt = new Vector3(0, 0, -5);
         
         // Vetor "para cima" da câmera (ViewUp)
         Vector3 viewUp = new Vector3(0, 1, 0);
@@ -130,7 +130,12 @@ public class Renderizador{
 
         this.camera.setLookAt(novoLookAt);
     }
-
+    public void zoomIn(double fator){
+        this.camera.zoomIn(fator);    
+    }
+    public void zoomOut(double fator){
+        this.camera.zoomOut(fator);
+    }
     public ProcessadorInterseccoes getProcessador() {
         return this.processador;
     }

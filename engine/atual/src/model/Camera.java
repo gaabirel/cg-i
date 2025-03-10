@@ -1,10 +1,6 @@
 package src.model;
-
-import java.util.ArrayList;
-
-import src.model.interseccao.Light;
 import src.model.interseccao.Vector3;
-import src.model.objetos.Intersectable;
+
 
 public class Camera {
 
@@ -57,6 +53,17 @@ public class Camera {
             }
         }
         return result;
+    }
+     // Método para aumentar o zoom (aproximar a câmera)
+    public void zoomIn(double fatorZoom) {
+        Vector3 direção = lookAt.subtract(posEye).normalize(); // direção da câmera
+        this.posEye = posEye.subtract(direção.multiply(fatorZoom)); // move a câmera mais perto de lookAt
+    }
+
+    // Método para diminuir o zoom (afastar a câmera)
+    public void zoomOut(double fatorZoom) {
+        Vector3 direção = lookAt.subtract(posEye).normalize(); // direção da câmera
+        this.posEye = posEye.add(direção.multiply(fatorZoom)); // move a câmera mais longe de lookAt
     }
 
     // Getters e Setters

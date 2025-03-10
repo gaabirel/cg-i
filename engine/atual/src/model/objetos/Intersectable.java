@@ -23,5 +23,5 @@ public interface Intersectable {
     void escala(double sx, double sy, double sz);
     void cisalhar(double shXY, double shXZ, double shYX, double shYZ, double shZX, double shZY);
     void espelhar(String eixo);
-
+    int[] getTexturaColor(Vector3 pontoIntersecao);
 }

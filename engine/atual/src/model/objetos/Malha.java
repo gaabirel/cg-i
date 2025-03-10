@@ -145,4 +145,9 @@ public class Malha extends Objeto3D implements Intersectable{
     public double getBrilho(){
         return faces.get(faceInterseccionadaID).getBrilho();
     }
+
+    @Override
+    public int[] getTexturaColor(Vector3 pontoIntersecao) {
+        return new int[] {0, 0, 0};
+    }
 }

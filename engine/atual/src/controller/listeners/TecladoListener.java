@@ -41,12 +41,18 @@ public class TecladoListener extends KeyAdapter {
             checarEspelhamento(e);
             checarMovimentoCamera(e);
             checarOlharCamera(e);
+            checarZoom(e);
             mainController.atualizarCena();
         } catch (Exception ex){
             System.out.println(ex.getMessage());
         }
     }
-
+    public void checarZoom(KeyEvent e){
+        switch (e.getKeyCode()){
+            case KeyEvent.VK_0 -> renderizador.zoomIn(1.1);
+            case KeyEvent.VK_MINUS -> renderizador.zoomOut(0.9);
+        }
+    }
     public void checarMovimento(KeyEvent e){
         double deslocamento = 0.1; 
         Intersectable objeto = objetos.get(idxObjetoTransformado);
@@ -61,7 +67,7 @@ public class TecladoListener extends KeyAdapter {
     }
 
     public void checarRotacao(KeyEvent e){
-        double anguloRotacao = 5;
+        double anguloRotacao = 30;
         Intersectable objeto = objetos.get(idxObjetoTransformado);
         switch (e.getKeyCode()){
             case KeyEvent.VK_N -> objeto.rotacionar(anguloRotacao, new Vector3(1, 0, 0));
@@ -111,11 +117,9 @@ public class TecladoListener extends KeyAdapter {
     }
     public void checarOlharCamera(KeyEvent e){
         double anguloRotacao = 5;
-        System.out.println("olhar camera");
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_J -> renderizador.mudarLookAt(anguloRotacao, 0, 0);
             case KeyEvent.VK_K -> renderizador.mudarLookAt(0, anguloRotacao, 0);
-            case KeyEvent.VK_L -> renderizador.mudarLookAt(anguloRotacao, anguloRotacao, anguloRotacao);
+            case KeyEvent.VK_L -> renderizador.mudarLookAt(0, -anguloRotacao, 0);
         }
     }
 }

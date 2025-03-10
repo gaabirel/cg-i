@@ -1,7 +1,13 @@
 package src.model.cena;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
+
 import src.model.interseccao.*;
 import src.model.materiais.*;
 import src.model.objetos.*;
@@ -82,55 +88,69 @@ public class CenaBuilder {
 
     public ArrayList<Esfera> criarEsferasPadrao() {
         ArrayList<Esfera> esferas = new ArrayList<>();
-
-        esferas.add(new Esfera(0.5, new Vector3(0, 0, -10), materiais.OBSIDIANA));
-        esferas.add(new Esfera(1.0, new Vector3(0, 0, -15), materiais.MADEIRA));
-        esferas.add(new Esfera(1.0, new Vector3(2, 0, -15), materiais.VIDRO));
+        Esfera olho = new Esfera(0.1, new Vector3(0.2, 0.9, -9.4), materiais.OBSIDIANA);
+        esferas.add(olho);
+        Esfera olho2 = new Esfera(0.1, new Vector3(-0.2, 0.9, -9.4), materiais.OBSIDIANA);
+        esferas.add(olho2);
+        esferas.add(new Esfera(0.5, new Vector3(0, 0, -10), materiais.NEVE));
+        esferas.add(new Esfera(0.4, new Vector3(0, 0.8, -10), materiais.NEVE));
+        
+        //esferas.add(new Esfera(1.0, new Vector3(2, 0, -15), materiais.VIDRO));
         //esferas.add(new Esfera(0.2, new Vector3(0, 1.2, -8), materiais.getMaterialAleatorio()));
 
         return esferas;
     }
 
-    public ArrayList<Esfera> criarEsferasAleatorias(int quantidade) {
-        ArrayList<Esfera> esferas = new ArrayList<>();
-        double limitePosicao = 3.0;
-        double raioEsfera = 1.0;
+    // public ArrayList<Esfera> criarEsferasAleatorias(int quantidade) {
+    //     ArrayList<Esfera> esferas = new ArrayList<>();
+    //     double limitePosicao = 3.0;
+    //     double raioEsfera = 1.0;
 
-        for (int i = 0; i < quantidade; i++) {
-            double x = random.nextDouble() * 2 * limitePosicao - limitePosicao;
-            double y = random.nextDouble() * 2 * limitePosicao - limitePosicao;
-            double z = -10 - (5 * random.nextDouble());
+    //     for (int i = 0; i < quantidade; i++) {
+    //         double x = random.nextDouble() * 2 * limitePosicao - limitePosicao;
+    //         double y = random.nextDouble() * 2 * limitePosicao - limitePosicao;
+    //         double z = -10 - (5 * random.nextDouble());
 
-            Esfera esfera = new Esfera(raioEsfera, new Vector3(x, y, z), materiais.getMaterialAleatorio());
-            esferas.add(esfera);
-        }
+    //         Esfera esfera = new Esfera(raioEsfera, new Vector3(x, y, z), materiais.getMaterialAleatorio());
+    //         esferas.add(esfera);
+    //     }
 
-        return esferas;
-    }
+    //     return esferas;
+    // }
 
     public ArrayList<Plano> criarPlanosPadrao() {
         ArrayList<Plano> planos = new ArrayList<>();
-
-        planos.add(new Plano(new Vector3(0, -1, 0), new Vector3(0, 1.0, 0), materiais.MADEIRA_ENVELHECIDA));
-        planos.add(new Plano(new Vector3(2, 0, 0), new Vector3(-1, 0, 0), materiais.METALICO));
+        BufferedImage textura = null;
+        try {
+            textura = ImageIO.read(new File("C:\\Users\\junin\\Documents\\GitHub\\cg-i\\engine\\atual\\textura\\areia2.jpg"));
+            planos.add(new Plano(new Vector3(0, -1, 0), new Vector3(0, 1.0, 0), textura));
+        } catch (IOException e) {
+            e.printStackTrace();
+            planos.add(new Plano(new Vector3(0, -1, 0), new Vector3(0, 1.0, 0), materiais.MADEIRA_ENVELHECIDA));
+        }
+        // planos.add(new Plano(new Vector3(0, -1, 0), new Vector3(0, 1.0, 0), materiais.MADEIRA_ENVELHECIDA));
+        // planos.add(new Plano(new Vector3(2, 0, 0), new Vector3(-1, 0, 0), materiais.METALICO));
+        //parede do fundo
         planos.add(new Plano(new Vector3(0, 0, -20), new Vector3(0, 0, 1), materiais.MADEIRA_ENVELHECIDA));
-        planos.add(new Plano(new Vector3(-2, 0, 0),  new Vector3(1, 0, 0), materiais.METALICO));
-        planos.add(new Plano(new Vector3(0, 2, 0), new Vector3(0, -1, 0), materiais.MADEIRA_ENVELHECIDA));
+        // planos.add(new Plano(new Vector3(-2, 0, 0),  new Vector3(1, 0, 0), materiais.METALICO));
+        // planos.add(new Plano(new Vector3(0, 2, 0), new Vector3(0, -1, 0), materiais.MADEIRA_ENVELHECIDA));
 
         return planos;
     }
     public ArrayList<Cone> criarConesPadrao(){
         ArrayList<Cone> cones = new ArrayList<>();
-        Cone cone = new Cone(new Vector3(1, 1, -8), new Vector3(0, 1, 1), 0.2, 0.1, materiais.METALICO);
-        cones.add(cone);
+        Cone chapeu = new Cone(new Vector3(0, 1.4, -10), new Vector3(0, -1,  0), 0.2, 0.5, materiais.METALICO);
+        Cone nariz = new Cone(new Vector3(0, 0.8, -9.4), new Vector3(0, 0,  -1), 0.2, 0.1, materiais.METALICO);
+        cones.add(nariz);
+        cones.add(chapeu);
         return cones;
     }
     public ArrayList<Cilindro> criarCilindrosPadrao() {
         ArrayList<Cilindro> cilindros = new ArrayList<>();
 
-        Vector3 eixo = new Vector3(0, 0, -1);
-        cilindros.add(new Cilindro(new Vector3(0, 0, -10), 0.2, 0.5, eixo, materiais.COBRE));
-
+        Vector3 eixo = new Vector3(0, 1, 0);
+        Cilindro tronco = new Cilindro(new Vector3(-1, -1, -10), 0.1, 1, eixo, materiais.MADEIRA);
+        cilindros.add(tronco);
         return cilindros;
     }
 
@@ -145,10 +165,10 @@ public class CenaBuilder {
 
     public ArrayList<Triangulo> criarTriangulosPadrao() {
         ArrayList<Triangulo> triangulos = new ArrayList<>();
-        Vector3 v1 = new Vector3(0, 0, -10);
-        Vector3 v2 = new Vector3(1, 0, -10);
-        Vector3 v3 = new Vector3(0, 1, -10);
-        Triangulo triangulo = new Triangulo(v1, v2, v3, materiais.PLASTICO_BRILHANTE);
+        Vector3 v1 = new Vector3(-1.5, 0, -10); // base esquerda
+        Vector3 v2 = new Vector3(-0.5, 0, -10); // base direita 
+        Vector3 v3 = new Vector3(-1, 2, -10); // ponta superior
+        Triangulo triangulo = new Triangulo(v1, v2, v3, materiais.FOLHA);
         triangulos.add(triangulo);
         return triangulos;
     }
